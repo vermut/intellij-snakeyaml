@@ -1,4 +1,4 @@
-# Neon in IntelliJ IDEA / PhpStorm
+# Yaml/Ansible in IntelliJ IDEA 
 
 **Current status: stable, basic functions**
 
