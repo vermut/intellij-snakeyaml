@@ -1,2 +1,8 @@
-admin.roles: [admin_pl,bik_adapter_pl,communicator,creditb,creditb_pl,debts,loans]
-- {type: "local", database: "all", user: "all", cidr_address: "", auth_method: "ident", comment: "'local' is for Unix domain socket connections only"}
+---
+- debug: msg="test {{ var }}" msg2="test {{ var }}"
+list: ["a",b,c]
+- item:
+    item2: "value {{ var }}"
+roles:
+    - { role: common, domain: "{{ p_domain | default(omit) }}", dns_nameservers: "{{ p_dns_nameservers | default(omit) }}" }
+    - { role: hosts, domain: "{{ p_domain | default(omit) }}" }

@@ -57,6 +57,10 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             PsiBuilder.Marker val = mark();
             parseArray(indent);
             val.done(ARRAY);
+        } else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && nextToken == NEON_ASSIGNMENT) {
+            PsiBuilder.Marker val = mark();
+            parseKeyVal(indent);
+            val.done(KEY_VALUE_PAIR);
         } else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
             PsiBuilder.Marker val = mark();
             advanceLexer();
@@ -79,7 +83,6 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             } else {
                 val.done(SCALAR_VALUE);
             }
-
         } else if (OPEN_BRACKET.contains(currentToken)) { // array
             PsiBuilder.Marker val = mark();
             myInline++;
@@ -131,6 +134,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             }
 
             if (myBuilder.getTokenType() == NEON_INDENT) advanceLexer();
+            if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
         }
 
 //		marker.done(ARRAY);

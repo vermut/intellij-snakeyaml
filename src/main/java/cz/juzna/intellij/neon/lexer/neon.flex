@@ -35,16 +35,18 @@ LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]
 WHITESPACE = [\t ]+
 
 %state IN_LITERAL
+%state IN_ASSIGNMENT
 
 %%
 
 <YYINITIAL> {
 
-    {STRING} {
-        return NEON_STRING;
+    {LITERAL_START}+ "=" {QUOTED_STRING} {
+         retryInState(IN_ASSIGNMENT);
+         return NEON_STRING;
     }
 
-    {QUOTED_STRING} {
+    {STRING} {
         return NEON_STRING;
     }
 
@@ -100,3 +102,12 @@ WHITESPACE = [\t ]+
     ":" {}
     .|\n { retryInState(YYINITIAL); }
 }
+
+<IN_ASSIGNMENT> {
+    "=" {
+        yybegin(YYINITIAL);
+        return NEON_ASSIGNMENT;
+        }
+    . { }
+}
+

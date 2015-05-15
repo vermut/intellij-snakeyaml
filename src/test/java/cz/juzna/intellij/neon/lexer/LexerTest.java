@@ -118,6 +118,21 @@ public class LexerTest extends UsefulTestCase {
         });
     }
 
+    public void testStringWithJinjaVars2() throws Exception {
+        doTest("name: key=\"pref-{{ var }}\" key2=\"pref-{{ var }}\"", new Pair[]{
+                Pair.of(NEON_LITERAL, "name"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_STRING, "key"),
+                Pair.of(NEON_ASSIGNMENT, "="),
+                Pair.of(NEON_STRING, "\"pref-{{ var }}\""),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_STRING, "key2"),
+                Pair.of(NEON_ASSIGNMENT, "="),
+                Pair.of(NEON_STRING, "\"pref-{{ var }}\""),
+        });
+    }
+
 
     @Test
     public void testSimple() throws Exception {
