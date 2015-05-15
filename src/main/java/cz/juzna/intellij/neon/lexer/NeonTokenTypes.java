@@ -40,7 +40,6 @@ public interface NeonTokenTypes
 	IElementType NEON_LBRACE_SQUARE = new NeonTokenType("[");
 	IElementType NEON_RBRACE_SQUARE = new NeonTokenType("]");
 
-
 	// the rest are deprecated and will be removed
 	IElementType NEON_IDENTIFIER = new NeonTokenType("identifier");
 	IElementType NEON_EOL = new NeonTokenType("eol");

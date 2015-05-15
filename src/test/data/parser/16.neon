@@ -1,0 +1,2 @@
+admin.roles: [admin_pl,bik_adapter_pl,communicator,creditb,creditb_pl,debts,loans]
+- {type: "local", database: "all", user: "all", cidr_address: "", auth_method: "ident", comment: "'local' is for Unix domain socket connections only"}

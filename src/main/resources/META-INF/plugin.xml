@@ -1,9 +1,10 @@
 <idea-plugin version="2">
 	<!-- Plugin info -->
-	<name>NEON support</name>
-	<description>Nette Object Notation - ne-on.org</description>
-	<version>0.2</version>
-	<vendor>juzna.cz</vendor>
+	<name>YAML/Ansible support</name>
+	<description>Yaml with Jinja2 variables
+		Based on NEON by juzna.cz</description>
+	<version>0.3</version>
+	<vendor>Pavel Veretennikov</vendor>
 	<idea-version since-build="111.0" />
 	<depends>com.intellij.modules.lang</depends>
 

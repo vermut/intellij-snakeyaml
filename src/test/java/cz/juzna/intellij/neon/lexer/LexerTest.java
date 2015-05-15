@@ -77,16 +77,44 @@ public class LexerTest extends UsefulTestCase {
         });
     }
 
-    /***
-     * tests here
-     ***/
     @Test
     public void testStringWithEqualSign() throws Exception {
         doTest("name: a == b", new Pair[]{
                 Pair.of(NEON_LITERAL, "name"),
                 Pair.of(NEON_COLON, ":"),
                 Pair.of(NEON_WHITESPACE, " "),
-                Pair.of(NEON_STRING, "a == b"),
+                Pair.of(NEON_LITERAL, "a == b"),
+        });
+    }
+
+    @Test
+    public void testStringWithCurly() throws Exception {
+        doTest("name: {ansible: var }", new Pair[]{
+                Pair.of(NEON_LITERAL, "name"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LBRACE_CURLY, "{"),
+                Pair.of(NEON_LITERAL, "ansible"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LITERAL, "var"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_RBRACE_CURLY, "}")
+        });
+    }    @Test
+
+    public void testStringWithJinjaVars() throws Exception {
+        doTest("name: {ansible: \"{{ var }} \\\" {{var}}\" }", new Pair[]{
+                Pair.of(NEON_LITERAL, "name"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LBRACE_CURLY, "{"),
+                Pair.of(NEON_LITERAL, "ansible"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_STRING, "\"{{ var }} \\\" {{var}}\""),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_RBRACE_CURLY, "}")
         });
     }
 

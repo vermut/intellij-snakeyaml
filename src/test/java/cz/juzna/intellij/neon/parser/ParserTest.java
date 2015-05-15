@@ -101,5 +101,9 @@ public class ParserTest extends ParsingTestCase {
 	public void test15() {
 		doTest(true, true);
 	}
+	@Test
+	public void test16() {
+		doTest(true, false);
+	}
 
 }

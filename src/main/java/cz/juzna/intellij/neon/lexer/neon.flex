@@ -26,6 +26,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %}
 
 STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
+QUOTED_STRING = \"([^\\\"]|\\.)*\"
 COMMENT = \#.*
 YAML_HEADER = ---.*
 YAML_TAG = %.*
@@ -43,7 +44,11 @@ WHITESPACE = [\t ]+
         return NEON_STRING;
     }
 
-    {YAML_TAG} {
+    {QUOTED_STRING} {
+        return NEON_STRING;
+    }
+
+    ^{YAML_TAG} {
         return NEON_TAG;
     }
 
@@ -56,7 +61,7 @@ WHITESPACE = [\t ]+
     ":" / [ \t\n,\]})] { return NEON_COLON; }
     ":" $ { return NEON_COLON; }
     "," { return NEON_ITEM_DELIMITER; }
-    "=" { return NEON_ASSIGNMENT; }
+    // "=" { return NEON_ASSIGNMENT; }
 
     "(" { return NEON_LPAREN; }
     ")" { return NEON_RPAREN; }
