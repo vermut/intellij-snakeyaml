@@ -5,6 +5,7 @@ import com.intellij.ide.structureView.StructureViewModel;
 import com.intellij.ide.structureView.StructureViewModelBase;
 import com.intellij.ide.structureView.TreeBasedStructureViewBuilder;
 import com.intellij.lang.PsiStructureViewFactory;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
 import cz.juzna.intellij.neon.psi.NeonFile;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,11 @@ public class NeonStructureViewFactory implements PsiStructureViewFactory {
 		return new TreeBasedStructureViewBuilder() {
 			@NotNull
 			@Override
+			public StructureViewModel createStructureViewModel(Editor editor) {
+				return new StructureViewModelBase(file, new NeonStructureViewElement(file));
+			}
+
+			@NotNull
 			public StructureViewModel createStructureViewModel() {
 				return new StructureViewModelBase(file, new NeonStructureViewElement(file));
 //				return new NeonStructureViewModel(file);

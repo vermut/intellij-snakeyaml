@@ -23,6 +23,9 @@ public interface NeonTokenTypes
 	IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE; // new NeonTokenType("whitespace");
 	IElementType NEON_UNKNOWN = TokenType.BAD_CHARACTER; // new NeonTokenType("error");
 
+	IElementType NEON_TAG = new NeonTokenType("tag");
+	IElementType NEON_HEADER = new NeonTokenType("header");
+
 	// symbols
 	IElementType NEON_COLON = new NeonTokenType(":");
 	IElementType NEON_ASSIGNMENT = new NeonTokenType("=");

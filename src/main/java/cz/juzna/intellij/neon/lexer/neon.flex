@@ -27,6 +27,8 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 
 STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
 COMMENT = \#.*
+YAML_HEADER = ---.*
+YAML_TAG = %.*
 INDENT = \n[\t ]*
 LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]
 WHITESPACE = [\t ]+
@@ -39,6 +41,14 @@ WHITESPACE = [\t ]+
 
     {STRING} {
         return NEON_STRING;
+    }
+
+    {YAML_TAG} {
+        return NEON_TAG;
+    }
+
+    {YAML_HEADER} {
+        return NEON_HEADER;
     }
 
     "-" / [ \t\n] { return NEON_ARRAY_BULLET; }
@@ -78,8 +88,8 @@ WHITESPACE = [\t ]+
 }
 
 <IN_LITERAL> {
-    [^,:=\]})(\x00-\x20]+ {}
-    [ \t]+[^#,:=\]})(\x00-\x20] {}
+    [^,:\]})(\x00-\x20]+ {}
+    [ \t]+[^#,:\]})(\x00-\x20] {}
     ":"[ \t\n,\]})] { retryInState(YYINITIAL); }
     ":"$ { retryInState(YYINITIAL); }
     ":" {}

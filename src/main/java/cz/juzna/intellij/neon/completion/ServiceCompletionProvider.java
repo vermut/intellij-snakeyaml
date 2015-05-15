@@ -6,10 +6,12 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
+/*
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.impl.PhpDocPropertyImpl;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+*/
 import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,14 +61,14 @@ public class ServiceCompletionProvider extends CompletionProvider<CompletionPara
 	 * Scans class SystemContainer to find all services in it
 	 */
 	private void getAvailableServicesFromSystemContainer(List<String> result) {
-		PhpClass container = PhpIndex.getInstance(curr.getProject()).getClassByName("SystemContainer");
+/*		PhpClass container = PhpIndex.getInstance(curr.getProject()).getClassByName("SystemContainer");
 		if (container != null) {
 			for (Field field : container.getFields()) {
 				if (field instanceof PhpDocPropertyImpl) {
 					result.add( field.getName() );
 				}
 			}
-		}
+		}*/
 	}
 
 	/**

@@ -5,12 +5,14 @@ import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
+/*
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.completion.ClassUsageContext;
 import com.jetbrains.php.completion.PhpLookupElement;
 import com.jetbrains.php.completion.PhpVariantsUtil;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+*/
 import cz.juzna.intellij.neon.completion.insert.PhpReferenceInsertHandler;
 import cz.juzna.intellij.neon.psi.*;
 import gnu.trove.THashSet;
@@ -31,7 +33,7 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 	protected void addCompletions(@NotNull CompletionParameters params,
 	                              ProcessingContext ctx,
 	                              @NotNull CompletionResultSet results) {
-		Collection<PhpNamedElement> variants = new THashSet<PhpNamedElement>();
+	/*	Collection<PhpNamedElement> variants = new THashSet<PhpNamedElement>();
 
 		PsiElement curr = params.getPosition().getOriginalElement();
 		if (!(curr.getParent() instanceof NeonEntity) && !(curr.getParent() instanceof NeonScalar)) return;
@@ -51,7 +53,7 @@ public class ClassCompletionProvider extends CompletionProvider<CompletionParame
 			lookupItem.handler = PhpReferenceInsertHandler.getInstance();
 
 			results.addElement(lookupItem);
-		}
+		}*/
 	}
 
 }
