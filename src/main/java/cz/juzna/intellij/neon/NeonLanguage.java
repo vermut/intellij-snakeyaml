@@ -15,6 +15,6 @@ public class NeonLanguage extends Language {
 	@NotNull
 	@Override
 	public String getDisplayName() {
-		return "Yaml/Ansible";
+		return "YAML/Ansible";
 	}
 }

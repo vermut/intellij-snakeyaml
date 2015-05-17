@@ -1,4 +1,4 @@
-# Yaml/Ansible in IntelliJ IDEA 
+# YAML/Ansible in IntelliJ IDEA 
 
 **Current status: stable, basic functions**
 

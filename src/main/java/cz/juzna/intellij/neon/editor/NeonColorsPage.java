@@ -16,18 +16,20 @@ import java.util.Map;
  */
 public class NeonColorsPage implements ColorSettingsPage {
 	public static final AttributesDescriptor[] ATTRS = {
-			new AttributesDescriptor("colors.bad.character", NeonSyntaxHighlighter.UNKNOWN),
-			new AttributesDescriptor("colors.comment",       NeonSyntaxHighlighter.COMMENT),
-			new AttributesDescriptor("colors.identifier",    NeonSyntaxHighlighter.IDENTIFIER),
-			new AttributesDescriptor("colors.interpunction", NeonSyntaxHighlighter.INTERPUNCTION),
-			new AttributesDescriptor("colors.number",        NeonSyntaxHighlighter.NUMBER),
-			new AttributesDescriptor("colors.keyword",       NeonSyntaxHighlighter.KEYWORD),
+			new AttributesDescriptor("Bad character", NeonSyntaxHighlighter.UNKNOWN),
+			new AttributesDescriptor("Comment",       NeonSyntaxHighlighter.COMMENT),
+			new AttributesDescriptor("Identifier",    NeonSyntaxHighlighter.IDENTIFIER),
+			new AttributesDescriptor("Sign: brace, comma, etc", NeonSyntaxHighlighter.INTERPUNCTION),
+			new AttributesDescriptor("Number",        NeonSyntaxHighlighter.NUMBER),
+			new AttributesDescriptor("Keyword",       NeonSyntaxHighlighter.KEYWORD),
+			new AttributesDescriptor("String",        NeonSyntaxHighlighter.STRING),
+			new AttributesDescriptor("Tag",           NeonSyntaxHighlighter.TAG),
 	};
 
 	@NotNull
 	@Override
 	public String getDisplayName() {
-		return "Neon";
+		return "YAML/Ansible";
 	}
 
 	@Override
@@ -56,7 +58,11 @@ public class NeonColorsPage implements ColorSettingsPage {
 	@NotNull
 	@Override
 	public String getDemoText() {
-		return "common:\n" +
+		return "%YAML 1.2\n" +
+				"---\n" +
+				"\n" +
+				"common:\n" +
+				"\tdebug: msg=\"Output of {{ var }}\"\n" +
 				"\tparameters:\n" +
 				"\t\tdays: [ Mon, Tue, Wed ]\n" +
 				"\t\tdays2:\n" +

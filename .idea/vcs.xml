@@ -2,5 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="D:\IdeaProjects\intellij-neon\src\test\data\ansible-examples" vcs="Git" />
   </component>
 </project>

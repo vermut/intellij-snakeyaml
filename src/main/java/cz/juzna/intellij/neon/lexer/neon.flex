@@ -26,7 +26,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %}
 
 STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
-QUOTED_STRING = \"([^\\\"]|\\.)*\"
+QUOTED_STRING = \"([^\\\"]|\\.)*\"|\'([^\\\']|\\.)*\'
 COMMENT = \#.*
 YAML_HEADER = ---.*
 YAML_TAG = %.*

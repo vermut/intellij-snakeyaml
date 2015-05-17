@@ -1,6 +1,6 @@
 package cz.juzna.intellij.neon;
 
 public class Neon {
-	public static final String LANGUAGE_NAME = "Yaml";
-	public static final String LANGUAGE_DESCRIPTION = "Yaml/Ansible";
+	public static final String LANGUAGE_NAME = "YAML";
+	public static final String LANGUAGE_DESCRIPTION = "YAML/Ansible";
 }
