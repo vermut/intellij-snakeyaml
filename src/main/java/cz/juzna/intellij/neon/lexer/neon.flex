@@ -3,22 +3,18 @@ package cz.juzna.intellij.neon.lexer;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
-
-/**
- * @author Jan Dolecek
- * @author Jan Tvrdík
- * @author Michael Moravec
- */
 %%
-
 %class _NeonLexer
 %implements FlexLexer
 %public
 %unicode
+%debug
+%column
 %function advance
 %type IElementType
-
 %{
+    private int yycolumn = 0;
+    private int a = 0;
 	private void retryInState(int newState) {
         yybegin(newState);
         yypushback(yylength());
@@ -26,7 +22,6 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %}
 
 STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
-QUOTED_STRING = \"([^\\\"]|\\.)*\"|\'([^\\\']|\\.)*\'
 COMMENT = \#.*
 YAML_HEADER = ---.*
 YAML_TAG = %.*
@@ -36,14 +31,13 @@ WHITESPACE = [\t ]+
 
 %state IN_LITERAL
 %state IN_ASSIGNMENT
-
+%state IN_ASSIGNMENT_LITERAL
 %%
 
 <YYINITIAL> {
 
-    {LITERAL_START}+ "=" {QUOTED_STRING} {
-         retryInState(IN_ASSIGNMENT);
-         return NEON_STRING;
+    {LITERAL_START}+ "=" {
+          a=2;retryInState(IN_ASSIGNMENT);
     }
 
     {STRING} {
@@ -63,12 +57,13 @@ WHITESPACE = [\t ]+
     ":" / [ \t\n,\]})] { return NEON_COLON; }
     ":" $ { return NEON_COLON; }
     "," { return NEON_ITEM_DELIMITER; }
-    // "=" { return NEON_ASSIGNMENT; }
 
     "(" { return NEON_LPAREN; }
     ")" { return NEON_RPAREN; }
     "{" { return NEON_LBRACE_CURLY; }
     "}" { return NEON_RBRACE_CURLY; }
+    "{{" { return NEON_LBRACE_JINJA; }
+    "}}" { return NEON_RBRACE_JINJA; }
     "[" { return NEON_LBRACE_SQUARE; }
     "]" { return NEON_RBRACE_SQUARE; }
 
@@ -103,11 +98,22 @@ WHITESPACE = [\t ]+
     .|\n { retryInState(YYINITIAL); }
 }
 
-<IN_ASSIGNMENT> {
-    "=" {
-        yybegin(YYINITIAL);
-        return NEON_ASSIGNMENT;
-        }
-    . { }
+<IN_ASSIGNMENT_LITERAL> {
+    {WHITESPACE}    { a=6;retryInState(IN_ASSIGNMENT); }
+    "="             { a=1;retryInState(IN_ASSIGNMENT); }
+    [^,:\]= )(\x00-\x20]+ { a=4; }
+    [ \t]+[^#,:\]= )(\x00-\x20] { a=5; retryInState(IN_ASSIGNMENT);}
+    .|\n            { a=4;retryInState(IN_ASSIGNMENT); }
 }
 
+<IN_ASSIGNMENT> {
+    {STRING} {   return NEON_STRING; }
+    "=" { return NEON_ASSIGNMENT; }
+
+    {LITERAL_START} {
+        a=3;retryInState(IN_ASSIGNMENT_LITERAL);
+        return NEON_LITERAL;
+    }
+
+    .|\n { retryInState(YYINITIAL); }
+}

@@ -37,6 +37,8 @@ public interface NeonTokenTypes
 	IElementType NEON_RPAREN = new NeonTokenType(")");
 	IElementType NEON_LBRACE_CURLY = new NeonTokenType("{");
 	IElementType NEON_RBRACE_CURLY = new NeonTokenType("}");
+	IElementType NEON_LBRACE_JINJA = new NeonTokenType("{{");
+	IElementType NEON_RBRACE_JINJA = new NeonTokenType("}}");
 	IElementType NEON_LBRACE_SQUARE = new NeonTokenType("[");
 	IElementType NEON_RBRACE_SQUARE = new NeonTokenType("]");
 

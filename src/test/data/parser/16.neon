@@ -1,5 +1,14 @@
 ---
-- debug: msg="test {{ var }}" msg2="test {{ var }}"
+- debug: varA="test {{ var }}" varB="test {{ var }}"
+- debug2: varC=test varD={{ var }}
+  service: name={{ item }} state=stopped
+
+- name: create stash user
+  user: name={{stash_user}}
+- include: init.yml
+- name: add jenkins slave user {{jenkins_slave_user}}
+  user: user
+
 list: ["a",b,c]
 - item:
     item2: "value {{ var }}"

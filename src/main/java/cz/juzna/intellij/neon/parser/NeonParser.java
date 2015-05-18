@@ -59,8 +59,10 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             val.done(ARRAY);
         } else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && nextToken == NEON_ASSIGNMENT) {
             PsiBuilder.Marker val = mark();
-            parseKeyVal(indent);
-            val.done(KEY_VALUE_PAIR);
+            myInline++;
+            parseOpenArray(indent);
+            myInline--;
+            val.done(ARRAY);
         } else if (NeonTokenTypes.STRING_LITERALS.contains(currentToken)) {
             PsiBuilder.Marker val = mark();
             advanceLexer();
@@ -108,7 +110,6 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
     }
 
     private void parseArray(int indent) {
-//		PsiBuilder.Marker marker = mark();
         boolean isInline = myInline > 0;
 
         while (myBuilder.getTokenType() != null && !CLOSING_BRACKET.contains(myBuilder.getTokenType()) && (isInline ? myInline > 0 : myIndent >= indent)) {
@@ -136,8 +137,21 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             if (myBuilder.getTokenType() == NEON_INDENT) advanceLexer();
             if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
         }
+    }
 
-//		marker.done(ARRAY);
+    // Like item: foo=something baz=something_else
+    private void parseOpenArray(int indent) {
+        while (myBuilder.getTokenType() != null && myBuilder.getTokenType() != NEON_INDENT) {
+            IElementType currentToken = myBuilder.getTokenType();
+            IElementType nextToken = myBuilder.lookAhead(1);
+
+            if (ASSIGNMENTS.contains(nextToken)) { // key-val pair
+                parseKeyVal(indent);
+            } else {
+                myBuilder.error("expected key-val pair or array item");
+                advanceLexer();
+            }
+        }
     }
 
     private void parseKeyVal(int indent) {

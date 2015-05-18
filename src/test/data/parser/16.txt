@@ -12,20 +12,155 @@ NeonFile:16.neon
         PsiElement([Neon] literal)('debug')
       PsiElement([Neon] :)(':')
       PsiWhiteSpace(' ')
-      Neon key-val pair
+      Neon array
         Neon key-val pair
           Neon key
-            PsiElement([Neon] string)('msg')
+            PsiElement([Neon] literal)('varA')
           PsiElement([Neon] =)('=')
           Neon scalar
             PsiElement([Neon] string)('"test {{ var }}"')
-    PsiWhiteSpace(' ')
+        PsiWhiteSpace(' ')
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('varB')
+          PsiElement([Neon] =)('=')
+          Neon scalar
+            PsiElement([Neon] string)('"test {{ var }}"')
+    PsiElement([Neon] indent)('\n')
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon array
+        <empty list>
     Neon key-val pair
       Neon key
-        PsiElement([Neon] string)('msg2')
-      PsiElement([Neon] =)('=')
+        PsiElement([Neon] literal)('debug2')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('varC')
+          PsiElement([Neon] =)('=')
+          Neon scalar
+            PsiElement([Neon] literal)('test')
+        PsiWhiteSpace(' ')
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('varD')
+          PsiElement([Neon] =)('=')
+          PsiErrorElement:unexpected token [Neon] {{
+            <empty list>
+          PsiElement([Neon] {{)('{{')
+        PsiErrorElement:expected key-val pair or array item
+          <empty list>
+        PsiWhiteSpace(' ')
+        PsiElement([Neon] literal)('var')
+        PsiErrorElement:expected key-val pair or array item
+          <empty list>
+        PsiWhiteSpace(' ')
+        PsiElement([Neon] }})('}}')
+    PsiElement([Neon] indent)('\n  ')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('service')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('name')
+          PsiElement([Neon] =)('=')
+          PsiErrorElement:unexpected token [Neon] {{
+            <empty list>
+          PsiElement([Neon] {{)('{{')
+        PsiErrorElement:expected key-val pair or array item
+          <empty list>
+        PsiWhiteSpace(' ')
+        PsiElement([Neon] literal)('item')
+        PsiErrorElement:expected key-val pair or array item
+          <empty list>
+        PsiWhiteSpace(' ')
+        PsiElement([Neon] }})('}}')
+        PsiWhiteSpace(' ')
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('state')
+          PsiElement([Neon] =)('=')
+          Neon scalar
+            PsiElement([Neon] literal)('stopped')
+            PsiElement([Neon] indent)('\n')
+    PsiElement([Neon] indent)('\n')
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon array
+        <empty list>
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('name')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
       Neon scalar
-        PsiElement([Neon] string)('"test {{ var }}"')
+        PsiElement([Neon] literal)('create stash user')
+    PsiElement([Neon] indent)('\n  ')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('user')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon array
+        Neon key-val pair
+          Neon key
+            PsiElement([Neon] literal)('name')
+          PsiElement([Neon] =)('=')
+          PsiErrorElement:unexpected token [Neon] {{
+            <empty list>
+          PsiElement([Neon] {{)('{{')
+        PsiErrorElement:expected key-val pair or array item
+          <empty list>
+        PsiElement([Neon] literal)('stash_user')
+        PsiErrorElement:expected key-val pair or array item
+          <empty list>
+        PsiElement([Neon] }})('}}')
+    PsiElement([Neon] indent)('\n')
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon array
+        <empty list>
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('include')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon scalar
+        PsiElement([Neon] literal)('init.yml')
+    PsiElement([Neon] indent)('\n')
+    NeonPsiElementImpl([Neon] Item)
+      PsiElement([Neon] -)('-')
+      PsiWhiteSpace(' ')
+      Neon array
+        <empty list>
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('name')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon scalar
+        PsiElement([Neon] literal)('add jenkins slave user {{jenkins_slave_user')
+    PsiErrorElement:expected key-val pair or array item
+      <empty list>
+    PsiElement([Neon] }})('}}')
+    PsiElement([Neon] indent)('\n  ')
+    Neon key-val pair
+      Neon key
+        PsiElement([Neon] literal)('user')
+      PsiElement([Neon] :)(':')
+      PsiWhiteSpace(' ')
+      Neon scalar
+        PsiElement([Neon] literal)('user')
+        PsiElement([Neon] indent)('\n')
     PsiElement([Neon] indent)('\n')
     Neon key-val pair
       Neon key
