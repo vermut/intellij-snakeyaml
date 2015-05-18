@@ -12,4 +12,5 @@ public interface NeonKeyValPair extends PsiNamedElement {
 
 	// value
 	public NeonValue getValue();
+	public String getValueText();
 }

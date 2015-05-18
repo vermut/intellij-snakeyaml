@@ -34,6 +34,4 @@ public class NeonKeyImpl extends NeonPsiElementImpl implements NeonKey {
 	public ItemPresentation getPresentation() {
 		return new NeonStructureViewElement(this);
 	}
-
-
 }

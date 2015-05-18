@@ -3,12 +3,13 @@ package cz.juzna.intellij.neon.editor;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
 import com.intellij.psi.PsiElement;
-import cz.juzna.intellij.neon.psi.NeonArray;
-import cz.juzna.intellij.neon.psi.NeonFile;
-import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonKeyValPair;
+import com.intellij.psi.PsiFile;
+import cz.juzna.intellij.neon.NeonIcons;
+import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,6 +55,7 @@ public class NeonStructureViewElement extends PsiTreeElementBase<PsiElement> {
 	}
 
 	@Override
+	@Nullable
 	public String getPresentableText() {
 		PsiElement element = getElement();
 		if (element instanceof NeonFile) {
@@ -68,9 +70,28 @@ public class NeonStructureViewElement extends PsiTreeElementBase<PsiElement> {
 		}  else if (element instanceof NeonKey) {
 			return ((NeonKey) element).getKeyText();
 
+		}  else if (element instanceof NeonValue) {
+			return element.getText();
+
 		} else {
-			return "?";
+			return "? YAML";
 		}
 	}
 
+	@Override
+	@Nullable
+	public String getLocationString() {
+		PsiFile containingFile = getElement().getContainingFile();
+
+		return "("
+				+ containingFile.getParent().getParent().getName() + "/"
+				+ containingFile.getParent().getName() + "/"
+				+ containingFile.getName() + ")";
+	}
+
+	@Nullable
+	@Override
+	public Icon getIcon(boolean unused) {
+		return NeonIcons.FILETYPE_ICON;
+	}
 }
