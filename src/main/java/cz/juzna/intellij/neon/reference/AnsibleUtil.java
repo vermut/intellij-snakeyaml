@@ -21,6 +21,17 @@ import java.util.List;
  * Created by Vermut on 16/05/2015.
  */
 public class AnsibleUtil {
+    public static List<String> findRoleNames(Project project, String key) {
+        List<String> result = new ArrayList<String>();
+        Collection<VirtualFile> virtualFiles = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, NeonFileType.INSTANCE,
+                GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles) {
+            if (virtualFile.getCanonicalPath().endsWith("tasks/main.yml"))
+                result.add(virtualFile.getParent().getParent().getName());
+        }
+        return result;
+    }
+
     private static List<NeonKeyValPair> searchKeyPairs(Project project, String key, String value) {
         List<NeonKeyValPair> result = new ArrayList<NeonKeyValPair>();
         Collection<VirtualFile> virtualFiles = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, NeonFileType.INSTANCE,
