@@ -5,6 +5,7 @@ import com.intellij.ide.structureView.impl.common.PsiTreeElementBase;
 import com.intellij.psi.PsiElement;
 import cz.juzna.intellij.neon.psi.NeonArray;
 import cz.juzna.intellij.neon.psi.NeonFile;
+import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,6 +64,9 @@ public class NeonStructureViewElement extends PsiTreeElementBase<PsiElement> {
 
 		} else if (element instanceof NeonKeyValPair) {
 			return ((NeonKeyValPair) element).getKeyText();
+
+		}  else if (element instanceof NeonKey) {
+			return ((NeonKey) element).getKeyText();
 
 		} else {
 			return "?";

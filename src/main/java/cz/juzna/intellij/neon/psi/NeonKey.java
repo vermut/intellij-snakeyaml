@@ -1,5 +1,6 @@
 package cz.juzna.intellij.neon.psi;
 
+import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 
@@ -7,6 +8,6 @@ import com.intellij.psi.PsiNamedElement;
  * Key from key-value pair
  */
 public interface NeonKey extends NeonPsiElement {
-	public String getKeyText();
-
+	String getKeyText();
+	ItemPresentation getPresentation();
 }

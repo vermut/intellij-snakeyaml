@@ -8,8 +8,6 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %implements FlexLexer
 %public
 %unicode
-%debug
-%column
 %function advance
 %type IElementType
 %{
@@ -101,7 +99,7 @@ WHITESPACE = [\t ]+
 <IN_ASSIGNMENT_LITERAL> {
     {WHITESPACE}    { a=6;retryInState(IN_ASSIGNMENT); }
     "="             { a=1;retryInState(IN_ASSIGNMENT); }
-    [^,:\]= )(\x00-\x20]+ { a=4; }
+    [^,\]= )(\x00-\x20]+ { a=4; }
     [ \t]+[^#,:\]= )(\x00-\x20] { a=5; retryInState(IN_ASSIGNMENT);}
     .|\n            { a=4;retryInState(IN_ASSIGNMENT); }
 }

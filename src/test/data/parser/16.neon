@@ -1,6 +1,6 @@
 ---
 - debug: varA="test {{ var }}" varB="test {{ var }}"
-- debug2: varC=test varD={{ var }}
+- debug2: varC=test varD={{ var }} key=http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
   service: name={{ item }} state=stopped
 
 - name: create stash user

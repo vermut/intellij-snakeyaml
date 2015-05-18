@@ -28,6 +28,7 @@
 		<breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider" />
 
 		<!--references, go-to-->
-		<gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsibleChooseByNameContributor"/>
+		<gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
+		<gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
 	</extensions>
 </idea-plugin>
