@@ -51,6 +51,7 @@ public interface NeonTokenTypes
 	IElementType NEON_NUMBER = new NeonTokenType("number");
 	IElementType NEON_REFERENCE = new NeonTokenType("reference");
 	IElementType NEON_BLOCK_INHERITENCE = new NeonTokenType("<");
+	IElementType NEON_QUOTE = new NeonTokenType("\"");
 	IElementType NEON_DOUBLE_COLON = new NeonTokenType("::");
 	IElementType NEON_DOLLAR = new NeonTokenType("$");
 	IElementType NEON_AT = new NeonTokenType("@");
@@ -74,7 +75,14 @@ public interface NeonTokenTypes
 		NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE
 	);
 
-	TokenSet OPEN_STRING_ALLOWED = TokenSet.orSet(SYMBOLS, STRING_LITERALS, WHITESPACES);
+	TokenSet OPEN_STRING_ALLOWED = TokenSet.create(
+            NEON_COLON, NEON_ASSIGNMENT, NEON_ARRAY_BULLET, NEON_ITEM_DELIMITER,
+            NEON_LPAREN, NEON_RPAREN,
+//            NEON_LBRACE_CURLY, NEON_RBRACE_CURLY,
+            NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE,
+
+            NEON_WHITESPACE, NEON_LITERAL, NEON_STRING, NEON_QUOTE
+    );
 
 	// brackets
 	public static final Map<IElementType, IElementType> closingBrackets = ImmutableMap.of(

@@ -7,7 +7,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %class _NeonLexer
 %implements FlexLexer
 %public
-%debug
+// %debug
 %unicode
 %function advance
 %type IElementType
@@ -25,7 +25,7 @@ COMMENT = \#.*
 YAML_HEADER = ---.*
 YAML_TAG = %.*
 INDENT = \n[\t ]*
-LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]
+LITERAL_START = [^#,=\[\]{}()\x00-\x20!`]
 JINJA_START = "{{"
 JINJA_STOP = "}}"
 WHITESPACE = [\t ]+
@@ -38,14 +38,16 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
 %%
 
 <YYINITIAL> {
+    {JINJA_START}    {  a=111;return NEON_LBRACE_JINJA;    }
+    {JINJA_STOP}     {  a=112;return NEON_RBRACE_JINJA;    }
 
     {Identifier} "=" {
           a=2;retryInState(IN_ASSIGNMENT);
     }
 
-    {STRING} {
-        return NEON_STRING;
-    }
+//    {STRING} {
+//        return NEON_STRING;
+//    }
 
     ^{YAML_TAG} {
         return NEON_TAG;
@@ -59,7 +61,8 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
     "-" $ { return NEON_ARRAY_BULLET; }
     ":" / [ \t\n,\]})] { return NEON_COLON; }
     ":" $ { return NEON_COLON; }
-    "," { return NEON_ITEM_DELIMITER; }
+//    "\""  { return NEON_QUOTE; }
+    ","   { return NEON_ITEM_DELIMITER; }
     ">" {WHITESPACE}* {NEWLINE} { return NEON_LINE_CONTINUATION; }
 
     "(" { return NEON_LPAREN; }
@@ -80,7 +83,7 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
         return NEON_INDENT;
     }
 
-    {LITERAL_START} | {JINJA_START} {
+    {LITERAL_START} {
         yybegin(IN_LITERAL);
         return NEON_LITERAL;
     }
@@ -95,9 +98,9 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
 }
 
 <IN_LITERAL> {
-    {WHITESPACE}* {JINJA_STOP}   { a=3011; }
-    [^,:\]}\x00-\x20]+    { a=302; }
-    [ \t]+[^#,:\]}\x00-\x20] { a=303; }
+    {WHITESPACE}* {JINJA_START} | {WHITESPACE}* {JINJA_STOP}  { a=3011;retryInState(YYINITIAL); }
+    [^,:\]{}\x00-\x20]+    { a=302; }
+    [ \t]+[^#,:\]{}\x00-\x20] { a=303; }
     ":"[ \t\n,\]})]         { a=304;retryInState(YYINITIAL); }
     ":"$                    { a=305;retryInState(YYINITIAL); }
     ":"                     { a=306; }
@@ -105,6 +108,7 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
 }
 
 <IN_ASSIGNMENT_LITERAL> {
+    {WHITESPACE}* {JINJA_START} | {WHITESPACE}* {JINJA_STOP}   { a=5011;retryInState(IN_ASSIGNMENT); }
     {WHITESPACE}+ {Identifier} {WHITESPACE}* "="    { a=501; retryInState(IN_ASSIGNMENT); }
     "="             { a=502; retryInState(IN_ASSIGNMENT); }
     {NEWLINE}            { a=503;retryInState(IN_ASSIGNMENT); }
@@ -117,8 +121,10 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
     {STRING}         {  a=401;return NEON_STRING; }
     "="              {  a=402;return NEON_ASSIGNMENT; }
     {WHITESPACE}     {  a=403;return NEON_WHITESPACE;    }
+    {JINJA_START}    {  a=411;return NEON_LBRACE_JINJA;    }
+    {JINJA_STOP}     {  a=412;return NEON_RBRACE_JINJA;    }
 
-    {LITERAL_START} | {JINJA_START} {
+    {LITERAL_START}  {
         a=405;retryInState(IN_ASSIGNMENT_LITERAL);
         return NEON_LITERAL;
     }
