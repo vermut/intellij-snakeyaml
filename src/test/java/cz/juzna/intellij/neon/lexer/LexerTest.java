@@ -101,14 +101,28 @@ public class LexerTest extends UsefulTestCase {
                 Pair.of(NEON_WHITESPACE, " "),
                 Pair.of(NEON_RBRACE_CURLY, "}")
         });
-    }    @Test
+    }
 
-    public void testStringWithJinjaVars() throws Exception {
-        doTest("name: some text {{ var1 }} \"{{ var2 }} \\\" {{var3}}\" }", new Pair[]{
+    @Test
+    public void testContinuation() throws Exception {
+        doTest("name: >\n" +
+                "   var", new Pair[]{
                 Pair.of(NEON_LITERAL, "name"),
                 Pair.of(NEON_COLON, ":"),
                 Pair.of(NEON_WHITESPACE, " "),
-                Pair.of(NEON_LITERAL, "some text {{ var1 }} \"{{ var2 }} \\\" {{var3}}\" }"),
+                Pair.of(NEON_LINE_CONTINUATION, ">\n"),
+                Pair.of(NEON_WHITESPACE, "   "),
+                Pair.of(NEON_LITERAL, "var"),
+        });
+    }
+
+    @Test
+public void testStringWithJinjaVars() throws Exception {
+        doTest("name: some text {{ var1 }} \"{{ var2 }} \\\" {{var3}}\"", new Pair[]{
+                Pair.of(NEON_LITERAL, "name"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LITERAL, "some text {{ var1 }} \"{{ var2 }} \\\" {{var3}}\""),
         });
     }
 

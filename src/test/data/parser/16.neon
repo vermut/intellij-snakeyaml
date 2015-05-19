@@ -1,13 +1,19 @@
 ---
-- debug: varA="test {{ var }}" varB="test {{ var }}"
-- debug2: varC=test varD={{ var }} key=http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
-  service: name={{ item }} state=stopped
-
-- name: create stash user
+- name: create stash files[0] == "default_empty"
+- postgresql{{ postgresql_version |replace('.', '') }}-devel
+  shell: lsblk -l -n -o NAME,FSTYPE | awk '$NF == "swap" {print $1}'
+- command: python2 -c "hashlib.md5('{{ a }}' + '{{ b }}').hexdigest(); print pghash"
   user: name={{stash_user}}
+  failed_when: >
+    'skipped' not in artifact_meta_releases
 - include: init.yml
 - name: add jenkins slave user {{jenkins_slave_user}}
   user: user
+
+- debug2: varC=test varD={{ var }} key=http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key c=1
+- debug: varA="test {{ var }}" varB="test {{ var }}"
+  service: name={{ item }} state=stopped
+  key: http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
 
 list: ["a",b,c]
 - item:

@@ -27,8 +27,10 @@ YAML_TAG = %.*
 INDENT = \n[\t ]*
 LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]
 JINJA_START = "{{"
+JINJA_STOP = "}}"
 WHITESPACE = [\t ]+
 Identifier = [:jletter:] [:jletterdigit:]*
+NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
 
 %state IN_LITERAL
 %state IN_ASSIGNMENT
@@ -58,6 +60,7 @@ Identifier = [:jletter:] [:jletterdigit:]*
     ":" / [ \t\n,\]})] { return NEON_COLON; }
     ":" $ { return NEON_COLON; }
     "," { return NEON_ITEM_DELIMITER; }
+    ">" {WHITESPACE}* {NEWLINE} { return NEON_LINE_CONTINUATION; }
 
     "(" { return NEON_LPAREN; }
     ")" { return NEON_RPAREN; }
@@ -67,6 +70,7 @@ Identifier = [:jletter:] [:jletterdigit:]*
 //    "}}" { return NEON_RBRACE_JINJA; }
     "[" { return NEON_LBRACE_SQUARE; }
     "]" { return NEON_RBRACE_SQUARE; }
+    "=" { return NEON_ASSIGNMENT; }
 
     {COMMENT} {
         return NEON_COMMENT;
@@ -91,18 +95,19 @@ Identifier = [:jletter:] [:jletterdigit:]*
 }
 
 <IN_LITERAL> {
-    [^,:\]})(\x00-\x20]+ {}
-    [ \t]+[^#,:\]})(\x00-\x20] {}
-    ":"[ \t\n,\]})] { retryInState(YYINITIAL); }
-    ":"$ { retryInState(YYINITIAL); }
-    ":" {}
-    .|\n { retryInState(YYINITIAL); }
+    {WHITESPACE}* {JINJA_STOP}   { a=3011; }
+    [^,:\]}\x00-\x20]+    { a=302; }
+    [ \t]+[^#,:\]}\x00-\x20] { a=303; }
+    ":"[ \t\n,\]})]         { a=304;retryInState(YYINITIAL); }
+    ":"$                    { a=305;retryInState(YYINITIAL); }
+    ":"                     { a=306; }
+    .|\n                    { a=307;retryInState(YYINITIAL); }
 }
 
 <IN_ASSIGNMENT_LITERAL> {
     {WHITESPACE}+ {Identifier} {WHITESPACE}* "="    { a=501; retryInState(IN_ASSIGNMENT); }
     "="             { a=502; retryInState(IN_ASSIGNMENT); }
-    \R              { a=503;retryInState(IN_ASSIGNMENT); }
+    {NEWLINE}            { a=503;retryInState(IN_ASSIGNMENT); }
     // Just to make next one faster
     [:jletter:]* [:jletterdigit:]*               { a=504; }
     .               { a=505; }
@@ -112,7 +117,6 @@ Identifier = [:jletter:] [:jletterdigit:]*
     {STRING}         {  a=401;return NEON_STRING; }
     "="              {  a=402;return NEON_ASSIGNMENT; }
     {WHITESPACE}     {  a=403;return NEON_WHITESPACE;    }
-    // {Identifier}     {  a=404;return NEON_LITERAL;    }
 
     {LITERAL_START} | {JINJA_START} {
         a=405;retryInState(IN_ASSIGNMENT_LITERAL);

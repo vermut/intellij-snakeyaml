@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,6 +68,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             PsiBuilder.Marker val = mark();
             advanceLexer();
 
+            // a: Service(a, b) - not used by us
             if (myBuilder.getTokenType() == NEON_LPAREN) {
                 myInline++;
 
@@ -83,6 +85,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
                 val.done(ENTITY);
 
             } else {
+                advanceLexerOnAllowedTokens(OPEN_STRING_ALLOWED);
                 val.done(SCALAR_VALUE);
             }
         } else if (OPEN_BRACKET.contains(currentToken)) { // array
@@ -101,7 +104,14 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
         } else if (currentToken == NEON_INDENT) {
             // no value -> null
+        } else if (currentToken == NEON_LINE_CONTINUATION) {
+            advanceLexer();
 
+            // And skip next indent, if any
+            if (nextToken == NEON_INDENT)
+                advanceLexer();
+
+            parseValue(indent);
         } else {
             // dunno
             myBuilder.error("unexpected token " + currentToken);
@@ -134,7 +144,8 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
             }
 
-            if (myBuilder.getTokenType() == NEON_INDENT || (isInline && myBuilder.getTokenType() == NEON_ITEM_DELIMITER)) advanceLexer();
+            if (myBuilder.getTokenType() == NEON_INDENT || (isInline && myBuilder.getTokenType() == NEON_ITEM_DELIMITER))
+                advanceLexer();
         }
     }
 
@@ -218,6 +229,12 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
         } else {
             myBuilder.error("unexpected token " + myBuilder.getTokenType() + ", expected " + expectedToken);
 
+        }
+    }
+
+    private void advanceLexerOnAllowedTokens(TokenSet allowedTokens) {
+        while (allowedTokens.contains(myBuilder.getTokenType())) {
+            advanceLexer();
         }
     }
 

@@ -32,6 +32,7 @@ public interface NeonTokenTypes
 	IElementType NEON_ASSIGNMENT = new NeonTokenType("=");
 	IElementType NEON_ARRAY_BULLET = new NeonTokenType("-");
 	IElementType NEON_ITEM_DELIMITER = new NeonTokenType(",");
+	IElementType NEON_LINE_CONTINUATION = new NeonTokenType(">");
 
 	// braces
 	IElementType NEON_LPAREN = new NeonTokenType("(");
@@ -72,6 +73,8 @@ public interface NeonTokenTypes
 		NEON_LBRACE_CURLY, NEON_RBRACE_CURLY, 
 		NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE
 	);
+
+	TokenSet OPEN_STRING_ALLOWED = TokenSet.orSet(SYMBOLS, STRING_LITERALS, WHITESPACES);
 
 	// brackets
 	public static final Map<IElementType, IElementType> closingBrackets = ImmutableMap.of(
