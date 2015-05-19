@@ -104,6 +104,15 @@ public class LexerTest extends UsefulTestCase {
     }    @Test
 
     public void testStringWithJinjaVars() throws Exception {
+        doTest("name: some text {{ var1 }} \"{{ var2 }} \\\" {{var3}}\" }", new Pair[]{
+                Pair.of(NEON_LITERAL, "name"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LITERAL, "some text {{ var1 }} \"{{ var2 }} \\\" {{var3}}\" }"),
+        });
+    }
+
+    public void testArrayWithJinjaVars() throws Exception {
         doTest("name: {ansible: \"{{ var }} \\\" {{var}}\" }", new Pair[]{
                 Pair.of(NEON_LITERAL, "name"),
                 Pair.of(NEON_COLON, ":"),
@@ -119,7 +128,7 @@ public class LexerTest extends UsefulTestCase {
     }
 
     public void testStringWithMultiAssigments() throws Exception {
-        doTest("name: foo=baz var={{ var }}", new Pair[]{
+        doTest("name: foo=baz var={{ value + 2 }} msg=text with {{ data }}", new Pair[]{
                 Pair.of(NEON_LITERAL, "name"),
                 Pair.of(NEON_COLON, ":"),
                 Pair.of(NEON_WHITESPACE, " "),
@@ -129,11 +138,11 @@ public class LexerTest extends UsefulTestCase {
                 Pair.of(NEON_WHITESPACE, " "),
                 Pair.of(NEON_LITERAL, "var"),
                 Pair.of(NEON_ASSIGNMENT, "="),
-                Pair.of(NEON_LBRACE_JINJA, "{{"),
+                Pair.of(NEON_LITERAL, "{{ value + 2 }}"),
                 Pair.of(NEON_WHITESPACE, " "),
-                Pair.of(NEON_LITERAL, "var"),
-                Pair.of(NEON_WHITESPACE, " "),
-                Pair.of(NEON_RBRACE_JINJA, "}}"),
+                Pair.of(NEON_LITERAL, "msg"),
+                Pair.of(NEON_ASSIGNMENT, "="),
+                Pair.of(NEON_LITERAL, "text with {{ data }}"),
         });
     }
 

@@ -134,8 +134,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
 
             }
 
-            if (myBuilder.getTokenType() == NEON_INDENT) advanceLexer();
-            if (myBuilder.getTokenType() == NEON_ITEM_DELIMITER) advanceLexer();
+            if (myBuilder.getTokenType() == NEON_INDENT || (isInline && myBuilder.getTokenType() == NEON_ITEM_DELIMITER)) advanceLexer();
         }
     }
 

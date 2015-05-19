@@ -7,6 +7,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 %class _NeonLexer
 %implements FlexLexer
 %public
+%debug
 %unicode
 %function advance
 %type IElementType
@@ -25,7 +26,9 @@ YAML_HEADER = ---.*
 YAML_TAG = %.*
 INDENT = \n[\t ]*
 LITERAL_START = [^#\"\',=\[\]{}()\x00-\x20!`]
+JINJA_START = "{{"
 WHITESPACE = [\t ]+
+Identifier = [:jletter:] [:jletterdigit:]*
 
 %state IN_LITERAL
 %state IN_ASSIGNMENT
@@ -34,7 +37,7 @@ WHITESPACE = [\t ]+
 
 <YYINITIAL> {
 
-    {LITERAL_START}+ "=" {
+    {Identifier} "=" {
           a=2;retryInState(IN_ASSIGNMENT);
     }
 
@@ -60,8 +63,8 @@ WHITESPACE = [\t ]+
     ")" { return NEON_RPAREN; }
     "{" { return NEON_LBRACE_CURLY; }
     "}" { return NEON_RBRACE_CURLY; }
-    "{{" { return NEON_LBRACE_JINJA; }
-    "}}" { return NEON_RBRACE_JINJA; }
+//    "{{" { return NEON_LBRACE_JINJA; }
+//    "}}" { return NEON_RBRACE_JINJA; }
     "[" { return NEON_LBRACE_SQUARE; }
     "]" { return NEON_RBRACE_SQUARE; }
 
@@ -73,7 +76,7 @@ WHITESPACE = [\t ]+
         return NEON_INDENT;
     }
 
-    {LITERAL_START} {
+    {LITERAL_START} | {JINJA_START} {
         yybegin(IN_LITERAL);
         return NEON_LITERAL;
     }
@@ -97,21 +100,24 @@ WHITESPACE = [\t ]+
 }
 
 <IN_ASSIGNMENT_LITERAL> {
-    {WHITESPACE}    { a=6;retryInState(IN_ASSIGNMENT); }
-    "="             { a=1;retryInState(IN_ASSIGNMENT); }
-    [^,\]= )(\x00-\x20]+ { a=4; }
-    [ \t]+[^#,:\]= )(\x00-\x20] { a=5; retryInState(IN_ASSIGNMENT);}
-    .|\n            { a=4;retryInState(IN_ASSIGNMENT); }
+    {WHITESPACE}+ {Identifier} {WHITESPACE}* "="    { a=501; retryInState(IN_ASSIGNMENT); }
+    "="             { a=502; retryInState(IN_ASSIGNMENT); }
+    \R              { a=503;retryInState(IN_ASSIGNMENT); }
+    // Just to make next one faster
+    [:jletter:]* [:jletterdigit:]*               { a=504; }
+    .               { a=505; }
 }
 
 <IN_ASSIGNMENT> {
-    {STRING} {   return NEON_STRING; }
-    "=" { return NEON_ASSIGNMENT; }
+    {STRING}         {  a=401;return NEON_STRING; }
+    "="              {  a=402;return NEON_ASSIGNMENT; }
+    {WHITESPACE}     {  a=403;return NEON_WHITESPACE;    }
+    // {Identifier}     {  a=404;return NEON_LITERAL;    }
 
-    {LITERAL_START} {
-        a=3;retryInState(IN_ASSIGNMENT_LITERAL);
+    {LITERAL_START} | {JINJA_START} {
+        a=405;retryInState(IN_ASSIGNMENT_LITERAL);
         return NEON_LITERAL;
     }
 
-    .|\n { retryInState(YYINITIAL); }
+    .|\n { a=406;retryInState(YYINITIAL); }
 }
