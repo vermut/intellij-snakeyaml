@@ -1,34 +1,43 @@
 <idea-plugin version="2">
-	<!-- Plugin info -->
-	<name>YAML/Ansible support</name>
-	<description>Yaml with Jinja2 variables
-		Based on NEON by juzna.cz</description>
-	<version>0.3</version>
-	<vendor>Pavel Veretennikov</vendor>
-	<idea-version since-build="111.0" />
-	<depends>com.intellij.modules.lang</depends>
+    <!-- Plugin info -->
+    <name>YAML/Ansible support</name>
+    <description>Yaml with Jinja2 variables
+        Based on NEON by juzna.cz
+    </description>
+    <version>0.4</version>
+    <vendor>Pavel Veretennikov</vendor>
+    <idea-version since-build="111.0"/>
+    <depends>com.intellij.modules.lang</depends>
 
-	<!-- IDEA extensions -->
-	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory" />
-		<colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage" />
-		<lang.syntaxHighlighterFactory key="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory" />
-		<lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter" />
-		<lang.psiStructureViewFactory language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory" />
+    <!-- IDEA extensions -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
+        <colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage"/>
+        <lang.syntaxHighlighterFactory key="neon"
+                                       implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory"/>
+        <lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter"/>
+        <lang.psiStructureViewFactory language="neon"
+                                      implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory"/>
 
-		<!-- code settings (indent, tabs?) -->
-		<codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider" />
-		<langCodeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider" />
+        <!-- code settings (indent, tabs?) -->
+        <codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider"/>
+        <langCodeStyleSettingsProvider
+                implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider"/>
 
-		<lang.parserDefinition language="neon" implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition" />
-		<lang.fileViewProviderFactory language="neon" implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory" />
-		<lang.braceMatcher language="neon" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher" />
-		<lang.foldingBuilder language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder" />
-		<completion.contributor language="neon" implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor" />
-		<breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider" />
+        <lang.parserDefinition language="neon"
+                               implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition"/>
+        <lang.fileViewProviderFactory language="neon"
+                                      implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory"/>
+        <lang.braceMatcher language="neon" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher"/>
+        <lang.foldingBuilder language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder"/>
+        <completion.contributor language="neon"
+                                implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor"/>
+        <breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider"/>
 
-		<!--references, go-to-->
-		<gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
-		<gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
-	</extensions>
+        <!--references, go-to-->
+        <gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
+        <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
+
+        <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleVariableReferenceContributor"/>
+    </extensions>
 </idea-plugin>

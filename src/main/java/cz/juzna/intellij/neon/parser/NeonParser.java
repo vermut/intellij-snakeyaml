@@ -114,10 +114,14 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             PsiBuilder.Marker valJinja = mark();
 
             advanceLexer(NEON_LBRACE_JINJA); // opening bracket
-            advanceLexerTill(NEON_RBRACE_JINJA); // closing bracket
-            advanceLexer(NEON_RBRACE_JINJA); // opening bracket
 
-            valJinja.done(ENTITY);
+            PsiBuilder.Marker valCode = mark();
+            advanceLexerTill(NEON_RBRACE_JINJA); // closing bracket
+            valCode.done(REFERENCE);
+
+            advanceLexer(NEON_RBRACE_JINJA); // closing bracket
+
+            valJinja.done(JINJA);
             myInline--;
 
             parseScalar(indent);

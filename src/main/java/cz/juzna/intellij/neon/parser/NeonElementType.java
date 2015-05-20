@@ -1,5 +1,7 @@
 package cz.juzna.intellij.neon.parser;
 
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.impl.PsiElementBase;
 import com.intellij.psi.tree.IElementType;
 import cz.juzna.intellij.neon.NeonLanguage;
 import org.jetbrains.annotations.NotNull;

@@ -4,6 +4,8 @@ import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.NeonLanguage;
 import cz.juzna.intellij.neon.file.NeonFileType;
@@ -41,4 +43,9 @@ public class NeonFileImpl extends PsiFileBase implements NeonFile {
 		return ret;
 	}
 
+	@NotNull
+	@Override
+	public PsiReference[] getReferences() {
+		return ReferenceProvidersRegistry.getReferencesFromProviders(this);
+	}
 }

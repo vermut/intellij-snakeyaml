@@ -3,6 +3,7 @@ package cz.juzna.intellij.neon.psi.impl;
 import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
 import cz.juzna.intellij.neon.editor.NeonStructureViewElement;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import org.jetbrains.annotations.NotNull;

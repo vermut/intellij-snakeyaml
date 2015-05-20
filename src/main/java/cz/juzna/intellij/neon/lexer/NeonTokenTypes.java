@@ -20,7 +20,6 @@ public interface NeonTokenTypes
 	IElementType NEON_INDENT = new NeonTokenType("indent");
 	IElementType NEON_LITERAL = new NeonTokenType("literal");
 	IElementType NEON_KEYWORD = new NeonTokenType("keyword");
-	IElementType NEON_JINJA = new NeonTokenType("jinja2");
 	IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE; // new NeonTokenType("whitespace");
 	IElementType NEON_UNKNOWN = TokenType.BAD_CHARACTER; // new NeonTokenType("error");
 
