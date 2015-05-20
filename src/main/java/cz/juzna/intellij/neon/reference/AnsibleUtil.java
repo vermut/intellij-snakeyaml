@@ -1,5 +1,6 @@
 package cz.juzna.intellij.neon.reference;
 
+import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -33,12 +34,20 @@ public class AnsibleUtil {
         return result;
     }
 
-    public static List<PsiFile> findRoleTaskFiles(Project project, String key) {
+    public static List<PsiFile> findFiles(Project project, String key) {
         List<PsiFile> result = new ArrayList<PsiFile>();
         Collection<VirtualFile> virtualFiles = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, NeonFileType.INSTANCE,
                 GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
-            if (virtualFile.getCanonicalPath().endsWith(key + "tasks/main.yml"))
+            if (virtualFile.getCanonicalPath().endsWith(key))
+                result.add(PsiManager.getInstance(project).findFile(virtualFile));
+        }
+
+        // Include .j2 - plaintexts
+        virtualFiles = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, FileTypes.PLAIN_TEXT,
+                GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles) {
+            if (virtualFile.getCanonicalPath().endsWith(key))
                 result.add(PsiManager.getInstance(project).findFile(virtualFile));
         }
         return result;

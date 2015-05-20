@@ -20,7 +20,7 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 	}
 %}
 
-STRING = \'[^\'\n]*\'|\"(\\.|[^\"\\\n])*\"
+STRING = \'[^\{}'\n]*\'|\"(\\.|[^\"{}\\\n])*\"
 COMMENT = \#.*
 YAML_HEADER = ---.*
 YAML_TAG = %.*
@@ -45,9 +45,9 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
           a=2;retryInState(IN_ASSIGNMENT);
     }
 
-//    {STRING} {
-//        return NEON_STRING;
-//    }
+    {STRING} {
+        return NEON_STRING;
+    }
 
     ^{YAML_TAG} {
         return NEON_TAG;

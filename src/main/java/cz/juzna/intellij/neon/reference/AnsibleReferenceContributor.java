@@ -43,6 +43,19 @@ public class AnsibleReferenceContributor extends PsiReferenceContributor {
                         return AnsibleVariableReference.EMPTY_ARRAY;
                     }
                 });
+
+        registrar.registerReferenceProvider(srcRefPattern(),
+                new PsiReferenceProvider() {
+                    @NotNull
+                    @Override
+                    public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
+                        String text = element.getText();
+                        if (text != null) {
+                            return new PsiReference[]{new AnsibleFileReference(element, new TextRange(0, text.length()))};
+                        }
+                        return AnsibleVariableReference.EMPTY_ARRAY;
+                    }
+                });
     }
 
     public static PsiElementPattern.Capture<NeonReference> jinjaRefPattern() {
@@ -54,6 +67,12 @@ public class AnsibleReferenceContributor extends PsiReferenceContributor {
     public static PsiElementPattern.Capture<NeonScalar> roleRefPattern() {
         return PlatformPatterns.psiElement(NeonScalar.class)
                 .afterSibling(PlatformPatterns.psiElement(NeonKey.class).withText("role"))
+                .withLanguage(NeonLanguage.INSTANCE);
+    }
+
+    public static PsiElementPattern.Capture<NeonScalar> srcRefPattern() {
+        return PlatformPatterns.psiElement(NeonScalar.class)
+                .afterSibling(PlatformPatterns.psiElement(NeonKey.class).withText("src"))
                 .withLanguage(NeonLanguage.INSTANCE);
     }
 }

@@ -14,10 +14,10 @@ import java.util.List;
 /**
  * Created by Pavels.Veretennikovs on 2015.05.19..
  */
-public class AnsibleRoleReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
+public class AnsibleFileReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
     private String key;
 
-    public AnsibleRoleReference(PsiElement element, TextRange rangeInElement) {
+    public AnsibleFileReference(PsiElement element, TextRange rangeInElement) {
         super(element, rangeInElement);
         key = element.getText(); // .substring(rangeInElement.getStartOffset(), rangeInElement.getEndOffset());
     }
@@ -26,7 +26,7 @@ public class AnsibleRoleReference extends PsiReferenceBase<PsiElement> implement
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
-        final List<PsiFile> properties = AnsibleUtil.findFiles(project, key + "/tasks/main.yml" );
+        final List<PsiFile> properties = AnsibleUtil.findFiles(project, key);
         List<ResolveResult> results = new ArrayList<ResolveResult>();
         for (PsiFile property : properties) {
             results.add(new PsiElementResolveResult(property));
@@ -45,7 +45,7 @@ public class AnsibleRoleReference extends PsiReferenceBase<PsiElement> implement
     @Override
     public Object[] getVariants() {
         Project project = myElement.getProject();
-        final List<PsiFile> properties = AnsibleUtil.findFiles(project, key + "/tasks/main.yml");
+        final List<PsiFile> properties = AnsibleUtil.findFiles(project, key);
         List<LookupElementBuilder> variants = new ArrayList<LookupElementBuilder>();
         for (PsiFile property : properties) {
                 variants.add(LookupElementBuilder.create(property).
