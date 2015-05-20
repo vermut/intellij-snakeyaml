@@ -2,6 +2,7 @@ package cz.juzna.intellij.neon.reference;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -28,6 +29,17 @@ public class AnsibleUtil {
         for (VirtualFile virtualFile : virtualFiles) {
             if (virtualFile.getCanonicalPath().endsWith("tasks/main.yml"))
                 result.add(virtualFile.getParent().getParent().getName());
+        }
+        return result;
+    }
+
+    public static List<PsiFile> findRoleTaskFiles(Project project, String key) {
+        List<PsiFile> result = new ArrayList<PsiFile>();
+        Collection<VirtualFile> virtualFiles = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, NeonFileType.INSTANCE,
+                GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles) {
+            if (virtualFile.getCanonicalPath().endsWith(key + "tasks/main.yml"))
+                result.add(PsiManager.getInstance(project).findFile(virtualFile));
         }
         return result;
     }

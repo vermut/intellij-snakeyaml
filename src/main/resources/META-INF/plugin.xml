@@ -38,6 +38,6 @@
         <gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
         <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
 
-        <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleVariableReferenceContributor"/>
+        <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
     </extensions>
 </idea-plugin>

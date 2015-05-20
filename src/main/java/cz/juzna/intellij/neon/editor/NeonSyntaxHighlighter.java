@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
+import static cz.juzna.intellij.neon.parser.NeonElementTypes.JINJA;
 
 public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 
@@ -43,15 +44,23 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final String            TAG_ID          = "TAG";
 	public static final TextAttributesKey TAG             = TextAttributesKey.createTextAttributesKey(TAG_ID, DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE);
 
+	public static final String            REFERENCE_ID    = "REFERENCE";
+	public static final TextAttributesKey REFERENCE       = TextAttributesKey.createTextAttributesKey(REFERENCE_ID, DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
+
+	public static final String            JINJA_ID        = "JINJA";
+	public static final TextAttributesKey JINJA_CODE           = TextAttributesKey.createTextAttributesKey(JINJA_ID, DefaultLanguageHighlighterColors.TEMPLATE_LANGUAGE_COLOR);
+
 	// Groups of IElementType's
 	public static final TokenSet sBAD           = TokenSet.create(NEON_UNKNOWN);
 	public static final TokenSet sCOMMENTS      = TokenSet.create(NEON_COMMENT);
-	public static final TokenSet sIDENTIFIERS   = TokenSet.create(NEON_KEY, NEON_IDENTIFIER); //, NEON_IDENTIFIER, NEON_LITERAL);
+	public static final TokenSet sIDENTIFIERS   = TokenSet.create(NEON_KEY); //, NEON_IDENTIFIER, NEON_LITERAL);
 	public static final TokenSet sINTERPUNCTION = TokenSet.create(NEON_BLOCK_INHERITENCE, NEON_LPAREN, NEON_RPAREN, NEON_LBRACE_CURLY, NEON_RBRACE_CURLY, NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE, NEON_ITEM_DELIMITER, NEON_ASSIGNMENT);
 	public static final TokenSet sNUMBERS       = TokenSet.create(NEON_NUMBER);
 	public static final TokenSet sKEYWORDS      = TokenSet.create(NEON_KEYWORD);
 	public static final TokenSet sSTRINGS       = TokenSet.create(NEON_STRING);
 	public static final TokenSet sTAGS          = TokenSet.create(NEON_TAG, NEON_HEADER);
+
+	public static final TokenSet sJINJA         = TokenSet.create(JINJA, NEON_LBRACE_JINJA, NEON_RBRACE_JINJA, NEON_IDENTIFIER);
 
 
 	// Static container
@@ -68,6 +77,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 		fillMap(ATTRIBUTES, sKEYWORDS,      KEYWORD);
 		fillMap(ATTRIBUTES, sSTRINGS,       STRING);
 		fillMap(ATTRIBUTES, sTAGS,  	    TAG);
+		fillMap(ATTRIBUTES, sJINJA,  	    JINJA_CODE);
 	}
 
 
