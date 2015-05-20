@@ -59,6 +59,7 @@ List of features with classes which implement them (it sould help to tell why ea
 - Language base - most of default namespace; `Neon`, `NeonLanguage`, `NeonIcons`, `file.*`
 - Lexer - `lexer.*`
 - Parser - `parser.*` and `psi.*`
+- References - `reference.*` 
 - Syntax Highlight - `editor.NeonSyntaxHighlighterFactory`
 - Commenter - `NeonCommenter` - defined how to turn code into a comment and back
 - Brace matching - `NeonBraceMatcher` - how to highlight and jump to relevant closing/opening brace or parenthesis

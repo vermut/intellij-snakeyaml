@@ -1,11 +1,24 @@
 <idea-plugin version="2">
     <!-- Plugin info -->
     <name>YAML/Ansible support</name>
-    <description>Yaml with Jinja2 variables
-        Based on NEON by juzna.cz
-    </description>
-    <version>0.4</version>
-    <vendor>Pavel Veretennikov</vendor>
+    <description><![CDATA[
+        <p>YAML/Ansible support with Jinja2 tags</p>
+        <p>Based on NEON by juzna.cz</p>
+        <br/>
+        <b>Provides:</b>
+        <ul>
+            <li>Index of all roles in Goto Class...</li>
+            <li>Index of all properties in Goto Symbol...</li>
+            <li>Reference Jinja2 variable declaration</li>
+            <li>Reference to role declaraion</li>
+            <li>Various completions</li>
+        </ul>
+        <br/>
+        <p>This is a very basic version and needs a lot of polishing. Please help at the
+            https://github.com/vermut/intellij-ansible</p>
+        ]]></description>
+    <version>0.5</version>
+    <vendor url="https://github.com/vermut/intellij-ansible" email="vermut@kid.lv">Pavel Veretennikov</vendor>
     <idea-version since-build="111.0"/>
     <depends>com.intellij.modules.lang</depends>
 
@@ -37,7 +50,9 @@
         <!--references, go-to-->
         <gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
         <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
-
         <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
+        <lang.findUsagesProvider language="neon"
+                                 implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>
+
     </extensions>
 </idea-plugin>
