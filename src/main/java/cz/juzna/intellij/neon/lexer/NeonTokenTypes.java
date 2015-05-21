@@ -75,12 +75,14 @@ public interface NeonTokenTypes
 	);
 
 	TokenSet OPEN_STRING_ALLOWED = TokenSet.create(
-            NEON_COLON, NEON_ASSIGNMENT, NEON_ARRAY_BULLET, NEON_ITEM_DELIMITER,
+            NEON_COLON, NEON_ASSIGNMENT, NEON_ARRAY_BULLET,
             NEON_LPAREN, NEON_RPAREN,
-//            NEON_LBRACE_CURLY, NEON_RBRACE_CURLY,
             NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE,
 
-            NEON_WHITESPACE, NEON_LITERAL, NEON_STRING, NEON_QUOTE
+            NEON_WHITESPACE, NEON_LITERAL, NEON_STRING, NEON_QUOTE,
+
+			// Match brackets, as they would be inside the literal
+			NEON_LPAREN, NEON_LBRACE_CURLY, NEON_LBRACE_SQUARE
     );
 
 	// brackets

@@ -1,4 +1,7 @@
-- shell: lsblk -l -n -o NAME,FSTYPE | awk '$NF == "swap" {print $1}'
+roles:
+    - { role: common, domain: "{{ p_domain | default(omit) }}", dns_nameservers: "{{ p_dns_nameservers | default(omit) }}" }
+    - { role: hosts, domain: "{{ p_domain | default(omit) }}" }- shell: lsblk -l -n -o NAME,FSTYPE | awk '$NF == "swap" {print $1}'
+- pass: "HiddenPa}s"
 - postgresql{{ postgresql_version |replace('.', '') }}-devel
 - name: create stash files[0] == "default_empty"
 - command: python2 -c "hashlib.md5('{{ a }}' + '{{ b }}').hexdigest(); print pghash"
@@ -17,6 +20,4 @@
 list: ["a",b,c]
 - item:
     item2: "value {{ var }}"
-roles:
-    - { role: common, domain: "{{ p_domain | default(omit) }}", dns_nameservers: "{{ p_dns_nameservers | default(omit) }}" }
-    - { role: hosts, domain: "{{ p_domain | default(omit) }}" }
+

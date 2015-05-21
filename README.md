@@ -18,7 +18,7 @@
 
 ## Install
 **Current version** 
-[Download](.idea/intellij-neon.zip) and install via
+[Download](.idea/intellij-ansible.zip) and install via
  
 1. Go to File → Settings in PhpStorm
 2. Select *Plugins* on the left

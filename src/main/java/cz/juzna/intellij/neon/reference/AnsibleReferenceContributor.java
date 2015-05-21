@@ -12,6 +12,8 @@ import cz.juzna.intellij.neon.psi.NeonReference;
 import cz.juzna.intellij.neon.psi.NeonScalar;
 import org.jetbrains.annotations.NotNull;
 
+import static com.intellij.patterns.PlatformPatterns.psiElement;
+
 /**
  * Created by Pavels.Veretennikovs on 2015.05.19..
  */
@@ -59,20 +61,20 @@ public class AnsibleReferenceContributor extends PsiReferenceContributor {
     }
 
     public static PsiElementPattern.Capture<NeonReference> jinjaRefPattern() {
-        return PlatformPatterns.psiElement(NeonReference.class)
+        return psiElement(NeonReference.class)
                 .inside(NeonJinja.class)
                 .withLanguage(NeonLanguage.INSTANCE);
     }
 
     public static PsiElementPattern.Capture<NeonScalar> roleRefPattern() {
-        return PlatformPatterns.psiElement(NeonScalar.class)
-                .afterSibling(PlatformPatterns.psiElement(NeonKey.class).withText("role"))
+        return psiElement(NeonScalar.class)
+                .afterSibling(psiElement(NeonKey.class).withText("role"))
                 .withLanguage(NeonLanguage.INSTANCE);
     }
 
     public static PsiElementPattern.Capture<NeonScalar> srcRefPattern() {
-        return PlatformPatterns.psiElement(NeonScalar.class)
-                .afterSibling(PlatformPatterns.psiElement(NeonKey.class).withText("src"))
-                .withLanguage(NeonLanguage.INSTANCE);
+        return psiElement(NeonScalar.class)
+                .afterSibling(psiElement(NeonKey.class).andOr(psiElement().withText("src"), psiElement().withText("include"), psiElement().withText("include_vars")))
+                        .withLanguage(NeonLanguage.INSTANCE);
     }
 }

@@ -8,6 +8,8 @@ import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Stack;
+
 /**
  * Neon parser, convert tokens (output from lexer) into syntax tree
  */
@@ -20,6 +22,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
     private boolean myHasTabs = false; // FIXME: use this
     private PsiBuilder.Marker myAfterLastEolMarker;
     private int myInline;
+    private Stack<IElementType> expectedClosings = new Stack<IElementType>();
     private IndentType myIndentType;
 
 
@@ -37,7 +40,9 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
         PsiBuilder.Marker fileMarker = mark();
 
         passEmpty(); // process beginning of file
-        parseValue(0);
+        if (!this.myBuilder.eof())
+            parseValue(0);
+
         while (!this.myBuilder.eof()) {
             if (myBuilder.getTokenType() != NEON_INDENT) {
                 myBuilder.error("unexpected token at end of file");
@@ -55,6 +60,7 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
         IElementType nextToken = myBuilder.lookAhead(1);
 
         if (NeonTokenTypes.STRING_LITERALS.contains(currentToken) && nextToken == NEON_COLON || currentToken == NeonTokenTypes.NEON_ARRAY_BULLET) {
+            // key: val || - key
             PsiBuilder.Marker val = mark();
             parseArray(indent);
             val.done(ARRAY);
@@ -74,9 +80,12 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             myInline++;
 
             IElementType closing = closingBrackets.get(currentToken);
+            expectedClosings.push(closing);
 
             advanceLexer(); // opening bracket
             parseArray(1000000);
+
+            expectedClosings.pop();
             advanceLexer(closing); // closing bracket
 
             myInline--;
@@ -133,6 +142,15 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
             if (nextToken == NEON_INDENT)
                 advanceLexer();
 
+            parseScalar(indent);
+        } else if (CLOSING_BRACKET.contains(currentToken) && (expectedClosings.empty() || currentToken != expectedClosings.peek())) {
+            // Eat closing brackets when they are not expected
+            advanceLexer();
+            parseScalar(indent);
+        }
+        else if (expectedClosings.empty() && currentToken == NEON_ITEM_DELIMITER) {
+            // Eat commas when we are not in array (ugly detected by absence of expectedClosings)
+            advanceLexer();
             parseScalar(indent);
         }
     }
