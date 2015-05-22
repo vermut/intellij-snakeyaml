@@ -53,6 +53,8 @@
         <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
         <lang.findUsagesProvider language="neon"
                                  implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>
+        <documentationProvider
+                implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
 
     </extensions>
 </idea-plugin>
