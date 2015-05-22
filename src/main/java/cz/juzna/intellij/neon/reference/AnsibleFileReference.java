@@ -26,7 +26,7 @@ public class AnsibleFileReference extends PsiReferenceBase<PsiElement> implement
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
         Project project = myElement.getProject();
-        final List<PsiFile> properties = AnsibleUtil.findFiles(project, key);
+        final List<PsiFile> properties = AnsibleUtil.findFiles(project, "/" + key);
         List<ResolveResult> results = new ArrayList<ResolveResult>();
         for (PsiFile property : properties) {
             results.add(new PsiElementResolveResult(property));
@@ -45,13 +45,13 @@ public class AnsibleFileReference extends PsiReferenceBase<PsiElement> implement
     @Override
     public Object[] getVariants() {
         Project project = myElement.getProject();
-        final List<PsiFile> properties = AnsibleUtil.findFiles(project, key);
+        final List<PsiFile> properties = AnsibleUtil.findFiles(project, "/" + key);
         List<LookupElementBuilder> variants = new ArrayList<LookupElementBuilder>();
         for (PsiFile property : properties) {
-                variants.add(LookupElementBuilder.create(property).
-                                withIcon(NeonIcons.FILETYPE_ICON).
-                                withTypeText(property.getContainingFile().getName())
-                );
+            variants.add(LookupElementBuilder.create(property).
+                            withIcon(NeonIcons.FILETYPE_ICON).
+                            withTypeText(property.getContainingFile().getName())
+            );
         }
         return variants.toArray();
     }
