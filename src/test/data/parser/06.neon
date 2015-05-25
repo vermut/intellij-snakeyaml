@@ -1,3 +1,0 @@
-doctrine:
-	metadata:
-		At: annotations(%appDir%/models/At)

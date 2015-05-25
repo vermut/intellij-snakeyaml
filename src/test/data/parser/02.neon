@@ -1,5 +1,0 @@
-# mixing array/hash
-services:
-	- Mailer
-	articles: ArticlesControl
-	- SuperMailer

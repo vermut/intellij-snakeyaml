@@ -257,7 +257,7 @@ public void testStringWithJinjaVars() throws Exception {
     }
 
     public void doTestFromFile() throws Exception {
-        String code = doLoadFile("src/test/data/parser", getTestName(false) + ".neon");
+        String code = doLoadFile("src/test/data/parser", getTestName(false) + ".yml");
 
         Lexer lexer = createLexer();
         StringBuilder sb = new StringBuilder();

@@ -8,7 +8,7 @@ import org.junit.Test;
 public class ParserTest extends ParsingTestCase {
 
 	public ParserTest() {
-		super("", "neon", new NeonParserDefinition());
+		super("", "yml", new NeonParserDefinition());
 		PlatformTestCase.initPlatformLangPrefix();
 	}
 
@@ -101,8 +101,14 @@ public class ParserTest extends ParsingTestCase {
 	public void test15() {
 		doTest(true, true);
 	}
+
 	@Test
 	public void test16() {
+		doTest(true, false);
+	}
+
+	@Test
+	public void test17() {
 		doTest(true, false);
 	}
 
