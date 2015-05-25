@@ -117,7 +117,7 @@ public class LexerTest extends UsefulTestCase {
     }
 
     @Test
-public void testStringWithJinjaVars() throws Exception {
+    public void testStringWithJinjaVars() throws Exception {
         doTest("name: some text {{ var1 }} \"{{ var2 }} \\\" {{var3}}\"", new Pair[]{
                 Pair.of(NEON_LITERAL, "name"),
                 Pair.of(NEON_COLON, ":"),
@@ -147,17 +147,23 @@ public void testStringWithJinjaVars() throws Exception {
     }
 
     public void testArrayWithJinjaVars() throws Exception {
-        doTest("name: {ansible: \"{{ var }} \\\" {{var}}\" }", new Pair[]{
+        doTest("name: {foo: \"bar\",ansible: \"{{ var }} \\\" {{var}}\" }", new Pair[]{
                 Pair.of(NEON_LITERAL, "name"),
                 Pair.of(NEON_COLON, ":"),
                 Pair.of(NEON_WHITESPACE, " "),
                 Pair.of(NEON_LBRACE_CURLY, "{"),
+                Pair.of(NEON_LITERAL, "foo"),
+                Pair.of(NEON_COLON, ":"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_STRING, "\"bar\""),
+                Pair.of(NEON_ITEM_DELIMITER, ","),
                 Pair.of(NEON_LITERAL, "ansible"),
                 Pair.of(NEON_COLON, ":"),
                 Pair.of(NEON_WHITESPACE, " "),
-                Pair.of(NEON_STRING, "\"{{ var }} \\\" {{var}}\""),
+                Pair.of(NEON_LITERAL, "\""),
+                Pair.of(NEON_LBRACE_JINJA, "{{"),
                 Pair.of(NEON_WHITESPACE, " "),
-                Pair.of(NEON_RBRACE_CURLY, "}")
+                Pair.of(NEON_RBRACE_CURLY, "}"),
         });
     }
 
@@ -172,26 +178,48 @@ public void testStringWithJinjaVars() throws Exception {
                 Pair.of(NEON_WHITESPACE, " "),
                 Pair.of(NEON_LITERAL, "var"),
                 Pair.of(NEON_ASSIGNMENT, "="),
-                Pair.of(NEON_LITERAL, "{{ value + 2 }}"),
+                Pair.of(NEON_LBRACE_JINJA, "{{"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LITERAL, "value + 2"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_RBRACE_JINJA, "}}"),
                 Pair.of(NEON_WHITESPACE, " "),
                 Pair.of(NEON_LITERAL, "msg"),
                 Pair.of(NEON_ASSIGNMENT, "="),
-                Pair.of(NEON_LITERAL, "text with {{ data }}"),
+                Pair.of(NEON_LITERAL, "text with"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LBRACE_JINJA, "{{"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LITERAL, "data"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_RBRACE_JINJA, "}}"),
         });
     }
 
     public void testStringWithJinjaVars2() throws Exception {
-        doTest("name: key=\"pref-{{ var }}\" key2=\"pref-{{ var }}\"", new Pair[]{
+        doTest("name: key=\"pref-{{ var }}\" key2=\"pref-{{var}}\"", new Pair[]{
                 Pair.of(NEON_LITERAL, "name"),
                 Pair.of(NEON_COLON, ":"),
                 Pair.of(NEON_WHITESPACE, " "),
                 Pair.of(NEON_LITERAL, "key"),
                 Pair.of(NEON_ASSIGNMENT, "="),
-                Pair.of(NEON_STRING, "\"pref-{{ var }}\""),
+                Pair.of(NEON_LITERAL, "\"pref-"),
+                Pair.of(NEON_LBRACE_JINJA, "{{"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LITERAL, "var"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_RBRACE_JINJA, "}}"),
+                Pair.of(NEON_LITERAL, "\""),
                 Pair.of(NEON_WHITESPACE, " "),
                 Pair.of(NEON_LITERAL, "key2"),
                 Pair.of(NEON_ASSIGNMENT, "="),
-                Pair.of(NEON_STRING, "\"pref-{{ var }}\""),
+                Pair.of(NEON_LITERAL, "\"pref-{{ var }}\""),
+                Pair.of(NEON_LBRACE_JINJA, "{{"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_LITERAL, "var1"),
+                Pair.of(NEON_WHITESPACE, " "),
+                Pair.of(NEON_RBRACE_JINJA, "}}"),
+                Pair.of(NEON_WHITESPACE, " "),
         });
     }
 
