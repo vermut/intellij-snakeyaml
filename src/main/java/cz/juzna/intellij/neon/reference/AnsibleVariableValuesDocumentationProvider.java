@@ -2,12 +2,21 @@ package cz.juzna.intellij.neon.reference;
 
 import com.intellij.lang.documentation.AbstractDocumentationProvider;
 import com.intellij.psi.PsiElement;
+import com.intellij.util.io.HttpRequests;
+import com.intellij.util.net.HttpConfigurable;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
+import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.psi.impl.NeonKeyValPairImpl;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.intellij.patterns.PlatformPatterns.psiElement;
 import static cz.juzna.intellij.neon.reference.AnsibleReferenceContributor.jinjaRefPattern;
 
 /**
@@ -29,6 +38,23 @@ public class AnsibleVariableValuesDocumentationProvider extends AbstractDocument
             }
 
             return result.toString();
+        }
+
+        // Try documentation lookup for key
+        if (psiElement(NeonKeyValPair.class).accepts(originalElement)){
+            String url = MessageFormat.format("http://docs.ansible.com/{0}_module.html", ((NeonKeyValPair) originalElement).getKeyText());
+            try {
+                HttpConfigurable.getInstance().prepareURL(url);
+                String pageData = HttpRequests.request(url).connect(new HttpRequests.RequestProcessor<String>() {
+                    @Override
+                    public String process(@NotNull HttpRequests.Request request) throws IOException {
+                        return new String(request.readBytes(null), "UTF-8");
+                    }
+                });
+                return pageData.substring(pageData.indexOf("<div id=\"page-content\">"));
+            } catch (IOException e) {
+                return null;
+            }
         }
         return null;
     }
