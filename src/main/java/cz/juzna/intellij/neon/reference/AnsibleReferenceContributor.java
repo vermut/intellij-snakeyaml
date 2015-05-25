@@ -1,15 +1,11 @@
 package cz.juzna.intellij.neon.reference;
 
 import com.intellij.openapi.util.TextRange;
-import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
 import cz.juzna.intellij.neon.NeonLanguage;
-import cz.juzna.intellij.neon.psi.NeonJinja;
-import cz.juzna.intellij.neon.psi.NeonKey;
-import cz.juzna.intellij.neon.psi.NeonReference;
-import cz.juzna.intellij.neon.psi.NeonScalar;
+import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.patterns.PlatformPatterns.psiElement;
@@ -66,15 +62,21 @@ public class AnsibleReferenceContributor extends PsiReferenceContributor {
                 .withLanguage(NeonLanguage.INSTANCE);
     }
 
+    // { role: ROLE }         OR
+    // roles:
+    //   -- ROLE
     public static PsiElementPattern.Capture<NeonScalar> roleRefPattern() {
         return psiElement(NeonScalar.class)
-                .afterSibling(psiElement(NeonKey.class).withText("role"))
+                .andOr(
+                        psiElement().afterSibling(psiElement(NeonKey.class).withText("role")),
+                        psiElement().withSuperParent(2,
+                                psiElement(NeonArray.class).afterSibling(psiElement(NeonKey.class).withText("roles"))))
                 .withLanguage(NeonLanguage.INSTANCE);
     }
 
     public static PsiElementPattern.Capture<NeonScalar> srcRefPattern() {
         return psiElement(NeonScalar.class)
                 .afterSibling(psiElement(NeonKey.class).andOr(psiElement().withText("src"), psiElement().withText("include"), psiElement().withText("include_vars")))
-                        .withLanguage(NeonLanguage.INSTANCE);
+                .withLanguage(NeonLanguage.INSTANCE);
     }
 }

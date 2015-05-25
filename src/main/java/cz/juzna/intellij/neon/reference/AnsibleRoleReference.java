@@ -1,9 +1,11 @@
 package cz.juzna.intellij.neon.reference;
 
+import com.intellij.codeInsight.completion.CompletionUtilCore;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import com.intellij.util.codeInsight.CommentUtilCore;
 import cz.juzna.intellij.neon.NeonIcons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +22,10 @@ public class AnsibleRoleReference extends PsiReferenceBase<PsiElement> implement
     public AnsibleRoleReference(PsiElement element, TextRange rangeInElement) {
         super(element, rangeInElement);
         key = element.getText(); // .substring(rangeInElement.getStartOffset(), rangeInElement.getEndOffset());
+
+        // It should work another way, but I can't figure out how and why
+        if (key.endsWith(CompletionUtilCore.DUMMY_IDENTIFIER_TRIMMED))
+            key = key.substring(0, key.length() - CompletionUtilCore.DUMMY_IDENTIFIER_TRIMMED.length());
     }
 
     @NotNull
@@ -45,14 +51,6 @@ public class AnsibleRoleReference extends PsiReferenceBase<PsiElement> implement
     @Override
     public Object[] getVariants() {
         Project project = myElement.getProject();
-        final List<PsiFile> properties = AnsibleUtil.findRoles(project, key);
-        List<LookupElementBuilder> variants = new ArrayList<LookupElementBuilder>();
-        for (PsiFile property : properties) {
-                variants.add(LookupElementBuilder.create(property).
-                                withIcon(NeonIcons.FILETYPE_ICON).
-                                withTypeText(property.getContainingFile().getName())
-                );
-        }
-        return variants.toArray();
+        return AnsibleUtil.findRoleNames(project, key + ".*").toArray();
     }
 }
