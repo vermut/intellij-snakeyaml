@@ -6,14 +6,19 @@
 <img src="src/test/data/image/Goto_Class.png" /><br>
 <img src="src/test/data/image/Goto_role.png" /><br>
 <img src="src/test/data/image/Var_resolve.PNG" /><br>
+<img src="src/test/data/image/fetch_docs.png" /><br>
 
 ## Features
+* Goto role (Ctrl-N)
+* Goto task (Ctrl-N)
+* Goto var/property (Ctrl-Alt-Shift-N)
+* Role/Jinja var reference on Ctrl-Click
+* Module doc lookup
 * lexer, parser (internal)
-* syntax highlighting
+* syntax highlighting 
 * comment/uncomment
 * bracket / parenthesis matching
-* code completion
-* ... more to come
+* role completion
 
 
 ## Install
