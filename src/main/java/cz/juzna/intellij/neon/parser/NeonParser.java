@@ -269,13 +269,13 @@ public class NeonParser implements PsiParser, NeonTokenTypes, NeonElementTypes {
     }
 
     private void advanceLexerTill(IElementType expectedToken) {
-        while (myBuilder.getTokenType() != expectedToken) {
+        while (myBuilder.getTokenType() != expectedToken && !myBuilder.eof()) {
             advanceLexer();
         }
     }
 
     private void advanceLexerOnAllowedTokens(TokenSet allowedTokens) {
-        while (allowedTokens.contains(myBuilder.getTokenType())) {
+        while (allowedTokens.contains(myBuilder.getTokenType()) && !myBuilder.eof()) {
             advanceLexer();
         }
     }
