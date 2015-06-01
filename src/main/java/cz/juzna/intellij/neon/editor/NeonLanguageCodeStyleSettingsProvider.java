@@ -18,7 +18,8 @@ public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 		CommonCodeStyleSettings defaultSettings = new CommonCodeStyleSettings(NeonLanguage.INSTANCE);
 		IndentOptions indentOptions = defaultSettings.initIndentOptions();
 		indentOptions.INDENT_SIZE = 2;
-//		indentOptions.USE_TAB_CHARACTER = true;
+		indentOptions.TAB_SIZE = 2;
+		indentOptions.USE_TAB_CHARACTER = false;
 		indentOptions.SMART_TABS = false;
 
 		return defaultSettings;
@@ -35,6 +36,6 @@ public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 	}
 
 	public String getCodeSample(@NotNull SettingsType settingsType) {
-		return "product:\n    name: Neon\n    version: 4\n    vendor: juzna.cz\n    url: \"http://blog.juzna.cz\"";
+		return "product:\n  name: Neon\n  version: 4\n  vendor: juzna.cz\n  url: \"http://blog.juzna.cz\"";
 	}
 }

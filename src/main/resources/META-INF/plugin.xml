@@ -27,10 +27,10 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
         <colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage"/>
-        <lang.syntaxHighlighterFactory key="neon"
+        <lang.syntaxHighlighterFactory key="yaml"
                                        implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory"/>
-        <lang.commenter language="neon" implementationClass="cz.juzna.intellij.neon.NeonCommenter"/>
-        <lang.psiStructureViewFactory language="neon"
+        <lang.commenter language="yaml" implementationClass="cz.juzna.intellij.neon.NeonCommenter"/>
+        <lang.psiStructureViewFactory language="yaml"
                                       implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory"/>
 
         <!-- code settings (indent, tabs?) -->
@@ -38,13 +38,13 @@
         <langCodeStyleSettingsProvider
                 implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider"/>
 
-        <lang.parserDefinition language="neon"
+        <lang.parserDefinition language="yaml"
                                implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition"/>
-        <lang.fileViewProviderFactory language="neon"
+        <lang.fileViewProviderFactory language="yaml"
                                       implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory"/>
-        <lang.braceMatcher language="neon" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher"/>
-        <lang.foldingBuilder language="neon" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder"/>
-        <completion.contributor language="neon"
+        <lang.braceMatcher language="yaml" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher"/>
+        <lang.foldingBuilder language="yaml" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder"/>
+        <completion.contributor language="yaml"
                                 implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor"/>
         <breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider"/>
 
@@ -52,10 +52,8 @@
         <gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
         <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
         <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
-        <lang.findUsagesProvider language="neon"
-                                 implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>
-        <documentationProvider
-                implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
+        <lang.findUsagesProvider implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>
+        <documentationProvider implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
 
     </extensions>
 </idea-plugin>

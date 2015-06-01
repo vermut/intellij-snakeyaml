@@ -6,6 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class NeonFileTypeFactory extends FileTypeFactory {
 	public void createFileTypes(@NotNull FileTypeConsumer consumer) {
-		consumer.consume(NeonFileType.INSTANCE, NeonFileType.DEFAULT_EXTENSION);
+		consumer.consume(NeonFileType.INSTANCE, NeonFileType.EXTENSIONS);
 	}
 }

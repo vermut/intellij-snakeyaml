@@ -11,15 +11,7 @@ import javax.swing.*;
 public class NeonFileType extends LanguageFileType {
 	public static final NeonFileType INSTANCE = new NeonFileType();
 	public static final String DEFAULT_EXTENSION = "yml";
-	public static final String EXTENSION_YAML = "yaml";
-
-	/**
-	 * All extensions which are associated with this plugin.
-	 */
-	public static final String[] extensions = {
-		DEFAULT_EXTENSION, EXTENSION_YAML
-	};
-
+	public static final String EXTENSIONS = "yml;yaml";
 
 	protected NeonFileType() {
 		super(NeonLanguage.INSTANCE);
