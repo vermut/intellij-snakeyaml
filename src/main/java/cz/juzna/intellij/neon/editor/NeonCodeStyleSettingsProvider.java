@@ -6,36 +6,52 @@ import com.intellij.application.options.TabbedLanguageCodeStylePanel;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
+import com.intellij.psi.codeStyle.CustomCodeStyleSettings;
 import cz.juzna.intellij.neon.NeonLanguage;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  *
  */
 public class NeonCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
-	@NotNull
-	@Override
-	public Configurable createSettingsPage(CodeStyleSettings settings, CodeStyleSettings originalSetting) {
-		return new CodeStyleAbstractConfigurable(settings, originalSetting, getConfigurableDisplayName()) {
-			@Override
-			protected CodeStyleAbstractPanel createPanel(CodeStyleSettings settings) {
-				return new TabbedLanguageCodeStylePanel(NeonLanguage.INSTANCE, getCurrentSettings(), settings) {
-					@Override
-					protected void initTabs(CodeStyleSettings settings) {
-						addIndentOptionsTab(settings);
-					}
-				};
-			}
+    @Override
+    public AnsibleCodeStyleSettings createCustomSettings(CodeStyleSettings settings) {
+        return new AnsibleCodeStyleSettings(settings);
+    }
 
-			@Override
-			public String getHelpTopic() {
-				return "reference.settingsdialog.codestyle.neon"; // what is this?
-			}
-		};
-	}
+    @NotNull
+    @Override
+    public Configurable createSettingsPage(CodeStyleSettings settings, CodeStyleSettings originalSetting) {
+        return new CodeStyleAbstractConfigurable(settings, originalSetting, getConfigurableDisplayName()) {
+            @Nullable
+            @Override
+            public String getHelpTopic() {
+                return null;
+            }
 
-	@Override
-	public String getConfigurableDisplayName() {
-		return NeonLanguage.INSTANCE.getDisplayName();
-	}
+            @Override
+            protected CodeStyleAbstractPanel createPanel(CodeStyleSettings settings) {
+                return new SimpleCodeStyleMainPanel(getCurrentSettings(), settings);
+            }
+        };
+    }
+
+    private static class SimpleCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
+        public SimpleCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
+            super(NeonLanguage.INSTANCE, currentSettings, settings);
+        }
+    }
+
+    private class AnsibleCodeStyleSettings extends CustomCodeStyleSettings {
+        public AnsibleCodeStyleSettings(CodeStyleSettings settings) {
+            super("AnsibleCodeStyleSettings", settings);
+        }
+    }
+
+    @Override
+    public String getConfigurableDisplayName() {
+        return NeonLanguage.INSTANCE.getDisplayName();
+    }
 }
+
