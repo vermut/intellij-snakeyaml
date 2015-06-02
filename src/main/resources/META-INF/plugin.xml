@@ -52,7 +52,7 @@
         <gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
         <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
         <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
-        <lang.findUsagesProvider implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>
+        <lang.findUsagesProvider language="yaml" implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>
         <documentationProvider implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
 
     </extensions>

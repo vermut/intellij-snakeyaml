@@ -24,7 +24,7 @@ import java.util.regex.PatternSyntaxException;
  * Created by Vermut on 16/05/2015.
  */
 public class AnsibleUtil {
-    public static final String ALL = "";
+    public static final String ALL = ".*";
 
     public static List<String> findRoleNames(Project project, String key) {
         List<String> result = new ArrayList<String>();
