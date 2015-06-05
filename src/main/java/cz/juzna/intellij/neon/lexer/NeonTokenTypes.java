@@ -40,6 +40,8 @@ public interface NeonTokenTypes
 	IElementType NEON_RBRACE_CURLY = new NeonTokenType("}");
 	IElementType NEON_LBRACE_JINJA = new NeonTokenType("{{");
 	IElementType NEON_RBRACE_JINJA = new NeonTokenType("}}");
+	IElementType NEON_LBRACE_JINJA_CODE = new NeonTokenType("{%");
+	IElementType NEON_RBRACE_JINJA_CODE = new NeonTokenType("%}");
 	IElementType NEON_LBRACE_SQUARE = new NeonTokenType("[");
 	IElementType NEON_RBRACE_SQUARE = new NeonTokenType("]");
 
@@ -77,7 +79,6 @@ public interface NeonTokenTypes
 	TokenSet OPEN_STRING_ALLOWED = TokenSet.create(
             NEON_COLON, NEON_ASSIGNMENT, NEON_ARRAY_BULLET,
             NEON_LPAREN, NEON_RPAREN,
-            NEON_LBRACE_SQUARE, NEON_RBRACE_SQUARE,
 
             NEON_WHITESPACE, NEON_LITERAL, NEON_STRING, NEON_QUOTE,
 
