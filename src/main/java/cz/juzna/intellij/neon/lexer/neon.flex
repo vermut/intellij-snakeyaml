@@ -26,8 +26,8 @@ YAML_HEADER = ---.*
 YAML_TAG = %.*
 INDENT = \n[\t ]*
 LITERAL_START = [^#,=\[\]{}()\x00-\x20!`]
-JINJA_START = "{{"
-JINJA_STOP = "}}"
+JINJA_START = "{{" | "{%"
+JINJA_STOP = "}}" | "%}"
 WHITESPACE = [\t ]+
 Identifier = [:jletter:] [:jletterdigit:]*
 NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
@@ -61,7 +61,6 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
     "-" $ { return NEON_ARRAY_BULLET; }
     ":" / [ \t\n,\]})] { return NEON_COLON; }
     ":" $ { return NEON_COLON; }
-//    "\""  { return NEON_QUOTE; }
     ","   { return NEON_ITEM_DELIMITER; }
     ">" {WHITESPACE}* {NEWLINE} { return NEON_LINE_CONTINUATION; }
 
@@ -69,8 +68,6 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
     ")" { return NEON_RPAREN; }
     "{" { return NEON_LBRACE_CURLY; }
     "}" { return NEON_RBRACE_CURLY; }
-//    "{{" { return NEON_LBRACE_JINJA; }
-//    "}}" { return NEON_RBRACE_JINJA; }
     "[" { return NEON_LBRACE_SQUARE; }
     "]" { return NEON_RBRACE_SQUARE; }
     "=" { return NEON_ASSIGNMENT; }

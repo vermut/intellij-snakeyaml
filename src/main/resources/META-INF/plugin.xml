@@ -18,7 +18,7 @@
         <p>This is a very basic version and needs a lot of polishing. Please help at the
             https://github.com/vermut/intellij-ansible</p>
         ]]></description>
-    <version>0.7.1</version>
+    <version>0.7.2</version>
     <vendor url="https://github.com/vermut/intellij-ansible" email="vermut@kid.lv">Pavel Veretennikov</vendor>
     <idea-version since-build="111.0"/>
     <depends>com.intellij.modules.lang</depends>
