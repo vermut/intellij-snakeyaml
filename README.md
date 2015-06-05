@@ -1,4 +1,4 @@
-# YAML/Ansible in IntelliJ IDEA <img src="https://travis-ci.org/vermut/intellij-ansible.svg" />
+# YAML/Ansible in IntelliJ IDEA
 
 **Current status: stable, basic functions**
 
