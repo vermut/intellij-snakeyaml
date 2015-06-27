@@ -2,14 +2,14 @@ package cz.juzna.intellij.neon.parser;
 
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import cz.juzna.intellij.neon.NeonLanguage;
+import lv.kid.vermut.intellij.ansible.YamlLanguage;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 
 /**
  * Types of elements returned from parser
  */
 public interface NeonElementTypes {
-    public static final IFileElementType FILE = new IFileElementType(NeonLanguage.INSTANCE);
+    public static final IFileElementType FILE = new IFileElementType(YamlLanguage.INSTANCE);
 
     public static final NeonElementType KEY_VALUE_PAIR = new NeonElementType("Key value pair");
     public static final NeonElementType KEY = new NeonElementType("Key");

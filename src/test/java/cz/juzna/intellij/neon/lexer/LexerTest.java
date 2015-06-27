@@ -7,6 +7,7 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.testFramework.UsefulTestCase;
 import com.sun.tools.javac.util.Pair;
+import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
 import org.jetbrains.annotations.NonNls;
 import org.junit.Test;
 
@@ -21,8 +22,8 @@ import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
 @SuppressWarnings({"unchecked", "JUnit4AnnotatedMethodInJUnit3TestCase"})
 public class LexerTest extends UsefulTestCase {
     // which lexer to test
-    private static NeonLexer createLexer() {
-        return new NeonLexer();
+    private static Lexer createLexer() {
+        return new YamlLexer();
     }
 
     /*** helpers ***/
@@ -34,8 +35,18 @@ public class LexerTest extends UsefulTestCase {
      * @param expectedTokens List of tokens expected from lexer
      */
     protected static void doTest(@NonNls String text, @NonNls Pair<IElementType, String>[] expectedTokens) {
-        Lexer lexer = createLexer();
-        doTest(text, expectedTokens, lexer);
+         Lexer lexer = createLexer();
+        // doTest(text, expectedTokens, lexer);
+
+        lexer.start(text);
+        int idx = 0;
+        while (lexer.getTokenType() != null) {
+            String tokenText = lexer.getBufferSequence().subSequence(lexer.getTokenStart(), lexer.getTokenEnd()).toString();
+
+            System.out.println("tokenType = " + lexer.getTokenType());
+            System.out.println("tokenText = " + tokenText);
+            lexer.advance();
+        }
     }
 
     private static void doTest(String text, Pair<IElementType, String>[] expectedTokens, Lexer lexer) {

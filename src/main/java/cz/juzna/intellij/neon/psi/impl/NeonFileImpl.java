@@ -8,7 +8,7 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
 import com.intellij.psi.tree.TokenSet;
-import cz.juzna.intellij.neon.NeonLanguage;
+import lv.kid.vermut.intellij.ansible.YamlLanguage;
 import cz.juzna.intellij.neon.editor.NeonStructureViewElement;
 import cz.juzna.intellij.neon.file.NeonFileType;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 public class NeonFileImpl extends PsiFileBase implements NeonFile {
     public NeonFileImpl(FileViewProvider viewProvider) {
-        super(viewProvider, NeonLanguage.INSTANCE);
+        super(viewProvider, YamlLanguage.INSTANCE);
     }
 
     @NotNull

@@ -4,7 +4,7 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
-import cz.juzna.intellij.neon.NeonLanguage;
+import lv.kid.vermut.intellij.ansible.YamlLanguage;
 import cz.juzna.intellij.neon.psi.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,7 +59,7 @@ public class AnsibleReferenceContributor extends PsiReferenceContributor {
     public static PsiElementPattern.Capture<NeonReference> jinjaRefPattern() {
         return psiElement(NeonReference.class)
                 .inside(NeonJinja.class)
-                .withLanguage(NeonLanguage.INSTANCE);
+                .withLanguage(YamlLanguage.INSTANCE);
     }
 
     // { role: ROLE }         OR
@@ -71,12 +71,12 @@ public class AnsibleReferenceContributor extends PsiReferenceContributor {
                         psiElement().afterSibling(psiElement(NeonKey.class).withText("role")),
                         psiElement().withSuperParent(2,
                                 psiElement(NeonArray.class).afterSibling(psiElement(NeonKey.class).withText("roles"))))
-                .withLanguage(NeonLanguage.INSTANCE);
+                .withLanguage(YamlLanguage.INSTANCE);
     }
 
     public static PsiElementPattern.Capture<NeonScalar> srcRefPattern() {
         return psiElement(NeonScalar.class)
                 .afterSibling(psiElement(NeonKey.class).andOr(psiElement().withText("src"), psiElement().withText("include"), psiElement().withText("include_vars")))
-                .withLanguage(NeonLanguage.INSTANCE);
+                .withLanguage(YamlLanguage.INSTANCE);
     }
 }

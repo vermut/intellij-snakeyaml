@@ -3,7 +3,7 @@ package cz.juzna.intellij.neon.file;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import cz.juzna.intellij.neon.Neon;
 import cz.juzna.intellij.neon.NeonIcons;
-import cz.juzna.intellij.neon.NeonLanguage;
+import lv.kid.vermut.intellij.ansible.YamlLanguage;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -14,7 +14,7 @@ public class NeonFileType extends LanguageFileType {
 	public static final String EXTENSIONS = "yml;yaml";
 
 	protected NeonFileType() {
-		super(NeonLanguage.INSTANCE);
+		super(YamlLanguage.INSTANCE);
 	}
 
 	@NotNull

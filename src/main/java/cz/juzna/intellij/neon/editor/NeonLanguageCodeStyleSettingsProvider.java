@@ -5,7 +5,7 @@ import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings.IndentOptions;
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
-import cz.juzna.intellij.neon.NeonLanguage;
+import lv.kid.vermut.intellij.ansible.YamlLanguage;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,7 +15,7 @@ public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 {
 	public CommonCodeStyleSettings getDefaultCommonSettings()
 	{
-		CommonCodeStyleSettings defaultSettings = new CommonCodeStyleSettings(NeonLanguage.INSTANCE);
+		CommonCodeStyleSettings defaultSettings = new CommonCodeStyleSettings(YamlLanguage.INSTANCE);
 		IndentOptions indentOptions = defaultSettings.initIndentOptions();
 		indentOptions.INDENT_SIZE = 2;
 		indentOptions.TAB_SIZE = 2;
@@ -32,7 +32,7 @@ public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSett
 
 	@NotNull
 	public Language getLanguage() {
-		return NeonLanguage.INSTANCE;
+		return YamlLanguage.INSTANCE;
 	}
 
 	public String getCodeSample(@NotNull SettingsType settingsType) {

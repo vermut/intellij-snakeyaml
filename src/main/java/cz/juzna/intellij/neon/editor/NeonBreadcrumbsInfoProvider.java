@@ -3,7 +3,7 @@ package cz.juzna.intellij.neon.editor;
 import com.intellij.lang.Language;
 import com.intellij.psi.PsiElement;
 import com.intellij.xml.breadcrumbs.BreadcrumbsInfoProvider;
-import cz.juzna.intellij.neon.NeonLanguage;
+import lv.kid.vermut.intellij.ansible.YamlLanguage;
 import cz.juzna.intellij.neon.psi.NeonEntity;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * Breadcrumbs info about which section are we editing now (just above the editor, below tabs)
  */
 public class NeonBreadcrumbsInfoProvider extends BreadcrumbsInfoProvider {
-	private final Language[] ourLanguages = { NeonLanguage.INSTANCE};
+	private final Language[] ourLanguages = { YamlLanguage.INSTANCE};
 
 	@Override
 	public Language[] getLanguages() {

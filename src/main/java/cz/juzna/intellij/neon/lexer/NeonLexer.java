@@ -1,12 +1,9 @@
 package cz.juzna.intellij.neon.lexer;
 
 
-import com.intellij.lexer.FlexAdapter;
-import com.intellij.lexer.LexerPosition;
 import com.intellij.lexer.MergingLexerAdapter;
 import com.intellij.psi.tree.TokenSet;
-
-import java.io.Reader;
+import lv.kid.vermut.intellij.ansible.parser.ScannerFacade;
 
 
 public class NeonLexer extends MergingLexerAdapter {
@@ -17,6 +14,6 @@ public class NeonLexer extends MergingLexerAdapter {
 	);
 
 	public NeonLexer() {
-		super(new FlexAdapter(new _NeonLexer((Reader) null)), TOKENS_TO_MERGE);
+		super(new ScannerFacade(), TOKENS_TO_MERGE);
 	}
 }

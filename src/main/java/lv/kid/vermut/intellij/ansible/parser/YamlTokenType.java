@@ -1,16 +1,16 @@
-package cz.juzna.intellij.neon.parser;
+package lv.kid.vermut.intellij.ansible.parser;
 
 import com.intellij.psi.tree.IElementType;
 import lv.kid.vermut.intellij.ansible.YamlLanguage;
 import org.jetbrains.annotations.NotNull;
 
 
-public class NeonElementType extends IElementType {
-	public NeonElementType(@NotNull String debugName) {
+public class YamlTokenType extends IElementType {
+	public YamlTokenType(@NotNull String debugName) {
 		super(debugName, YamlLanguage.INSTANCE);
 	}
 
 	public String toString() {
-		return "[Neon] " + super.toString();
+		return "[YAML] " + super.toString();
 	}
 }
