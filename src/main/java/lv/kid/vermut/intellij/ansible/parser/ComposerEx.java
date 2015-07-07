@@ -107,7 +107,7 @@ public class ComposerEx {
     }
 
     protected Node composeDocument() {
-        PsiBuilder.Marker mark = builder.mark();
+//        PsiBuilder.Marker mark = builder.mark();
 
         // Drop the DOCUMENT-START event.
         parser.getEvent();
@@ -118,7 +118,7 @@ public class ComposerEx {
         this.anchors.clear();
         recursiveNodes.clear();
 
-        mark.done(NeonElementTypes.ENTITY);
+//      mark.done(NeonElementTypes.ENTITY);
         return node;
     }
 
@@ -154,7 +154,7 @@ public class ComposerEx {
     }
 
     protected Node composeScalarNode(String anchor) {
-        PsiBuilder.Marker mark = builder.mark();
+        // PsiBuilder.Marker mark = builder.mark();
 
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
@@ -173,12 +173,12 @@ public class ComposerEx {
             anchors.put(anchor, node);
         }
 
-        mark.done(NeonElementTypes.SCALAR_VALUE);
+        // mark.done(NeonElementTypes.SCALAR_VALUE);
         return node;
     }
 
     protected Node composeSequenceNode(String anchor) {
-        PsiBuilder.Marker mark = builder.mark();
+//        PsiBuilder.Marker mark = builder.mark();
 
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
@@ -202,7 +202,7 @@ public class ComposerEx {
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
 
-        mark.done(NeonElementTypes.SEQUENCE);
+//        mark.done(NeonElementTypes.SEQUENCE);
         return node;
     }
 

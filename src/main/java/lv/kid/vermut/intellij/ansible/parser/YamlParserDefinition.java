@@ -12,6 +12,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
+import cz.juzna.intellij.neon.psi.NeonEntity;
 import cz.juzna.intellij.neon.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,15 +61,18 @@ public class YamlParserDefinition implements ParserDefinition {
 
         if (type == NeonElementTypes.KEY_VALUE_PAIR) return new NeonKeyValPairImpl(node);
         else if (type == NeonElementTypes.KEY) return new NeonKeyImpl(node);
-        else if (type == NeonElementTypes.COMPOUND_VALUE) return new NeonArrayImpl(node);
-        else if (type == NeonElementTypes.ARRAY) return new NeonArrayImpl(node);
-        else if (type == NeonElementTypes.SEQUENCE) return new NeonSectionImpl(node);
+        else if (type == NeonElementTypes.COMPOUND_VALUE) return new NeonPsiElementImpl(node);
         else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarImpl(node);
-        else if (type == NeonElementTypes.ENTITY) return new NeonEntityImpl(node);
+        else if (type == NeonElementTypes.HASH) return new NeonEntityImpl(node);
+        else if (type == NeonElementTypes.SEQUENCE) return new NeonArrayImpl(node);
+        else if (type == NeonElementTypes.ENTITY) return new NeonSectionImpl(node);
+
         else if (type == NeonElementTypes.JINJA) return new NeonJinjaImpl(node);
         else if (type == NeonElementTypes.REFERENCE) return new NeonReferenceImpl(node);
         else if (type == NeonElementTypes.ARGS) return new NeonArrayImpl(node); // FIXME: will it work?
-        else return new NeonPsiElementImpl(node);
+
+        else throw new RuntimeException();
+        // return new NeonPsiElementImpl(node);
     }
 
     @Override

@@ -11,6 +11,6 @@ public class YamlTokenType extends IElementType {
 	}
 
 	public String toString() {
-		return "[YAML] " + super.toString();
+		return "[YAML Token] " + super.toString();
 	}
 }
