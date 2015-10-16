@@ -1,10 +1,8 @@
-package cz.juzna.intellij.neon.lexer;
+package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.testFramework.UsefulTestCase;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  *

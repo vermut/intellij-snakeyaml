@@ -1,10 +1,10 @@
-package cz.juzna.intellij.neon.lexer.debug;
+package lv.kid.vermut.intellij.yaml.lexer.debug;
 
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.psi.tree.IElementType;
-import cz.juzna.intellij.neon.lexer._NeonLexer;
+import lv.kid.vermut.intellij.yaml.lexer._NeonLexer;
 
 import java.io.File;
 import java.io.Reader;

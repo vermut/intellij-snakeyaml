@@ -1,4 +1,4 @@
-package cz.juzna.intellij.neon.parser;
+package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.testFramework.ParsingTestCase;
 import com.intellij.testFramework.PlatformTestCase;

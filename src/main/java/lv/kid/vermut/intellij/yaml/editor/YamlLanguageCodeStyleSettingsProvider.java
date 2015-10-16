@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Code style settings (tabs etc)
  */
-public class NeonLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider
+public class YamlLanguageCodeStyleSettingsProvider extends LanguageCodeStyleSettingsProvider
 {
 	public CommonCodeStyleSettings getDefaultCommonSettings()
 	{
