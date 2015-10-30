@@ -13,6 +13,7 @@ import org.yaml.snakeyaml.tokens.Token;
 public class PsiBuilderAdapter implements Scanner {
     private final PsiBuilder builder;
     private final Scanner scanner;
+    private boolean peekMode = false;
 
     public PsiBuilderAdapter(PsiBuilder builder) {
         this.builder = builder;
@@ -31,7 +32,14 @@ public class PsiBuilderAdapter implements Scanner {
 
     @Override
     public Token getToken() {
+        if (peekMode)
+            return scanner.peekToken();
+
         builder.advanceLexer();
         return scanner.getToken();
+    }
+
+    public void setPeekMode(boolean peekMode) {
+        this.peekMode = peekMode;
     }
 }

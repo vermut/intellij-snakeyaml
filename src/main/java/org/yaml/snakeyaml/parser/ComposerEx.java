@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lv.kid.vermut.intellij.yaml.parser;
+package org.yaml.snakeyaml.parser;
 
 import com.intellij.lang.PsiBuilder;
+import lv.kid.vermut.intellij.yaml.parser.NeonElementTypes;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.*;
-import org.yaml.snakeyaml.parser.Parser;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 import java.util.*;
@@ -104,7 +104,7 @@ public class ComposerEx {
         return document;
     }
 
-    protected Node composeDocument() {
+    public Node composeDocument() {
 //        PsiBuilder.Marker mark = builder.mark();
 
         // Drop the DOCUMENT-START event.
