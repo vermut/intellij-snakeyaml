@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2008, http://www.snakeyaml.org
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -87,31 +87,33 @@ import java.util.Map;
  * flow_sequence_entry: { ALIAS ANCHOR TAG SCALAR FLOW-SEQUENCE-START FLOW-MAPPING-START KEY }
  * flow_mapping_entry: { ALIAS ANCHOR TAG SCALAR FLOW-SEQUENCE-START FLOW-MAPPING-START KEY }
  * </pre>
- * 
+ * <p/>
  * Since writing a recursive-descendant parser is a straightforward task, we do
  * not give many comments here.
- *
+ * <p/>
  * This the same ParserImpl from SnakeYaml, but with modifications
  * 1. Allow to set Scanner
  * 2. peekEvent does not advance scanner's position
  */
 public final class ParserImplEx implements Parser {
     private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
+
     static {
         DEFAULT_TAGS.put("!", "!");
         DEFAULT_TAGS.put("!!", Tag.PREFIX);
     }
 
     private final PsiBuilderAdapter scanner;
-  //  private Event currentEvent;
+    //  private Event currentEvent;
     private final ArrayStack<Production> states;
     private final ArrayStack<Mark> marks;
     private Production state;
     private VersionTagsTuple directives;
+    private boolean peekMode = false;
 
     public ParserImplEx(PsiBuilderAdapter scanner) {
         this.scanner = scanner;
-     //   currentEvent = null;
+        //   currentEvent = null;
         directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));
         states = new ArrayStack<Production>(100);
         marks = new ArrayStack<Mark>(10);
@@ -135,12 +137,17 @@ public final class ParserImplEx implements Parser {
      * Get the next event.
      */
     public Event peekEvent() {
-        scanner.setPeekMode(true);
         Event currentEvent = null;
         if (state != null) {
-                currentEvent = state.produce();
-            }
-        scanner.setPeekMode(false);
+            scanner.setPeekMode(true);
+            peekMode = true;
+
+            currentEvent = state.produce();
+
+            scanner.setPeekMode(false);
+            peekMode = false;
+        }
+
         return currentEvent;
     }
 
@@ -150,119 +157,9 @@ public final class ParserImplEx implements Parser {
     public Event getEvent() {
         Event currentEvent = null;
         if (state != null) {
-                currentEvent = state.produce();
-            }
+            currentEvent = state.produce();
+        }
         return currentEvent;
-    }
-
-    /**
-     * <pre>
-     * stream    ::= STREAM-START implicit_document? explicit_document* STREAM-END
-     * implicit_document ::= block_node DOCUMENT-END*
-     * explicit_document ::= DIRECTIVE* DOCUMENT-START block_node? DOCUMENT-END*
-     * </pre>
-     */
-    private class ParseStreamStart implements Production {
-        public Event produce() {
-            // Parse the stream start.
-            StreamStartToken token = (StreamStartToken) scanner.getToken();
-            Event event = new StreamStartEvent(token.getStartMark(), token.getEndMark());
-            // Prepare the next state.
-            state = new ParseImplicitDocumentStart();
-            return event;
-        }
-    }
-
-    private class ParseImplicitDocumentStart implements Production {
-        public Event produce() {
-            // Parse an implicit document.
-            if (!scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart, Token.ID.StreamEnd)) {
-                directives = new VersionTagsTuple(null, DEFAULT_TAGS);
-                Token token = scanner.peekToken();
-                Mark startMark = token.getStartMark();
-                Mark endMark = startMark;
-                Event event = new DocumentStartEvent(startMark, endMark, false, null, null);
-                // Prepare the next state.
-                states.push(new ParseDocumentEnd());
-                state = new ParseBlockNode();
-                return event;
-            } else {
-                Production p = new ParseDocumentStart();
-                return p.produce();
-            }
-        }
-    }
-
-    private class ParseDocumentStart implements Production {
-        public Event produce() {
-            // Parse any extra document end indicators.
-            while (scanner.checkToken(Token.ID.DocumentEnd)) {
-                scanner.getToken();
-            }
-            // Parse an explicit document.
-            Event event;
-            if (!scanner.checkToken(Token.ID.StreamEnd)) {
-                Token token = scanner.peekToken();
-                Mark startMark = token.getStartMark();
-                VersionTagsTuple tuple = processDirectives();
-                if (!scanner.checkToken(Token.ID.DocumentStart)) {
-                    throw new ParserException(null, null, "expected '<document start>', but found "
-                            + scanner.peekToken().getTokenId(), scanner.peekToken().getStartMark());
-                }
-                token = scanner.getToken();
-                Mark endMark = token.getEndMark();
-                event = new DocumentStartEvent(startMark, endMark, true, tuple.getVersion(),
-                        tuple.getTags());
-                states.push(new ParseDocumentEnd());
-                state = new ParseDocumentContent();
-            } else {
-                // Parse the end of the stream.
-                StreamEndToken token = (StreamEndToken) scanner.getToken();
-                event = new StreamEndEvent(token.getStartMark(), token.getEndMark());
-                if (!states.isEmpty()) {
-                    throw new YAMLException("Unexpected end of stream. States left: " + states);
-                }
-                if (!marks.isEmpty()) {
-                    throw new YAMLException("Unexpected end of stream. Marks left: " + marks);
-                }
-                state = null;
-            }
-            return event;
-        }
-    }
-
-    private class ParseDocumentEnd implements Production {
-        public Event produce() {
-            // Parse the document end.
-            Token token = scanner.peekToken();
-            Mark startMark = token.getStartMark();
-            Mark endMark = startMark;
-            boolean explicit = false;
-            if (scanner.checkToken(Token.ID.DocumentEnd)) {
-                token = scanner.getToken();
-                endMark = token.getEndMark();
-                explicit = true;
-            }
-            Event event = new DocumentEndEvent(startMark, endMark, explicit);
-            // Prepare the next state.
-            state = new ParseDocumentStart();
-            return event;
-        }
-    }
-
-    private class ParseDocumentContent implements Production {
-        public Event produce() {
-            Event event;
-            if (scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart,
-                    Token.ID.DocumentEnd, Token.ID.StreamEnd)) {
-                event = processEmptyScalar(scanner.peekToken().getStartMark());
-                state = states.pop();
-                return event;
-            } else {
-                Production p = new ParseBlockNode();
-                return p.produce();
-            }
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -286,13 +183,13 @@ public final class ParserImplEx implements Parser {
                 }
                 Integer minor = value.get(1);
                 switch (minor) {
-                case 0:
-                    yamlVersion = Version.V1_0;
-                    break;
+                    case 0:
+                        yamlVersion = Version.V1_0;
+                        break;
 
-                default:
-                    yamlVersion = Version.V1_1;
-                    break;
+                    default:
+                        yamlVersion = Version.V1_1;
+                        break;
                 }
             } else if (token.getName().equals("TAG")) {
                 List<String> value = (List<String>) token.getValue();
@@ -316,32 +213,6 @@ public final class ParserImplEx implements Parser {
             directives = new VersionTagsTuple(yamlVersion, tagHandles);
         }
         return directives;
-    }
-
-    /**
-     * <pre>
-     *  block_node_or_indentless_sequence ::= ALIAS
-     *                | properties (block_content | indentless_block_sequence)?
-     *                | block_content
-     *                | indentless_block_sequence
-     *  block_node    ::= ALIAS
-     *                    | properties block_content?
-     *                    | block_content
-     *  flow_node     ::= ALIAS
-     *                    | properties flow_content?
-     *                    | flow_content
-     *  properties    ::= TAG ANCHOR? | ANCHOR TAG?
-     *  block_content     ::= block_collection | flow_collection | SCALAR
-     *  flow_content      ::= flow_collection | SCALAR
-     *  block_collection  ::= block_sequence | block_mapping
-     *  flow_collection   ::= flow_sequence | flow_mapping
-     * </pre>
-     */
-
-    private class ParseBlockNode implements Production {
-        public Event produce() {
-            return parseNode(true, false);
-        }
     }
 
     private Event parseFlowNode() {
@@ -470,8 +341,156 @@ public final class ParserImplEx implements Parser {
         return event;
     }
 
+    /**
+     * <pre>
+     * block_mapping     ::= BLOCK-MAPPING_START
+     *           ((KEY block_node_or_indentless_sequence?)?
+     *           (VALUE block_node_or_indentless_sequence?)?)*
+     *           BLOCK-END
+     * </pre>
+     */
+    private Event processEmptyScalar(Mark mark) {
+        return new ScalarEvent(null, null, new ImplicitTuple(true, false), "", mark, mark, (char) 0);
+    }
+
+    /**
+     * <pre>
+     * stream    ::= STREAM-START implicit_document? explicit_document* STREAM-END
+     * implicit_document ::= block_node DOCUMENT-END*
+     * explicit_document ::= DIRECTIVE* DOCUMENT-START block_node? DOCUMENT-END*
+     * </pre>
+     */
+    private class ParseStreamStart implements Production {
+        public Event produce() {
+            // Parse the stream start.
+            StreamStartToken token = (StreamStartToken) scanner.getToken();
+            Event event = new StreamStartEvent(token.getStartMark(), token.getEndMark());
+            // Prepare the next state.
+            state = new ParseImplicitDocumentStart();
+            return event;
+        }
+    }
+
+    private class ParseImplicitDocumentStart implements Production {
+        public Event produce() {
+            // Parse an implicit document.
+            if (!scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart, Token.ID.StreamEnd)) {
+                directives = new VersionTagsTuple(null, DEFAULT_TAGS);
+                Token token = scanner.peekToken();
+                Mark startMark = token.getStartMark();
+                Mark endMark = startMark;
+                Event event = new DocumentStartEvent(startMark, endMark, false, null, null);
+                // Prepare the next state.
+                states.push(new ParseDocumentEnd());
+                state = new ParseBlockNode();
+                return event;
+            } else {
+                Production p = new ParseDocumentStart();
+                return p.produce();
+            }
+        }
+    }
+
+    private class ParseDocumentStart implements Production {
+        public Event produce() {
+            // Parse any extra document end indicators.
+            while (scanner.checkToken(Token.ID.DocumentEnd)) {
+                scanner.getToken();
+            }
+            // Parse an explicit document.
+            Event event;
+            if (!scanner.checkToken(Token.ID.StreamEnd)) {
+                Token token = scanner.peekToken();
+                Mark startMark = token.getStartMark();
+                VersionTagsTuple tuple = processDirectives();
+                if (!scanner.checkToken(Token.ID.DocumentStart)) {
+                    throw new ParserException(null, null, "expected '<document start>', but found "
+                            + scanner.peekToken().getTokenId(), scanner.peekToken().getStartMark());
+                }
+                token = scanner.getToken();
+                Mark endMark = token.getEndMark();
+                event = new DocumentStartEvent(startMark, endMark, true, tuple.getVersion(),
+                        tuple.getTags());
+                states.push(new ParseDocumentEnd());
+                state = new ParseDocumentContent();
+            } else {
+                // Parse the end of the stream.
+                StreamEndToken token = (StreamEndToken) scanner.getToken();
+                event = new StreamEndEvent(token.getStartMark(), token.getEndMark());
+                if (!states.isEmpty()) {
+                    throw new YAMLException("Unexpected end of stream. States left: " + states);
+                }
+                if (!marks.isEmpty()) {
+                    throw new YAMLException("Unexpected end of stream. Marks left: " + marks);
+                }
+                state = null;
+            }
+            return event;
+        }
+    }
+
+    private class ParseDocumentEnd implements Production {
+        public Event produce() {
+            // Parse the document end.
+            Token token = scanner.peekToken();
+            Mark startMark = token.getStartMark();
+            Mark endMark = startMark;
+            boolean explicit = false;
+            if (scanner.checkToken(Token.ID.DocumentEnd)) {
+                token = scanner.getToken();
+                endMark = token.getEndMark();
+                explicit = true;
+            }
+            Event event = new DocumentEndEvent(startMark, endMark, explicit);
+            // Prepare the next state.
+            state = new ParseDocumentStart();
+            return event;
+        }
+    }
+
+    private class ParseDocumentContent implements Production {
+        public Event produce() {
+            Event event;
+            if (scanner.checkToken(Token.ID.Directive, Token.ID.DocumentStart,
+                    Token.ID.DocumentEnd, Token.ID.StreamEnd)) {
+                event = processEmptyScalar(scanner.peekToken().getStartMark());
+                state = states.pop();
+                return event;
+            } else {
+                Production p = new ParseBlockNode();
+                return p.produce();
+            }
+        }
+    }
+
     // block_sequence ::= BLOCK-SEQUENCE-START (BLOCK-ENTRY block_node?)*
     // BLOCK-END
+
+    /**
+     * <pre>
+     *  block_node_or_indentless_sequence ::= ALIAS
+     *                | properties (block_content | indentless_block_sequence)?
+     *                | block_content
+     *                | indentless_block_sequence
+     *  block_node    ::= ALIAS
+     *                    | properties block_content?
+     *                    | block_content
+     *  flow_node     ::= ALIAS
+     *                    | properties flow_content?
+     *                    | flow_content
+     *  properties    ::= TAG ANCHOR? | ANCHOR TAG?
+     *  block_content     ::= block_collection | flow_collection | SCALAR
+     *  flow_content      ::= flow_collection | SCALAR
+     *  block_collection  ::= block_sequence | block_mapping
+     *  flow_collection   ::= flow_sequence | flow_mapping
+     * </pre>
+     */
+
+    private class ParseBlockNode implements Production {
+        public Event produce() {
+            return parseNode(true, false);
+        }
+    }
 
     private class ParseBlockSequenceFirstEntry implements Production {
         public Event produce() {
@@ -480,6 +499,8 @@ public final class ParserImplEx implements Parser {
             return new ParseBlockSequenceEntry().produce();
         }
     }
+
+    // indentless_sequence ::= (BLOCK-ENTRY block_node?)+
 
     private class ParseBlockSequenceEntry implements Production {
         public Event produce() {
@@ -506,8 +527,6 @@ public final class ParserImplEx implements Parser {
             return event;
         }
     }
-
-    // indentless_sequence ::= (BLOCK-ENTRY block_node?)+
 
     private class ParseIndentlessSequenceEntry implements Production {
         public Event produce() {
@@ -763,17 +782,5 @@ public final class ParserImplEx implements Parser {
             state = new ParseFlowMappingKey(false);
             return processEmptyScalar(scanner.peekToken().getStartMark());
         }
-    }
-
-    /**
-     * <pre>
-     * block_mapping     ::= BLOCK-MAPPING_START
-     *           ((KEY block_node_or_indentless_sequence?)?
-     *           (VALUE block_node_or_indentless_sequence?)?)*
-     *           BLOCK-END
-     * </pre>
-     */
-    private Event processEmptyScalar(Mark mark) {
-        return new ScalarEvent(null, null, new ImplicitTuple(true, false), "", mark, mark, (char) 0);
     }
 }

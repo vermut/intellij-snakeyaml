@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2008, http://www.snakeyaml.org
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,7 +49,7 @@ public class ComposerEx {
 
     /**
      * Checks if further documents are available.
-     * 
+     *
      * @return <code>true</code> if there is at least one more document.
      */
     public boolean checkNode() {
@@ -63,7 +63,7 @@ public class ComposerEx {
 
     /**
      * Reads and composes the next document.
-     * 
+     *
      * @return The root node of the document or <code>null</code> if no more
      *         documents are available.
      */
@@ -81,7 +81,7 @@ public class ComposerEx {
      * <p>
      * If the stream contains more than one document an exception is thrown.
      * </p>
-     * 
+     *
      * @return The root node of the document or <code>null</code> if no document
      *         is available.
      */
@@ -105,7 +105,7 @@ public class ComposerEx {
     }
 
     public Node composeDocument() {
-//        PsiBuilder.Marker mark = builder.mark();
+        PsiBuilder.Marker mark = builder.mark();
 
         // Drop the DOCUMENT-START event.
         parser.getEvent();
@@ -116,7 +116,7 @@ public class ComposerEx {
         this.anchors.clear();
         recursiveNodes.clear();
 
-//      mark.done(NeonElementTypes.ENTITY);
+        mark.done(NeonElementTypes.ENTITY);
         return node;
     }
 
@@ -152,7 +152,7 @@ public class ComposerEx {
     }
 
     protected Node composeScalarNode(String anchor) {
-        // PsiBuilder.Marker mark = builder.mark();
+        PsiBuilder.Marker mark = builder.mark();
 
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
@@ -171,12 +171,12 @@ public class ComposerEx {
             anchors.put(anchor, node);
         }
 
-        // mark.done(NeonElementTypes.SCALAR_VALUE);
+        mark.done(NeonElementTypes.SCALAR_VALUE);
         return node;
     }
 
     protected Node composeSequenceNode(String anchor) {
-//        PsiBuilder.Marker mark = builder.mark();
+        PsiBuilder.Marker mark = builder.mark();
 
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
@@ -200,7 +200,7 @@ public class ComposerEx {
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
 
-//        mark.done(NeonElementTypes.SEQUENCE);
+        mark.done(NeonElementTypes.SEQUENCE);
         return node;
     }
 

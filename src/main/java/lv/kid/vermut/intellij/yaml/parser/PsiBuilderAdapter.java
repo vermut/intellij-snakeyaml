@@ -14,6 +14,7 @@ public class PsiBuilderAdapter implements Scanner {
     private final PsiBuilder builder;
     private final Scanner scanner;
     private boolean peekMode = false;
+    private int builderStepsBehind = 0;
 
     public PsiBuilderAdapter(PsiBuilder builder) {
         this.builder = builder;
@@ -32,14 +33,23 @@ public class PsiBuilderAdapter implements Scanner {
 
     @Override
     public Token getToken() {
-        if (peekMode)
-            return scanner.peekToken();
+        builderStepsBehind++;
 
-        builder.advanceLexer();
+        if (!peekMode)
+            while (builderStepsBehind > 0) {
+                builder.advanceLexer();
+                builderStepsBehind--;
+            }
+
         return scanner.getToken();
     }
 
-    public void setPeekMode(boolean peekMode) {
-        this.peekMode = peekMode;
+    public void setPeekMode(boolean newPeekMode) {
+        if (!this.peekMode && newPeekMode) {
+            // Create an copy of scanner to play with
+            //  peekScanner = new ScannerImpl(new StreamReader((new CharSequenceReader(builder.getOriginalText().subSequence(builder.getCurrentOffset(), builder.getOriginalText().length())))));
+        }
+
+        this.peekMode = newPeekMode;
     }
 }
