@@ -17,10 +17,9 @@ package lv.kid.vermut.intellij.ansible.parser;
 
 import com.intellij.lang.PsiBuilder;
 import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.*;
-import org.yaml.snakeyaml.parser.Parser;
+import org.yaml.snakeyaml.parser.ParserImplEx;
 import org.yaml.snakeyaml.resolver.Resolver;
 
 import java.util.*;
@@ -35,16 +34,16 @@ import java.util.*;
  * <p>This the same composer from SnakeYaml, but with protected methods</p>
  */
 public class ComposerEx {
-    private final Parser parser;
+    private final ParserImplEx parser;
     private final Resolver resolver;
-    private final PsiBuilder builder;
+    // private final PsiBuilder builder;
     private final Map<String, Node> anchors;
     private final Set<Node> recursiveNodes;
 
-    public ComposerEx(Parser parser, Resolver resolver, PsiBuilder builder) {
+    public ComposerEx(ParserImplEx parser, Resolver resolver, PsiBuilder builder) {
         this.parser = parser;
         this.resolver = resolver;
-        this.builder = builder;
+        // this.builder = builder;
         this.anchors = new HashMap<String, Node>();
         this.recursiveNodes = new HashSet<Node>();
     }
@@ -107,7 +106,7 @@ public class ComposerEx {
     }
 
     protected Node composeDocument() {
-//        PsiBuilder.Marker mark = builder.mark();
+//        PsiBuilder.Marker mark = getMarker();
 
         // Drop the DOCUMENT-START event.
         parser.getEvent();
@@ -154,7 +153,7 @@ public class ComposerEx {
     }
 
     protected Node composeScalarNode(String anchor) {
-        // PsiBuilder.Marker mark = builder.mark();
+        // PsiBuilder.Marker mark = getMarker();
 
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
@@ -178,7 +177,7 @@ public class ComposerEx {
     }
 
     protected Node composeSequenceNode(String anchor) {
-//        PsiBuilder.Marker mark = builder.mark();
+//        PsiBuilder.Marker mark = getMarker();
 
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
@@ -207,7 +206,7 @@ public class ComposerEx {
     }
 
     protected Node composeMappingNode(String anchor) {
-        PsiBuilder.Marker mark = builder.mark();
+        PsiBuilder.Marker mark = parser.getMarker();
 
         MappingStartEvent startEvent = (MappingStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
@@ -227,16 +226,16 @@ public class ComposerEx {
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(Event.ID.MappingEnd)) {
-            PsiBuilder.Marker keyPair = builder.mark();
+            PsiBuilder.Marker keyPair = parser.getMarker();
 
-            PsiBuilder.Marker key = builder.mark();
+            PsiBuilder.Marker key = parser.getMarker();
             Node itemKey = composeNode(node);
             if (itemKey.getTag().equals(Tag.MERGE)) {
                 node.setMerged(true);
             }
             key.done(NeonElementTypes.KEY);
 
-            PsiBuilder.Marker value = builder.mark();
+            PsiBuilder.Marker value = parser.getMarker();
             Node itemValue = composeNode(node);
             value.done(NeonElementTypes.COMPOUND_VALUE);
 
