@@ -1,4 +1,4 @@
-package lv.kid.vermut.intellij.yaml.parser;
+package cz.juzna.intellij.neon.parser;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -11,9 +11,10 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes;
-import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
-import lv.kid.vermut.intellij.yaml.psi.impl.*;
+import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
+import cz.juzna.intellij.neon.psi.impl.*;
+import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
+import lv.kid.vermut.intellij.ansible.parser.YamlParser;
 import org.jetbrains.annotations.NotNull;
 
 public class NeonParserDefinition implements ParserDefinition {

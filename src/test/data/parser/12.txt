@@ -1,13 +1,9 @@
-NeonFile:12.neon
-  PsiComment([Neon] comment)('# errors')
-  PsiElement([Neon] indent)('\n')
-  Neon array
+NeonFile:12.yml
+  PsiElement([YAML Token] StreamStart)('# errors\n')
+  Neon entity
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('a')
-      PsiElement([Neon] :)(':')
-      PsiElement([Neon] indent)('\n    ')
-      Neon array
-        PsiErrorElement:expected key-val pair or array item
-          <empty list>
-        PsiElement([Neon] literal)('abc:error')
+        PsiElement([YAML Token] Scalar)('a')
+      NeonPsiElementImpl([Neon] Compound value)
+        PsiElement([YAML Token] Value)(':\n    ')
+        PsiElement([YAML Token] Scalar)('abc:error')

@@ -1,14 +1,14 @@
-package lv.kid.vermut.intellij.yaml.reference;
+package cz.juzna.intellij.neon.reference;
 
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.TokenSet;
-import lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes;
-import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
-import lv.kid.vermut.intellij.yaml.psi.NeonKey;
-import lv.kid.vermut.intellij.yaml.psi.NeonKeyValPair;
+import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
+import cz.juzna.intellij.neon.psi.NeonKey;
+import cz.juzna.intellij.neon.psi.NeonKeyValPair;
+import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

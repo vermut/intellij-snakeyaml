@@ -1,4 +1,4 @@
-package lv.kid.vermut.intellij.yaml.parser;
+package lv.kid.vermut.intellij.ansible.parser;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
@@ -6,7 +6,6 @@ import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.parser.ComposerEx;
 import org.yaml.snakeyaml.parser.ParserImplEx;
 import org.yaml.snakeyaml.resolver.Resolver;
 
@@ -17,7 +16,8 @@ public class YamlParser implements PsiParser {
     @NotNull
     @Override
     public ASTNode parse(IElementType root, final PsiBuilder builder) {
-        ParserImplEx parser = new ParserImplEx(new PsiBuilderAdapter(builder));
+        ParserImplEx parser = new ParserImplEx(new PsiBuilderToScannerAdapter(builder));
+
         ComposerEx composer = new ComposerEx(parser, new Resolver(), builder);
         PsiBuilder.Marker mark = builder.mark();
         while (composer.checkNode()) {

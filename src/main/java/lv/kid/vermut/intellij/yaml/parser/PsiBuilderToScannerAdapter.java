@@ -10,13 +10,13 @@ import org.yaml.snakeyaml.tokens.Token;
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
-public class PsiBuilderAdapter implements Scanner {
+public class PsiBuilderToScannerAdapter implements Scanner {
     private final PsiBuilder builder;
     private final Scanner scanner;
-    private boolean peekMode = false;
-    private int builderStepsBehind = 0;
+    private boolean peekMode;
+    private int builderTokensBehind = 0;
 
-    public PsiBuilderAdapter(PsiBuilder builder) {
+    public PsiBuilderToScannerAdapter(PsiBuilder builder) {
         this.builder = builder;
         scanner = new ScannerImpl(new StreamReader(new CharSequenceReader(builder.getOriginalText())));
     }
@@ -33,23 +33,32 @@ public class PsiBuilderAdapter implements Scanner {
 
     @Override
     public Token getToken() {
-        builderStepsBehind++;
+        builderTokensBehind++;
 
-        if (!peekMode)
-            while (builderStepsBehind > 0) {
-                builder.advanceLexer();
-                builderStepsBehind--;
-            }
-
+        if (!isPeekMode()) {
+            catchUpWithScanner();
+        }
         return scanner.getToken();
     }
 
-    public void setPeekMode(boolean newPeekMode) {
-        if (!this.peekMode && newPeekMode) {
-            // Create an copy of scanner to play with
-            //  peekScanner = new ScannerImpl(new StreamReader((new CharSequenceReader(builder.getOriginalText().subSequence(builder.getCurrentOffset(), builder.getOriginalText().length())))));
+    public void catchUpWithScanner() {
+        while (builderTokensBehind > 0) {
+            builder.advanceLexer();
+            builderTokensBehind--;
         }
+    }
 
-        this.peekMode = newPeekMode;
+    public boolean isPeekMode() {
+        return peekMode;
+    }
+
+    public void setPeekMode(boolean peekMode) {
+        this.peekMode = peekMode;
+    }
+
+    public PsiBuilder.Marker getMarker() {
+        PsiBuilder.Marker marker = builder.mark();
+        // catchUpWithScanner();
+        return marker;
     }
 }

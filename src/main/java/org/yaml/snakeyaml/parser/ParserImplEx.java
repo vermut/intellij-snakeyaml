@@ -15,7 +15,8 @@
  */
 package org.yaml.snakeyaml.parser;
 
-import lv.kid.vermut.intellij.yaml.parser.PsiBuilderAdapter;
+import com.intellij.lang.PsiBuilder;
+import lv.kid.vermut.intellij.ansible.parser.PsiBuilderToScannerAdapter;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -87,13 +88,9 @@ import java.util.Map;
  * flow_sequence_entry: { ALIAS ANCHOR TAG SCALAR FLOW-SEQUENCE-START FLOW-MAPPING-START KEY }
  * flow_mapping_entry: { ALIAS ANCHOR TAG SCALAR FLOW-SEQUENCE-START FLOW-MAPPING-START KEY }
  * </pre>
- * <p/>
+ *
  * Since writing a recursive-descendant parser is a straightforward task, we do
  * not give many comments here.
- * <p/>
- * This the same ParserImpl from SnakeYaml, but with modifications
- * 1. Allow to set Scanner
- * 2. peekEvent does not advance scanner's position
  */
 public final class ParserImplEx implements Parser {
     private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
@@ -103,28 +100,31 @@ public final class ParserImplEx implements Parser {
         DEFAULT_TAGS.put("!!", Tag.PREFIX);
     }
 
-    private final PsiBuilderAdapter scanner;
-    //  private Event currentEvent;
+    private final PsiBuilderToScannerAdapter scanner;
     private final ArrayStack<Production> states;
     private final ArrayStack<Mark> marks;
+    private Event currentEvent;
     private Production state;
     private VersionTagsTuple directives;
-    private boolean peekMode = false;
 
-    public ParserImplEx(PsiBuilderAdapter scanner) {
+    public ParserImplEx(PsiBuilderToScannerAdapter scanner) {
         this.scanner = scanner;
-        //   currentEvent = null;
+        currentEvent = null;
         directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));
         states = new ArrayStack<Production>(100);
         marks = new ArrayStack<Mark>(10);
         state = new ParseStreamStart();
     }
 
+    public PsiBuilder.Marker getMarker() {
+        return scanner.getMarker();
+    }
+
     /**
-     * Check the type of the next event.
+     * Check the type of the next event w/o altering builder position
      */
     public boolean checkEvent(Event.ID choices) {
-        Event currentEvent = peekEvent();
+        peekEvent();
         if (currentEvent != null) {
             if (currentEvent.is(choices)) {
                 return true;
@@ -137,17 +137,14 @@ public final class ParserImplEx implements Parser {
      * Get the next event.
      */
     public Event peekEvent() {
-        Event currentEvent = null;
-        if (state != null) {
-            scanner.setPeekMode(true);
-            peekMode = true;
+        if (currentEvent == null) {
+            if (state != null) {
+                scanner.setPeekMode(true);
+                currentEvent = state.produce();
+                scanner.setPeekMode(false);
 
-            currentEvent = state.produce();
-
-            scanner.setPeekMode(false);
-            peekMode = false;
+            }
         }
-
         return currentEvent;
     }
 
@@ -155,11 +152,11 @@ public final class ParserImplEx implements Parser {
      * Get the next event and proceed further.
      */
     public Event getEvent() {
-        Event currentEvent = null;
-        if (state != null) {
-            currentEvent = state.produce();
-        }
-        return currentEvent;
+        peekEvent();
+        scanner.catchUpWithScanner();
+        Event value = currentEvent;
+        currentEvent = null;
+        return value;
     }
 
     @SuppressWarnings("unchecked")
