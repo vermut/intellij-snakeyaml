@@ -55,7 +55,8 @@
         <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
         <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
         <!--<lang.findUsagesProvider language="yaml" implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>-->
-        <documentationProvider implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
+        <documentationProvider
+                implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
 
     </extensions>
 </idea-plugin>

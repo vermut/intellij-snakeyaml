@@ -1,15 +1,15 @@
 NeonFile:13.yml
   PsiElement([YAML Token] StreamStart)('# errors\n')
-  Neon entity
-    Neon key-val pair
-      Neon key
+  Yaml entity
+    Yaml key-val pair
+      Yaml key
         PsiElement([YAML Token] Scalar)('a')
-      NeonPsiElementImpl([Neon] Compound value)
-        Neon entity
+      NeonPsiElementImpl([Yaml] Compound value)
+        Yaml entity
           PsiElement([YAML Token] Value)(':\n    ')
-          Neon key-val pair
-            Neon key
+          Yaml key-val pair
+            Yaml key
               PsiElement([YAML Token] Scalar)('foo')
-            NeonPsiElementImpl([Neon] Compound value)
+            NeonPsiElementImpl([Yaml] Compound value)
               PsiElement([YAML Token] Value)(': ')
               PsiElement([YAML Token] Scalar)('Bar( Baz ]')

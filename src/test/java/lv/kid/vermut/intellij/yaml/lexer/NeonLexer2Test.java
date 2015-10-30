@@ -2,7 +2,6 @@ package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.testFramework.UsefulTestCase;
-import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
 import org.junit.Test;
 
 /**

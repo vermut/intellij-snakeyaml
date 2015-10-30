@@ -1,4 +1,4 @@
-package cz.juzna.intellij.neon.editor;
+package lv.kid.vermut.intellij.yaml.editor;
 
 
 import com.intellij.lexer.Lexer;
@@ -8,15 +8,15 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import cz.juzna.intellij.neon.lexer.NeonHighlightingLexer;
-import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
+import lv.kid.vermut.intellij.yaml.lexer.NeonHighlightingLexer;
+import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static cz.juzna.intellij.neon.lexer.NeonTokenTypes.*;
-import static cz.juzna.intellij.neon.parser.NeonElementTypes.JINJA;
+import static lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes.*;
+import static lv.kid.vermut.intellij.yaml.parser.NeonElementTypes.JINJA;
 
 public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 

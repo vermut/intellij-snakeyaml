@@ -1,9 +1,9 @@
 NeonFile:12.yml
   PsiElement([YAML Token] StreamStart)('# errors\n')
-  Neon entity
-    Neon key-val pair
-      Neon key
+  Yaml entity
+    Yaml key-val pair
+      Yaml key
         PsiElement([YAML Token] Scalar)('a')
-      NeonPsiElementImpl([Neon] Compound value)
+      NeonPsiElementImpl([Yaml] Compound value)
         PsiElement([YAML Token] Value)(':\n    ')
         PsiElement([YAML Token] Scalar)('abc:error')

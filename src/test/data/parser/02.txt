@@ -1,37 +1,37 @@
 NeonFile:02.yml
   PsiElement([YAML Token] StreamStart)('# mixing array/hash\n')
-  Neon entity
-    Neon key-val pair
-      Neon key
+  Yaml entity
+    Yaml key-val pair
+      Yaml key
         PsiElement([YAML Token] Scalar)('services')
-      NeonPsiElementImpl([Neon] Compound value)
+      NeonPsiElementImpl([Yaml] Compound value)
         PsiElement([YAML Token] Value)(':\n  ')
         PsiElement([YAML Token] BlockEntry)('- ')
         PsiElement([YAML Token] Scalar)('Mailer\n  ')
         PsiElement([YAML Token] BlockEntry)('- ')
         PsiElement([YAML Token] Scalar)('SuperMailer\n')
-    Neon key-val pair
-      Neon key
+    Yaml key-val pair
+      Yaml key
         PsiElement([YAML Token] Scalar)('services2')
-      NeonPsiElementImpl([Neon] Compound value)
+      NeonPsiElementImpl([Yaml] Compound value)
         PsiElement([YAML Token] Value)(':\n  ')
         PsiElement([YAML Token] BlockEntry)('- ')
         PsiElement([YAML Token] Scalar)('Mailer\n  ')
         PsiElement([YAML Token] BlockEntry)('- ')
         PsiElement([YAML Token] Scalar)('SuperMailer\n')
-    Neon key-val pair
-      Neon key
+    Yaml key-val pair
+      Yaml key
         PsiElement([YAML Token] Scalar)('services3')
-      NeonPsiElementImpl([Neon] Compound value)
+      NeonPsiElementImpl([Yaml] Compound value)
         PsiElement([YAML Token] Value)(':\n  ')
         PsiElement([YAML Token] BlockEntry)('- ')
         PsiElement([YAML Token] Scalar)('just\n  ')
-        Neon entity
+        Yaml entity
           PsiElement([YAML Token] BlockEntry)('- ')
-          Neon key-val pair
-            Neon key
+          Yaml key-val pair
+            Yaml key
               PsiElement([YAML Token] Scalar)('services4')
-            NeonPsiElementImpl([Neon] Compound value)
+            NeonPsiElementImpl([Yaml] Compound value)
               PsiElement([YAML Token] Value)(':\n    ')
               PsiElement([YAML Token] BlockEntry)('- ')
               PsiElement([YAML Token] Scalar)('Mailer\n    ')

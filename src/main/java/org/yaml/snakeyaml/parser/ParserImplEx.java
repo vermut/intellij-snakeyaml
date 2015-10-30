@@ -16,7 +16,7 @@
 package org.yaml.snakeyaml.parser;
 
 import com.intellij.lang.PsiBuilder;
-import lv.kid.vermut.intellij.ansible.parser.PsiBuilderToScannerAdapter;
+import lv.kid.vermut.intellij.yaml.parser.PsiBuilderToScannerAdapter;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;

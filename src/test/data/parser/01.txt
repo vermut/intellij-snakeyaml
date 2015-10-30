@@ -1,14 +1,14 @@
 NeonFile:01.yml
-  Neon entity
-    Neon key-val pair
-      Neon key
+  Yaml entity
+    Yaml key-val pair
+      Yaml key
         PsiElement([YAML Token] Scalar)('name')
-      NeonPsiElementImpl([Neon] Compound value)
+      NeonPsiElementImpl([Yaml] Compound value)
         PsiElement([YAML Token] Value)(': ')
         PsiElement([YAML Token] Scalar)('Jan\n')
-    Neon key-val pair
-      Neon key
+    Yaml key-val pair
+      Yaml key
         PsiElement([YAML Token] Scalar)('surname')
-      NeonPsiElementImpl([Neon] Compound value)
+      NeonPsiElementImpl([Yaml] Compound value)
         PsiElement([YAML Token] Value)(': ')
         PsiElement([YAML Token] Scalar)('"Dolecek"')
