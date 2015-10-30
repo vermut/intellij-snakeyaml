@@ -18,42 +18,44 @@
         <p>This is a very basic version and needs a lot of polishing. Please help at the
             https://github.com/vermut/intellij-ansible</p>
         ]]></description>
-    <version>0.7.3</version>
+    <version>0.8.0</version>
     <vendor url="https://github.com/vermut/intellij-ansible" email="vermut@kid.lv">Pavel Veretennikov</vendor>
     <idea-version since-build="111.0"/>
     <depends>com.intellij.modules.lang</depends>
 
     <!-- IDEA extensions -->
     <extensions defaultExtensionNs="com.intellij">
-        <fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
-        <colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage"/>
-        <lang.syntaxHighlighterFactory key="yaml"
-                                       implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory"/>
-        <lang.commenter language="yaml" implementationClass="cz.juzna.intellij.neon.NeonCommenter"/>
-        <lang.psiStructureViewFactory language="yaml"
-                                      implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory"/>
+        <fileTypeFactory implementation="lv.kid.vermut.intellij.yaml.file.YamlFileTypeFactory"/>
+        <colorSettingsPage implementation="lv.kid.vermut.intellij.yaml.editor.NeonColorsPage"/>
+        <lang.syntaxHighlighterFactory key="yamlEx"
+                                       implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonSyntaxHighlighterFactory"/>
+        <lang.commenter language="yamlEx" implementationClass="lv.kid.vermut.intellij.yaml.YamlCommenter"/>
+        <lang.psiStructureViewFactory language="yamlEx"
+                                      implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonStructureViewFactory"/>
 
         <!-- code settings (indent, tabs?) -->
-        <codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider"/>
+        <codeStyleSettingsProvider implementation="lv.kid.vermut.intellij.yaml.editor.NeonCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider
-                implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider"/>
+                implementation="lv.kid.vermut.intellij.yaml.editor.YamlLanguageCodeStyleSettingsProvider"/>
 
-        <lang.parserDefinition language="yaml"
-                               implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition"/>
-        <lang.fileViewProviderFactory language="yaml"
-                                      implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory"/>
-        <lang.braceMatcher language="yaml" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher"/>
-        <lang.foldingBuilder language="yaml" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder"/>
-        <completion.contributor language="yaml"
-                                implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor"/>
-        <breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider"/>
+        <lang.parserDefinition language="yamlEx"
+                               implementationClass="lv.kid.vermut.intellij.yaml.parser.NeonParserDefinition"/>
+        <lang.fileViewProviderFactory language="yamlEx"
+                                      implementationClass="lv.kid.vermut.intellij.yaml.file.YamlFileViewProviderFactory"/>
+        <lang.braceMatcher language="yamlEx" implementationClass="lv.kid.vermut.intellij.yaml.YamlBraceMatcher"/>
+        <lang.foldingBuilder language="yamlEx"
+                             implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonFoldingBuilder"/>
+        <completion.contributor language="yamlEx"
+                                implementationClass="lv.kid.vermut.intellij.yaml.completion.NeonCompletionContributor"/>
+        <breadcrumbsInfoProvider implementation="lv.kid.vermut.intellij.yaml.editor.NeonBreadcrumbsInfoProvider"/>
 
         <!--references, go-to-->
-        <gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
-        <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
-        <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
-        <!--<lang.findUsagesProvider language="yaml" implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>-->
-        <documentationProvider implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
+        <gotoSymbolContributor implementation="lv.kid.vermut.intellij.yaml.reference.AnsiblePropertiesContributor"/>
+        <gotoClassContributor implementation="lv.kid.vermut.intellij.yaml.reference.AnsibleNamesContributor"/>
+        <psi.referenceContributor implementation="lv.kid.vermut.intellij.yaml.reference.AnsibleReferenceContributor"/>
+        <!--<lang.findUsagesProvider language="yamlEx" implementationClass="AnsibleFindUsagesProvider"/>-->
+        <documentationProvider
+                implementation="lv.kid.vermut.intellij.yaml.reference.AnsibleVariableValuesDocumentationProvider"/>
 
     </extensions>
 </idea-plugin>

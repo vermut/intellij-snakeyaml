@@ -5,7 +5,6 @@ import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.ReflectionUtil;
-import cz.juzna.intellij.neon.parser.NeonElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.parser.ParserImpl;

@@ -11,9 +11,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import cz.juzna.intellij.neon.psi.NeonEntity;
-import cz.juzna.intellij.neon.psi.impl.*;
+import lv.kid.vermut.intellij.yaml.parser.NeonElementTypes;
+import lv.kid.vermut.intellij.yaml.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 
 /**

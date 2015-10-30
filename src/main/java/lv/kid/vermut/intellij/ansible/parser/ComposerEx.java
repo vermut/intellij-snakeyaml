@@ -16,8 +16,7 @@
 package lv.kid.vermut.intellij.ansible.parser;
 
 import com.intellij.lang.PsiBuilder;
-import cz.juzna.intellij.neon.parser.NeonElementTypes;
-import org.yaml.snakeyaml.composer.Composer;
+import lv.kid.vermut.intellij.yaml.parser.NeonElementTypes;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.*;
 import org.yaml.snakeyaml.parser.Parser;
