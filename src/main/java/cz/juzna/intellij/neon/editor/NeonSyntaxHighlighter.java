@@ -9,7 +9,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import cz.juzna.intellij.neon.lexer.NeonHighlightingLexer;
-import cz.juzna.intellij.neon.lexer.NeonLexer;
+import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -84,7 +84,7 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	@NotNull
 	@Override
 	public Lexer getHighlightingLexer() {
-		return new NeonHighlightingLexer(new NeonLexer());
+		return new NeonHighlightingLexer(new YamlLexer());
 	}
 
 	@NotNull

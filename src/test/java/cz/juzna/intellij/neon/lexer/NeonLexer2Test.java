@@ -2,9 +2,8 @@ package cz.juzna.intellij.neon.lexer;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.testFramework.UsefulTestCase;
+import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -58,7 +57,7 @@ public class NeonLexer2Test extends UsefulTestCase {
 	}
 
 	private Lexer createLexer() {
-		return new NeonLexer();
+		return new YamlLexer();
 	}
 
 }

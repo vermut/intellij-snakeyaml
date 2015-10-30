@@ -4,12 +4,11 @@ import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
 import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.TokenSet;
-import cz.juzna.intellij.neon.lexer.NeonLexer;
 import cz.juzna.intellij.neon.lexer.NeonTokenTypes;
 import cz.juzna.intellij.neon.psi.NeonKey;
 import cz.juzna.intellij.neon.psi.NeonKeyValPair;
+import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 public class AnsibleFindUsagesProvider implements FindUsagesProvider {
 
     private static final DefaultWordsScanner WORDS_SCANNER =
-            new DefaultWordsScanner(new NeonLexer(),
+            new DefaultWordsScanner(new YamlLexer(),
                     TokenSet.create(NeonTokenTypes.NEON_LITERAL), TokenSet.create(NeonTokenTypes.NEON_COMMENT), TokenSet.create(NeonTokenTypes.NEON_STRING));
 
     @Nullable

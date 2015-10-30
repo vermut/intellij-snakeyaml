@@ -1,26 +1,15 @@
-NeonFile:13.neon
-  PsiComment([Neon] comment)('# errors')
-  PsiElement([Neon] indent)('\n')
-  Neon array
+NeonFile:13.yml
+  PsiElement([YAML Token] StreamStart)('# errors\n')
+  Neon entity
     Neon key-val pair
       Neon key
-        PsiElement([Neon] literal)('a')
-      PsiElement([Neon] :)(':')
-      PsiElement([Neon] indent)('\n    ')
-      Neon array
-        Neon key-val pair
-          Neon key
-            PsiElement([Neon] literal)('foo')
-          PsiElement([Neon] :)(':')
-          PsiWhiteSpace(' ')
-          Neon entity
-            PsiElement([Neon] literal)('Bar')
-            Neon array
-              PsiElement([Neon] ()('(')
-              PsiWhiteSpace(' ')
-              Neon scalar
-                PsiElement([Neon] literal)('Baz')
-              PsiErrorElement:unexpected token [Neon] ], expected [Neon] )
-                <empty list>
-  PsiWhiteSpace(' ')
-  PsiElement([Neon] ])(']')
+        PsiElement([YAML Token] Scalar)('a')
+      NeonPsiElementImpl([Neon] Compound value)
+        Neon entity
+          PsiElement([YAML Token] Value)(':\n    ')
+          Neon key-val pair
+            Neon key
+              PsiElement([YAML Token] Scalar)('foo')
+            NeonPsiElementImpl([Neon] Compound value)
+              PsiElement([YAML Token] Value)(': ')
+              PsiElement([YAML Token] Scalar)('Bar( Baz ]')

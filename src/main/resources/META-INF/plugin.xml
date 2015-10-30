@@ -26,9 +26,11 @@
     <!-- IDEA extensions -->
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
-        <colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage"/>
-        <lang.syntaxHighlighterFactory key="yaml"
-                                       implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory"/>
+        <!--
+                <colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage"/>
+                <lang.syntaxHighlighterFactory key="yaml"
+                                               implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory"/>
+        -->
         <lang.commenter language="yaml" implementationClass="cz.juzna.intellij.neon.NeonCommenter"/>
         <lang.psiStructureViewFactory language="yaml"
                                       implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory"/>
@@ -43,7 +45,7 @@
         <lang.fileViewProviderFactory language="yaml"
                                       implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory"/>
         <lang.braceMatcher language="yaml" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher"/>
-        <lang.foldingBuilder language="yaml" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder"/>
+        <!--<lang.foldingBuilder language="yaml" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder"/>-->
         <completion.contributor language="yaml"
                                 implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor"/>
         <breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider"/>
