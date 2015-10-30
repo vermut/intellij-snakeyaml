@@ -2,7 +2,6 @@ package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.testFramework.ParsingTestCase;
 import com.intellij.testFramework.PlatformTestCase;
-import lv.kid.vermut.intellij.ansible.parser.YamlParserDefinition;
 import org.junit.Assert;
 import org.junit.Test;
 

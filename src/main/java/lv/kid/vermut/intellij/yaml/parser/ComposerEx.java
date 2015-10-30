@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lv.kid.vermut.intellij.ansible.parser;
+package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.lang.PsiBuilder;
-import lv.kid.vermut.intellij.yaml.parser.NeonElementTypes;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.*;
 import org.yaml.snakeyaml.parser.Parser;

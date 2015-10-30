@@ -1,4 +1,4 @@
-package lv.kid.vermut.intellij.ansible.parser;
+package lv.kid.vermut.intellij.yaml.parser;
 
 
 public class YamlLexer extends ScannerFacade {

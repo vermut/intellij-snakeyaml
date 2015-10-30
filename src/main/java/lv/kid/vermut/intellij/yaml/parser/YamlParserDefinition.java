@@ -1,4 +1,4 @@
-package lv.kid.vermut.intellij.ansible.parser;
+package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -11,7 +11,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import lv.kid.vermut.intellij.yaml.parser.NeonElementTypes;
 import lv.kid.vermut.intellij.yaml.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 

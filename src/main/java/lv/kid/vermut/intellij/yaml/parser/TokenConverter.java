@@ -1,4 +1,4 @@
-package lv.kid.vermut.intellij.ansible.parser;
+package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.psi.tree.IElementType;
 import org.yaml.snakeyaml.tokens.Token;

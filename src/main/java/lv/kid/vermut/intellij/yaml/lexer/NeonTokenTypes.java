@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import lv.kid.vermut.intellij.ansible.parser.YamlTokenType;
+import lv.kid.vermut.intellij.yaml.parser.YamlTokenType;
 
 import java.util.Map;
 

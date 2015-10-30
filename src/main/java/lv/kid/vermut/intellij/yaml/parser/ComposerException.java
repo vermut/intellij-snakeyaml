@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lv.kid.vermut.intellij.ansible.parser;
+package lv.kid.vermut.intellij.yaml.parser;
 
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.MarkedYAMLException;

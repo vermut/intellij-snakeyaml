@@ -7,7 +7,7 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.testFramework.UsefulTestCase;
 import com.sun.tools.javac.util.Pair;
-import lv.kid.vermut.intellij.ansible.parser.YamlLexer;
+import lv.kid.vermut.intellij.yaml.parser.YamlLexer;
 import org.jetbrains.annotations.NonNls;
 import org.junit.Test;
 
