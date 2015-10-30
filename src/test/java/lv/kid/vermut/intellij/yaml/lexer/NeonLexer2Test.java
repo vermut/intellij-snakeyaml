@@ -56,7 +56,7 @@ public class NeonLexer2Test extends UsefulTestCase {
 	}
 
 	private Lexer createLexer() {
-		return new NeonLexer();
+		return new YamlLexer();
 	}
 
 }

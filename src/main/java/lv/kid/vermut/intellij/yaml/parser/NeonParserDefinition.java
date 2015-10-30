@@ -11,8 +11,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import lv.kid.vermut.intellij.yaml.lexer.NeonLexer;
 import lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes;
+import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
 import lv.kid.vermut.intellij.yaml.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,12 +20,12 @@ public class NeonParserDefinition implements ParserDefinition {
 	@NotNull
 	@Override
 	public Lexer createLexer(Project project) {
-		return new NeonLexer();
+		return new YamlLexer();
 	}
 
 	@Override
 	public PsiParser createParser(Project project) {
-		return new NeonParser();
+		return new YamlParser();
 	}
 
 	@Override

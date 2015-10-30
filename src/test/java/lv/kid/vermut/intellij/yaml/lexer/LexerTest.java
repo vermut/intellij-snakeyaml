@@ -7,7 +7,6 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.testFramework.UsefulTestCase;
 import com.sun.tools.javac.util.Pair;
-import lv.kid.vermut.intellij.yaml.parser.YamlLexer;
 import org.jetbrains.annotations.NonNls;
 import org.junit.Test;
 
@@ -67,6 +66,12 @@ public class LexerTest extends UsefulTestCase {
             fail("Not enough tokens from lexer, expected " + expectedTokens.length + " but got only " + idx);
     }
 
+    private static String doLoadFile(String myFullDataPath, String name) throws IOException {
+        String fullName = myFullDataPath + File.separatorChar + name;
+        String text = FileUtil.loadFile(new File(fullName), CharsetToolkit.UTF8);
+        text = StringUtil.convertLineSeparators(text);
+        return text;
+    }
 
     /***
      * tests here
@@ -234,7 +239,6 @@ public class LexerTest extends UsefulTestCase {
         });
     }
 
-
     @Test
     public void testSimple() throws Exception {
         doTest("name: 'Jan'", new Pair[]{
@@ -313,13 +317,6 @@ public class LexerTest extends UsefulTestCase {
         // Match to original
         String lexed = doLoadFile("src/test/data/parser", getTestName(false) + ".lexed");
         assertEquals(lexed, sb.toString());
-    }
-
-    private static String doLoadFile(String myFullDataPath, String name) throws IOException {
-        String fullName = myFullDataPath + File.separatorChar + name;
-        String text = FileUtil.loadFile(new File(fullName), CharsetToolkit.UTF8);
-        text = StringUtil.convertLineSeparators(text);
-        return text;
     }
 
 }

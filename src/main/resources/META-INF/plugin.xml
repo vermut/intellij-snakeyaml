@@ -18,7 +18,7 @@
         <p>This is a very basic version and needs a lot of polishing. Please help at the
             https://github.com/vermut/intellij-ansible</p>
         ]]></description>
-    <version>0.8.0</version>
+    <version>1.0.0</version>
     <vendor url="https://github.com/vermut/intellij-ansible" email="vermut@kid.lv">Pavel Veretennikov</vendor>
     <idea-version since-build="111.0"/>
     <depends>com.intellij.modules.lang</depends>
@@ -26,9 +26,11 @@
     <!-- IDEA extensions -->
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="lv.kid.vermut.intellij.yaml.file.YamlFileTypeFactory"/>
-        <colorSettingsPage implementation="lv.kid.vermut.intellij.yaml.editor.NeonColorsPage"/>
-        <lang.syntaxHighlighterFactory key="yamlEx"
-                                       implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonSyntaxHighlighterFactory"/>
+        <!--        <colorSettingsPage implementation="lv.kid.vermut.intellij.yaml.editor.NeonColorsPage"/>-->
+        <!--
+                <lang.syntaxHighlighterFactory key="yamlEx"
+                                               implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonSyntaxHighlighterFactory"/>
+        -->
         <lang.commenter language="yamlEx" implementationClass="lv.kid.vermut.intellij.yaml.YamlCommenter"/>
         <lang.psiStructureViewFactory language="yamlEx"
                                       implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonStructureViewFactory"/>

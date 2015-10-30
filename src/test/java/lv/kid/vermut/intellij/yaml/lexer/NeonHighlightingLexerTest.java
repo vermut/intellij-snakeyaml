@@ -11,7 +11,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 
 	@Test
 	public void testKeys() {
-		Lexer l = new NeonHighlightingLexer(new NeonLexer());
+		Lexer l = new NeonHighlightingLexer(new YamlLexer());
 		l.start("key: val");
 
 		assertEquals(NeonTokenTypes.NEON_KEY, l.getTokenType()); // this is important
@@ -43,7 +43,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 
 	@Test
 	public void testKeywords() {
-		Lexer l = new NeonHighlightingLexer(new NeonLexer());
+		Lexer l = new NeonHighlightingLexer(new YamlLexer());
 		l.start("[true,off,TruE,\"true\"]");
 
 		assertEquals(NeonTokenTypes.NEON_LBRACE_SQUARE, l.getTokenType()); // this is important
