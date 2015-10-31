@@ -4,6 +4,7 @@ import com.intellij.lexer.Lexer;
 import com.intellij.lexer.LexerPosition;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.text.CharSequenceReader;
+import lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
@@ -39,7 +40,7 @@ public class ScannerFacade extends Lexer {
     public IElementType getTokenType() {
         if (myToken == null)
             return null;
-        return TokenConverter.getIElementType(myToken.getTokenId());
+        return YamlTokenTypes.getIElementType(myToken.getTokenId());
     }
 
     @Override

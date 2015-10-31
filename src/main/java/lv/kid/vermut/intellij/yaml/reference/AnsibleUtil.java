@@ -10,10 +10,10 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.indexing.FileBasedIndex;
 import lv.kid.vermut.intellij.yaml.file.YamlFileType;
-import lv.kid.vermut.intellij.yaml.psi.NeonFile;
 import lv.kid.vermut.intellij.yaml.psi.NeonKey;
 import lv.kid.vermut.intellij.yaml.psi.NeonKeyValPair;
 import lv.kid.vermut.intellij.yaml.psi.NeonValue;
+import lv.kid.vermut.intellij.yaml.psi.YamlFile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -95,7 +95,7 @@ public class AnsibleUtil {
         Collection<VirtualFile> virtualFiles = FileBasedIndex.getInstance().getContainingFiles(FileTypeIndex.NAME, YamlFileType.INSTANCE,
                 GlobalSearchScope.allScope(project));
         for (VirtualFile virtualFile : virtualFiles) {
-            NeonFile yamlFile = (NeonFile) PsiManager.getInstance(project).findFile(virtualFile);
+            YamlFile yamlFile = (YamlFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (yamlFile != null) {
                 Collection<NeonKeyValPair> properties = PsiTreeUtil.findChildrenOfType(yamlFile, NeonKeyValPair.class);
                 if (!properties.isEmpty()) {

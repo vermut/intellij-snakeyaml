@@ -12,7 +12,10 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
-import lv.kid.vermut.intellij.yaml.psi.impl.*;
+import lv.kid.vermut.intellij.yaml.psi.impl.YamlFileImpl;
+import lv.kid.vermut.intellij.yaml.psi.impl.YamlMappingImpl;
+import lv.kid.vermut.intellij.yaml.psi.impl.YamlScalarImpl;
+import lv.kid.vermut.intellij.yaml.psi.impl.YamlSequenceImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -58,25 +61,16 @@ public class YamlParserDefinition implements ParserDefinition {
     public PsiElement createElement(ASTNode node) {
         IElementType type = node.getElementType();
 
-        if (type == NeonElementTypes.KEY_VALUE_PAIR) return new NeonKeyValPairImpl(node);
-        else if (type == NeonElementTypes.KEY) return new NeonKeyImpl(node);
-        else if (type == NeonElementTypes.COMPOUND_VALUE) return new NeonPsiElementImpl(node);
-        else if (type == NeonElementTypes.SCALAR_VALUE) return new NeonScalarImpl(node);
-        else if (type == NeonElementTypes.HASH) return new NeonEntityImpl(node);
-        else if (type == NeonElementTypes.SEQUENCE) return new NeonArrayImpl(node);
-        else if (type == NeonElementTypes.ENTITY) return new NeonSectionImpl(node);
-
-        else if (type == NeonElementTypes.JINJA) return new NeonJinjaImpl(node);
-        else if (type == NeonElementTypes.REFERENCE) return new NeonReferenceImpl(node);
-        else if (type == NeonElementTypes.ARGS) return new NeonArrayImpl(node); // FIXME: will it work?
+        if (type == YamlNodes.YAML_ScalarNode) return new YamlScalarImpl(node);
+        else if (type == YamlNodes.YAML_SequenceNode) return new YamlSequenceImpl(node);
+        else if (type == YamlNodes.YAML_MappingNode) return new YamlMappingImpl(node);
 
         else throw new RuntimeException();
-        // return new NeonPsiElementImpl(node);
     }
 
     @Override
     public PsiFile createFile(FileViewProvider viewProvider) {
-        return new NeonFileImpl(viewProvider);
+        return new YamlFileImpl(viewProvider);
     }
 
     @Override

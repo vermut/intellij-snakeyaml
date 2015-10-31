@@ -1,27 +1,22 @@
 package lv.kid.vermut.intellij.yaml.psi.impl;
 
 import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.lang.ASTNode;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
-import com.intellij.psi.tree.TokenSet;
 import lv.kid.vermut.intellij.yaml.YamlLanguage;
 import lv.kid.vermut.intellij.yaml.editor.NeonStructureViewElement;
 import lv.kid.vermut.intellij.yaml.file.YamlFileType;
-import lv.kid.vermut.intellij.yaml.parser.NeonElementTypes;
-import lv.kid.vermut.intellij.yaml.psi.NeonFile;
-import lv.kid.vermut.intellij.yaml.psi.NeonSection;
+import lv.kid.vermut.intellij.yaml.psi.YamlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.HashMap;
 
-public class NeonFileImpl extends PsiFileBase implements NeonFile {
-    public NeonFileImpl(FileViewProvider viewProvider) {
+public class YamlFileImpl extends PsiFileBase implements YamlFile {
+    public YamlFileImpl(FileViewProvider viewProvider) {
         super(viewProvider, YamlLanguage.INSTANCE);
     }
 
@@ -33,18 +28,7 @@ public class NeonFileImpl extends PsiFileBase implements NeonFile {
 
     @Override
     public String toString() {
-        return "NeonFile:" + getName();
-    }
-
-    public HashMap<String, NeonSection> getSections() {
-        HashMap<String, NeonSection> ret = new HashMap<String, NeonSection>();
-
-        for (ASTNode node : getNode().getChildren(TokenSet.create(NeonElementTypes.KEY_VALUE_PAIR))) {
-            NeonSection section = (NeonSection) node.getPsi();
-            ret.put(section.getKeyText(), section);
-        }
-
-        return ret;
+        return "YamlFile:" + getName();
     }
 
     @NotNull

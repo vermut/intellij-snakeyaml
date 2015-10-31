@@ -4,6 +4,10 @@ import com.intellij.testFramework.ParsingTestCase;
 import com.intellij.testFramework.PlatformTestCase;
 import org.junit.Assert;
 import org.junit.Test;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 public class ParserTest extends ParsingTestCase {
 
@@ -18,6 +22,13 @@ public class ParserTest extends ParsingTestCase {
     }
 
     protected void doTest(boolean checkResult, boolean suppressErrors) {
+        Yaml yaml = new Yaml();
+        try {
+            yaml.compose(new StringReader(loadFile(getTestName(true) + "." + myFileExt)));
+        } catch (IOException ignored) {
+
+        }
+
         doTest(true);
         if (!suppressErrors) {
             Assert.assertFalse(

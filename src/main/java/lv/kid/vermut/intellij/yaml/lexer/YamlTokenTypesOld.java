@@ -13,7 +13,8 @@ import java.util.Map;
  *
  * @author Jan Dolecek - juzna.cz@gmail.com
  */
-public interface NeonTokenTypes
+@Deprecated
+public interface YamlTokenTypesOld
 {
 	IElementType NEON_STRING = new YamlTokenType("string");
 	IElementType NEON_SYMBOL = new YamlTokenType("symbol"); // use a symbol or brace instead (see below)
@@ -21,8 +22,8 @@ public interface NeonTokenTypes
 	IElementType NEON_INDENT = new YamlTokenType("indent");
 	IElementType NEON_LITERAL = new YamlTokenType("literal");
 	IElementType NEON_KEYWORD = new YamlTokenType("keyword");
-	IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE; // new YamlTokenType("whitespace");
-	IElementType NEON_UNKNOWN = TokenType.BAD_CHARACTER; // new YamlTokenType("error");
+	IElementType NEON_WHITESPACE = TokenType.WHITE_SPACE;
+	IElementType NEON_UNKNOWN = TokenType.BAD_CHARACTER;
 
 	IElementType NEON_TAG = new YamlTokenType("tag");
 	IElementType NEON_HEADER = new YamlTokenType("header");

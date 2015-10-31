@@ -3,11 +3,12 @@ package lv.kid.vermut.intellij.yaml.parser;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import lv.kid.vermut.intellij.yaml.YamlLanguage;
-import lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes;
+import lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypesOld;
 
 /**
  * Types of elements returned from parser
  */
+@Deprecated
 public interface NeonElementTypes {
     public static final IFileElementType FILE = new IFileElementType(YamlLanguage.INSTANCE);
 
@@ -27,12 +28,12 @@ public interface NeonElementTypes {
     public static final NeonElementType REFERENCE = new NeonElementType("Reference");
 
     public static final TokenSet SCALAR_VALUES = TokenSet.create(
-            NeonTokenTypes.NEON_STRING,
-            NeonTokenTypes.NEON_NUMBER,
-            NeonTokenTypes.NEON_REFERENCE,
-            NeonTokenTypes.NEON_IDENTIFIER,
-            NeonTokenTypes.NEON_LITERAL,
-            NeonTokenTypes.NEON_VARIABLE,
-            NeonTokenTypes.NEON_DOUBLE_COLON, NeonTokenTypes.NEON_DOLLAR, NeonTokenTypes.NEON_AT
+            YamlTokenTypesOld.NEON_STRING,
+            YamlTokenTypesOld.NEON_NUMBER,
+            YamlTokenTypesOld.NEON_REFERENCE,
+            YamlTokenTypesOld.NEON_IDENTIFIER,
+            YamlTokenTypesOld.NEON_LITERAL,
+            YamlTokenTypesOld.NEON_VARIABLE,
+            YamlTokenTypesOld.NEON_DOUBLE_COLON, YamlTokenTypesOld.NEON_DOLLAR, YamlTokenTypesOld.NEON_AT
     );
 }

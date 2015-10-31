@@ -16,7 +16,7 @@
 package org.yaml.snakeyaml.parser;
 
 import com.intellij.lang.PsiBuilder;
-import lv.kid.vermut.intellij.yaml.parser.NeonElementTypes;
+import lv.kid.vermut.intellij.yaml.parser.YamlNodes;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.*;
 import org.yaml.snakeyaml.resolver.Resolver;
@@ -152,7 +152,7 @@ public class ComposerEx {
     }
 
     protected Node composeScalarNode(String anchor) {
-        // PsiBuilder.Marker mark = getMarker();
+        PsiBuilder.Marker mark = parser.getMarker();
 
         ScalarEvent ev = (ScalarEvent) parser.getEvent();
         String tag = ev.getTag();
@@ -171,12 +171,12 @@ public class ComposerEx {
             anchors.put(anchor, node);
         }
 
-        // mark.done(NeonElementTypes.SCALAR_VALUE);
+        mark.done(YamlNodes.YAML_ScalarNode);
         return node;
     }
 
     protected Node composeSequenceNode(String anchor) {
-//        PsiBuilder.Marker mark = getMarker();
+        PsiBuilder.Marker mark = parser.getMarker();
 
         SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
         String tag = startEvent.getTag();
@@ -200,7 +200,7 @@ public class ComposerEx {
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
 
-//        mark.done(NeonElementTypes.SEQUENCE);
+        mark.done(YamlNodes.YAML_SequenceNode);
         return node;
     }
 
@@ -225,26 +225,26 @@ public class ComposerEx {
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(Event.ID.MappingEnd)) {
-            PsiBuilder.Marker keyPair = parser.getMarker();
+            //OLDA PsiBuilder.Marker keyPair = parser.getMarker();
 
-            PsiBuilder.Marker key = parser.getMarker();
+            //OLDA PsiBuilder.Marker key = parser.getMarker();
             Node itemKey = composeNode(node);
             if (itemKey.getTag().equals(Tag.MERGE)) {
                 node.setMerged(true);
             }
-            key.done(NeonElementTypes.KEY);
+            //OLDA key.done(NeonElementTypes.KEY);
 
-            PsiBuilder.Marker value = parser.getMarker();
+            //OLDA PsiBuilder.Marker value = parser.getMarker();
             Node itemValue = composeNode(node);
-            value.done(NeonElementTypes.COMPOUND_VALUE);
+            //OLDA value.done(NeonElementTypes.COMPOUND_VALUE);
 
             children.add(new NodeTuple(itemKey, itemValue));
-            keyPair.done(NeonElementTypes.KEY_VALUE_PAIR);
+            //OLDA keyPair.done(NeonElementTypes.KEY_VALUE_PAIR);
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
 
-        mark.done(NeonElementTypes.HASH);
+        mark.done(YamlNodes.YAML_MappingNode);
         return node;
     }
 }

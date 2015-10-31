@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import static lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes.*;
+import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypesOld.*;
 import static lv.kid.vermut.intellij.yaml.parser.NeonElementTypes.JINJA;
 
 public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {

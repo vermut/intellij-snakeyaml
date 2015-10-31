@@ -4,14 +4,14 @@ import com.intellij.lang.BracePair;
 import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
-import lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes;
+import lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypesOld;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Matches starting-closing braces in neon
  */
-public class YamlBraceMatcher implements PairedBraceMatcher, NeonTokenTypes {
+public class YamlBraceMatcher implements PairedBraceMatcher, YamlTokenTypesOld {
 	private static final BracePair[] PAIRS = {
 			new BracePair(NEON_LBRACE_JINJA, NEON_RBRACE_JINJA, true), // {{ }}
 			new BracePair(NEON_LPAREN, NEON_RPAREN, true),              // ()

@@ -7,7 +7,7 @@ import com.intellij.ide.structureView.TreeBasedStructureViewBuilder;
 import com.intellij.lang.PsiStructureViewFactory;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
-import lv.kid.vermut.intellij.yaml.psi.NeonFile;
+import lv.kid.vermut.intellij.yaml.psi.YamlFile;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class NeonStructureViewFactory implements PsiStructureViewFactory {
 	@Override
 	public StructureViewBuilder getStructureViewBuilder(final PsiFile file) {
-		if ( ! (file instanceof NeonFile)) return null;
+		if (!(file instanceof YamlFile)) return null;
 
 		return new TreeBasedStructureViewBuilder() {
 			@NotNull

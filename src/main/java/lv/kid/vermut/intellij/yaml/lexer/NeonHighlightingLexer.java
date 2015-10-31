@@ -31,20 +31,20 @@ public class NeonHighlightingLexer extends LookAheadLexer {
 	protected void lookAhead(Lexer baseLexer) {
 		IElementType currentToken = baseLexer.getTokenType();
 
-		if (currentToken == NeonTokenTypes.NEON_LITERAL && KEYWORDS.contains(baseLexer.getTokenText())) {
+		if (currentToken == YamlTokenTypesOld.NEON_LITERAL && KEYWORDS.contains(baseLexer.getTokenText())) {
 			advanceLexer(baseLexer);
-			replaceCachedType(0, NeonTokenTypes.NEON_KEYWORD);
+			replaceCachedType(0, YamlTokenTypesOld.NEON_KEYWORD);
 
-		} else if (currentToken == NeonTokenTypes.NEON_LITERAL || currentToken == NeonTokenTypes.NEON_STRING) {
+		} else if (currentToken == YamlTokenTypesOld.NEON_LITERAL || currentToken == YamlTokenTypesOld.NEON_STRING) {
 			advanceLexer(baseLexer);
 
-			if (baseLexer.getTokenType() == NeonTokenTypes.NEON_WHITESPACE) {
+			if (baseLexer.getTokenType() == YamlTokenTypesOld.NEON_WHITESPACE) {
 				advanceLexer(baseLexer);
 			}
 
-			if (baseLexer.getTokenType() == NeonTokenTypes.NEON_COLON) {
+			if (baseLexer.getTokenType() == YamlTokenTypesOld.NEON_COLON) {
 				advanceLexer(baseLexer);
-				replaceCachedType(0, NeonTokenTypes.NEON_KEY);
+				replaceCachedType(0, YamlTokenTypesOld.NEON_KEY);
 			}
 
 		} else {

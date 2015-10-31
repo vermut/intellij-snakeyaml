@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-import static lv.kid.vermut.intellij.yaml.lexer.NeonTokenTypes.*;
+import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypesOld.*;
 
 /**
  *

@@ -29,7 +29,7 @@ public class NeonStructureViewElement extends PsiTreeElementBase<PsiElement> {
 		List<StructureViewTreeElement> elements = new ArrayList<StructureViewTreeElement>();
 		PsiElement element = getElement();
 
-		if (element instanceof NeonFile) {
+		if (element instanceof YamlFile) {
 			if (element.getChildren().length == 1 && element.getChildren()[0] instanceof NeonArray) { // top level array -> show it's elements
 				addArrayElements(elements, element.getChildren()[0]);
 
@@ -58,8 +58,8 @@ public class NeonStructureViewElement extends PsiTreeElementBase<PsiElement> {
 	@Nullable
 	public String getPresentableText() {
 		PsiElement element = getElement();
-		if (element instanceof NeonFile) {
-			return ((NeonFile) element).getName();
+		if (element instanceof YamlFile) {
+			return ((YamlFile) element).getName();
 
 		} else if (element instanceof NeonArray) {
 			return "array";
