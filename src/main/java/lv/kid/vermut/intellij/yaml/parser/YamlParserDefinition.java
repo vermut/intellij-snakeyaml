@@ -1,5 +1,6 @@
 package lv.kid.vermut.intellij.yaml.parser;
 
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -65,7 +66,8 @@ public class YamlParserDefinition implements ParserDefinition {
         else if (type == YamlNodes.YAML_SequenceNode) return new YamlSequenceImpl(node);
         else if (type == YamlNodes.YAML_MappingNode) return new YamlMappingImpl(node);
 
-        else throw new RuntimeException();
+        return new ASTWrapperPsiElement(node);
+        // else throw new RuntimeException();
     }
 
     @Override

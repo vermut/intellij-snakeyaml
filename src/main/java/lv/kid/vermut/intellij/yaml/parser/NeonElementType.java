@@ -5,6 +5,7 @@ import lv.kid.vermut.intellij.yaml.YamlLanguage;
 import org.jetbrains.annotations.NotNull;
 
 
+@Deprecated
 public class NeonElementType extends IElementType {
 	public NeonElementType(@NotNull String debugName) {
 		super(debugName, YamlLanguage.INSTANCE);

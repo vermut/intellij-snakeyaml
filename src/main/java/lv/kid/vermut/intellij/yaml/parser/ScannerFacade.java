@@ -82,19 +82,4 @@ public class ScannerFacade extends Lexer {
     public int getBufferEnd() {
         return myEnd;
     }
-
-    protected void locffateToken() {
-
-        try {
-            myToken = myScanner.peekToken();
-            //myState = .yystate();
-            myToken = myScanner.getToken();
-            System.out.println("myToken = " + myToken);
-        } catch (Error e) {
-            // add lexer class name to the error
-            final Error error = new Error(myScanner.getClass().getName() + ": " + e.getMessage());
-            error.setStackTrace(e.getStackTrace());
-            throw error;
-        }
-    }
 }

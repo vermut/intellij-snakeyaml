@@ -8,11 +8,9 @@ import org.yaml.snakeyaml.tokens.Token;
  * Created by VermutMac on 10/31/2015.
  */
 public class YamlTokenFacade extends IElementType {
-    // private final Token.ID token;
 
     public YamlTokenFacade(Token.ID token) {
         super("[YAML Token] " + token.name(), YamlLanguage.INSTANCE);
-        // this.token = token;
     }
 
 }

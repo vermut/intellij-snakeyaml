@@ -57,8 +57,6 @@ public class PsiBuilderToScannerAdapter implements Scanner {
     }
 
     public PsiBuilder.Marker getMarker() {
-        PsiBuilder.Marker marker = builder.mark();
-        // catchUpWithScanner();
-        return marker;
+        return builder.mark();
     }
 }

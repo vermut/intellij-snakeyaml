@@ -225,21 +225,21 @@ public class ComposerEx {
             anchors.put(anchor, node);
         }
         while (!parser.checkEvent(Event.ID.MappingEnd)) {
-            //OLDA PsiBuilder.Marker keyPair = parser.getMarker();
+            PsiBuilder.Marker keyPair = parser.getMarker();
 
-            //OLDA PsiBuilder.Marker key = parser.getMarker();
+            PsiBuilder.Marker key = parser.getMarker();
             Node itemKey = composeNode(node);
             if (itemKey.getTag().equals(Tag.MERGE)) {
                 node.setMerged(true);
             }
-            //OLDA key.done(NeonElementTypes.KEY);
+            key.done(YamlNodes.YAML_KeyNode);
 
-            //OLDA PsiBuilder.Marker value = parser.getMarker();
+            PsiBuilder.Marker value = parser.getMarker();
             Node itemValue = composeNode(node);
-            //OLDA value.done(NeonElementTypes.COMPOUND_VALUE);
+            value.done(YamlNodes.YAML_ValueNode);
 
             children.add(new NodeTuple(itemKey, itemValue));
-            //OLDA keyPair.done(NeonElementTypes.KEY_VALUE_PAIR);
+            keyPair.done(YamlNodes.YAML_NodeTuple);
         }
         Event endEvent = parser.getEvent();
         node.setEndMark(endEvent.getEndMark());
