@@ -1,62 +1,40 @@
 <idea-plugin version="2">
     <!-- Plugin info -->
-    <name>YAML/Ansible support</name>
+    <name>SnakeYAML plugin</name>
     <description><![CDATA[
-        <p>YAML/Ansible support with Jinja2 tags</p>
-        <p>Based on NEON by juzna.cz</p>
+        <p>Support for YAML files</p>
+        <p>Powered by SnakeYAML</p>
         <br/>
-        <b>Provides:</b>
-        <ul>
-            <li>Index of all roles in Goto Class...</li>
-            <li>Index of all properties in Goto Symbol...</li>
-            <li>Reference Jinja2 variable declaration</li>
-            <li>Reference to role declaraion</li>
-            <li>Various completions</li>
-            <li>Documentation lookup</li>
-        </ul>
-        <br/>
-        <p>This is a very basic version and needs a lot of polishing. Please help at the
-            https://github.com/vermut/intellij-ansible</p>
+        <p>Complies to YAML 1.1 specification</p>
         ]]></description>
-    <version>0.7.3</version>
+    <version>1.15.0</version>
     <vendor url="https://github.com/vermut/intellij-ansible" email="vermut@kid.lv">Pavel Veretennikov</vendor>
     <idea-version since-build="111.0"/>
     <depends>com.intellij.modules.lang</depends>
 
     <!-- IDEA extensions -->
     <extensions defaultExtensionNs="com.intellij">
-        <fileTypeFactory implementation="cz.juzna.intellij.neon.file.NeonFileTypeFactory"/>
-        <!--
-                <colorSettingsPage implementation="cz.juzna.intellij.neon.editor.NeonColorsPage"/>
-                <lang.syntaxHighlighterFactory key="yaml"
-                                               implementationClass="cz.juzna.intellij.neon.editor.NeonSyntaxHighlighterFactory"/>
-        -->
-        <lang.commenter language="yaml" implementationClass="cz.juzna.intellij.neon.NeonCommenter"/>
-        <lang.psiStructureViewFactory language="yaml"
-                                      implementationClass="cz.juzna.intellij.neon.editor.NeonStructureViewFactory"/>
+        <fileTypeFactory implementation="lv.kid.vermut.intellij.yaml.file.YamlFileTypeFactory"/>
+        <colorSettingsPage implementation="lv.kid.vermut.intellij.yaml.editor.YamlColorsPage"/>
+        <lang.syntaxHighlighterFactory key="snakeyaml"
+                                       implementationClass="lv.kid.vermut.intellij.yaml.editor.YamlSyntaxHighlighterFactory"/>
+        <lang.commenter language="snakeyaml" implementationClass="lv.kid.vermut.intellij.yaml.YamlCommenter"/>
+        <lang.psiStructureViewFactory language="snakeyaml"
+                                      implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonStructureViewFactory"/>
 
         <!-- code settings (indent, tabs?) -->
-        <codeStyleSettingsProvider implementation="cz.juzna.intellij.neon.editor.NeonCodeStyleSettingsProvider"/>
+        <codeStyleSettingsProvider implementation="lv.kid.vermut.intellij.yaml.editor.NeonCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider
-                implementation="cz.juzna.intellij.neon.editor.NeonLanguageCodeStyleSettingsProvider"/>
+                implementation="lv.kid.vermut.intellij.yaml.editor.YamlLanguageCodeStyleSettingsProvider"/>
 
-        <lang.parserDefinition language="yaml"
-                               implementationClass="cz.juzna.intellij.neon.parser.NeonParserDefinition"/>
-        <lang.fileViewProviderFactory language="yaml"
-                                      implementationClass="cz.juzna.intellij.neon.file.NeonFileViewProviderFactory"/>
-        <lang.braceMatcher language="yaml" implementationClass="cz.juzna.intellij.neon.NeonBraceMatcher"/>
-        <!--<lang.foldingBuilder language="yaml" implementationClass="cz.juzna.intellij.neon.editor.NeonFoldingBuilder"/>-->
-        <completion.contributor language="yaml"
-                                implementationClass="cz.juzna.intellij.neon.completion.NeonCompletionContributor"/>
-        <breadcrumbsInfoProvider implementation="cz.juzna.intellij.neon.editor.NeonBreadcrumbsInfoProvider"/>
-
-        <!--references, go-to-->
-        <gotoSymbolContributor implementation="cz.juzna.intellij.neon.reference.AnsiblePropertiesContributor"/>
-        <gotoClassContributor implementation="cz.juzna.intellij.neon.reference.AnsibleNamesContributor"/>
-        <psi.referenceContributor implementation="cz.juzna.intellij.neon.reference.AnsibleReferenceContributor"/>
-        <!--<lang.findUsagesProvider language="yaml" implementationClass="cz.juzna.intellij.neon.reference.AnsibleFindUsagesProvider"/>-->
-        <documentationProvider
-                implementation="cz.juzna.intellij.neon.reference.AnsibleVariableValuesDocumentationProvider"/>
+        <lang.parserDefinition language="snakeyaml"
+                               implementationClass="lv.kid.vermut.intellij.yaml.parser.YamlParserDefinition"/>
+        <lang.fileViewProviderFactory language="snakeyaml"
+                                      implementationClass="lv.kid.vermut.intellij.yaml.file.YamlFileViewProviderFactory"/>
+        <lang.braceMatcher language="snakeyaml" implementationClass="lv.kid.vermut.intellij.yaml.YamlBraceMatcher"/>
+        <lang.foldingBuilder language="snakeyaml"
+                             implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonFoldingBuilder"/>
+        <breadcrumbsInfoProvider implementation="lv.kid.vermut.intellij.yaml.editor.NeonBreadcrumbsInfoProvider"/>
 
     </extensions>
 </idea-plugin>

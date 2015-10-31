@@ -10,12 +10,12 @@ public class YamlLanguage extends Language {
 	public static final String MIME_TYPE2 = "application/yaml";
 
 	public YamlLanguage() {
-		super("yamlEx", MIME_TYPE, MIME_TYPE2);
+		super("snakeyaml", MIME_TYPE, MIME_TYPE2);
 	}
 
 	@NotNull
 	@Override
 	public String getDisplayName() {
-		return "YAML/Ansible";
+		return "SnakeYAML";
 	}
 }

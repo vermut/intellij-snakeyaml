@@ -8,7 +8,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
-import lv.kid.vermut.intellij.yaml.lexer.NeonHighlightingLexer;
+import lv.kid.vermut.intellij.yaml.lexer.YamlHighlightingLexer;
 import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +18,7 @@ import java.util.Map;
 import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypesOld.*;
 import static lv.kid.vermut.intellij.yaml.parser.NeonElementTypes.JINJA;
 
-public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
+public class YamlSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	public static final String            UNKNOWN_ID       = "Bad character";
 	public static final TextAttributesKey UNKNOWN          = TextAttributesKey.createTextAttributesKey(UNKNOWN_ID, HighlighterColors.BAD_CHARACTER);
@@ -84,8 +84,8 @@ public class NeonSyntaxHighlighter extends SyntaxHighlighterBase {
 	@NotNull
 	@Override
 	public Lexer getHighlightingLexer() {
-		return new NeonHighlightingLexer(new YamlLexer());
-	}
+        return new YamlHighlightingLexer(new YamlLexer());
+    }
 
 	@NotNull
 	@Override

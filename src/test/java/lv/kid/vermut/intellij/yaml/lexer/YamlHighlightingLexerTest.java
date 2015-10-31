@@ -7,11 +7,11 @@ import org.junit.Test;
 /**
  *
  */
-public class NeonHighlightingLexerTest extends UsefulTestCase {
+public class YamlHighlightingLexerTest extends UsefulTestCase {
 
 	@Test
 	public void testKeys() {
-		Lexer l = new NeonHighlightingLexer(new YamlLexer());
+		Lexer l = new YamlHighlightingLexer(new YamlLexer());
 		l.start("key: val");
 
 		assertEquals(YamlTokenTypesOld.NEON_KEY, l.getTokenType()); // this is important
@@ -43,7 +43,7 @@ public class NeonHighlightingLexerTest extends UsefulTestCase {
 
 	@Test
 	public void testKeywords() {
-		Lexer l = new NeonHighlightingLexer(new YamlLexer());
+		Lexer l = new YamlHighlightingLexer(new YamlLexer());
 		l.start("[true,off,TruE,\"true\"]");
 
 		assertEquals(YamlTokenTypesOld.NEON_LBRACE_SQUARE, l.getTokenType()); // this is important
