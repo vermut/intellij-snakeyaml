@@ -24,7 +24,7 @@ public class ScannerFacade extends Lexer {
     @Override
     public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
         if (startOffset > 0 || endOffset < buffer.length())
-            throw new RuntimeException("Incrementals not supported");
+            throw new RuntimeException("Incremental lexing not supported");
 
         myText = buffer;
         myEnd = endOffset;
@@ -40,7 +40,7 @@ public class ScannerFacade extends Lexer {
 
     @Override
     public IElementType getTokenType() {
-        if (myToken == null)
+        if (myToken == null || myToken.getTokenId().equals(Token.ID.StreamEnd))
             return null;
         return YamlTokenTypes.getIElementType(myToken.getTokenId());
     }

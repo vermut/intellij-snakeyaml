@@ -51,7 +51,7 @@ public class YamlHighlightingLexerTest {
 	public void testKeywords() {
         Lexer l = new YamlHighlightingLexer(LexerTest.createLexer());
 
-        l.start("[true,off,TruE,\"true\"]");
+        l.start("[true,off,TruE,\"true\",12,12.3,null]");
 
         assertEquals(YamlTokenTypes.YAML_FlowSequenceStart, l.getTokenType());
         assertEquals(0, l.getTokenStart());
@@ -59,7 +59,7 @@ public class YamlHighlightingLexerTest {
         assertEquals("[", l.getTokenText());
         l.advance();
 
-        assertEquals(YamlTokenTypes.YAML_Highlight_Keyword, l.getTokenType());
+        assertEquals(YamlTokenTypes.YAML_Tag_BOOL, l.getTokenType());
         assertEquals(1, l.getTokenStart());
 		assertEquals(5, l.getTokenEnd());
 		assertEquals("true", l.getTokenText());
@@ -71,7 +71,7 @@ public class YamlHighlightingLexerTest {
 		assertEquals(",", l.getTokenText());
 		l.advance();
 
-        assertEquals(YamlTokenTypes.YAML_Scalar, l.getTokenType());
+        assertEquals(YamlTokenTypes.YAML_Tag_BOOL, l.getTokenType());
         assertEquals(6, l.getTokenStart());
 		assertEquals(9, l.getTokenEnd());
 		assertEquals("off", l.getTokenText());
@@ -101,9 +101,28 @@ public class YamlHighlightingLexerTest {
 		assertEquals("\"true\"", l.getTokenText());
 		l.advance();
 
+        assertEquals(YamlTokenTypes.YAML_FlowEntry, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Tag_INT, l.getTokenType());
+        assertEquals("12", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_FlowEntry, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Tag_FLOAT, l.getTokenType());
+        assertEquals("12.3", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_FlowEntry, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Tag_NULL, l.getTokenType());
+        assertEquals("null", l.getTokenText());
+        l.advance();
+
         assertEquals(YamlTokenTypes.YAML_FlowSequenceEnd, l.getTokenType());
-        assertEquals(21, l.getTokenStart());
-		assertEquals(22, l.getTokenEnd());
 		assertEquals("]", l.getTokenText());
 		l.advance();
 

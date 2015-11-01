@@ -2,6 +2,7 @@ package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.psi.tree.IElementType;
 import lv.kid.vermut.intellij.yaml.YamlLanguage;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.tokens.Token;
 
 import java.util.HashMap;
@@ -32,12 +33,21 @@ public class YamlTokenTypes {
     public static IElementType YAML_StreamStart = addToken(Token.ID.StreamStart);
     public static IElementType YAML_Tag = addToken(Token.ID.Tag);
     public static IElementType YAML_Value = addToken(Token.ID.Value);
-    public static IElementType YAML_Highlight_Keyword = new IElementType("[YAML HL] Keyword", YamlLanguage.INSTANCE);
+
+    public static IElementType YAML_Tag_BOOL = addTag(Tag.BOOL);
+    public static IElementType YAML_Tag_INT = addTag(Tag.INT);
+    public static IElementType YAML_Tag_FLOAT = addTag(Tag.FLOAT);
+    public static IElementType YAML_Tag_NULL = addTag(Tag.NULL);
+    public static IElementType YAML_Tag_TIMESTAMP = addTag(Tag.TIMESTAMP);
 
     private static YamlTokenFacade addToken(Token.ID token) {
         YamlTokenFacade tokenFacade = new YamlTokenFacade(token);
         tokens.put(token, tokenFacade);
         return tokenFacade;
+    }
+
+    private static IElementType addTag(Tag tag) {
+        return new IElementType(tag.getValue(), YamlLanguage.INSTANCE);
     }
 
     public static IElementType getIElementType(Token.ID token) {

@@ -24,7 +24,7 @@ public class YamlColorsPage implements ColorSettingsPage {
             new AttributesDescriptor("Number", YamlSyntaxHighlighter.NUMBER),
             new AttributesDescriptor("Keyword", YamlSyntaxHighlighter.KEYWORD),
             new AttributesDescriptor("String", YamlSyntaxHighlighter.STRING),
-            new AttributesDescriptor("Tag", YamlSyntaxHighlighter.TAG),
+            new AttributesDescriptor("Tag", YamlSyntaxHighlighter.SPECIALS),
     };
 
     @NotNull
