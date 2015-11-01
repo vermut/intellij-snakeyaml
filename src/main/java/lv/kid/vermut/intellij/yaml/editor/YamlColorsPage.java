@@ -61,7 +61,6 @@ public class YamlColorsPage implements ColorSettingsPage {
     public String getDemoText() {
         return "%YAML 1.1\n" +
                 "---\n" +
-                "!!str \"%!PS-Adobe-2.0\\n\"\n" +
                 "receipt:     Oz-Ware Purchase Invoice\n" +
                 "date:        2012-08-06\n" +
                 "customer:\n" +

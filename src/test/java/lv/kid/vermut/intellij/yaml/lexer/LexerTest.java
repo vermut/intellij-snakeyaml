@@ -8,6 +8,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.testFramework.UsefulTestCase;
 import com.sun.tools.javac.util.Pair;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.io.File;
@@ -20,9 +21,18 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypesOld.*;
  */
 @SuppressWarnings({"unchecked", "JUnit4AnnotatedMethodInJUnit3TestCase"})
 public class LexerTest extends UsefulTestCase {
+
     // which lexer to test
-    private static Lexer createLexer() {
-        return new YamlLexer();
+    static Lexer createLexer() {
+        return new YamlLexer() {
+            @Override
+            public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
+                super.start(buffer, startOffset, endOffset, initialState);
+
+                assertEquals(YamlTokenTypes.YAML_StreamStart, getTokenType());
+                advance();
+            }
+        };
     }
 
     /*** helpers ***/

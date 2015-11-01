@@ -1,4 +1,4 @@
 nette:
-	application:
-		mapping:
-			*: At\*Module\*Presenter
+ application:
+    mapping:
+            *: At\*Module\*Presenter
