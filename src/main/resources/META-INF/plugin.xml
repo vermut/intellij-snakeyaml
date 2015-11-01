@@ -21,7 +21,7 @@
 
         <lang.commenter language="snakeyaml" implementationClass="lv.kid.vermut.intellij.yaml.YamlCommenter"/>
         <lang.psiStructureViewFactory language="snakeyaml"
-                                      implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonStructureViewFactory"/>
+                                      implementationClass="lv.kid.vermut.intellij.yaml.editor.YamlStructureViewFactory"/>
 
         <!-- code settings (indent, tabs?) -->
         <codeStyleSettingsProvider implementation="lv.kid.vermut.intellij.yaml.editor.NeonCodeStyleSettingsProvider"/>
@@ -34,8 +34,8 @@
                                       implementationClass="lv.kid.vermut.intellij.yaml.file.YamlFileViewProviderFactory"/>
         <lang.braceMatcher language="snakeyaml" implementationClass="lv.kid.vermut.intellij.yaml.YamlBraceMatcher"/>
         <lang.foldingBuilder language="snakeyaml"
-                             implementationClass="lv.kid.vermut.intellij.yaml.editor.NeonFoldingBuilder"/>
-        <breadcrumbsInfoProvider implementation="lv.kid.vermut.intellij.yaml.editor.NeonBreadcrumbsInfoProvider"/>
+                             implementationClass="lv.kid.vermut.intellij.yaml.editor.YamlFoldingBuilder"/>
+        <breadcrumbsInfoProvider implementation="lv.kid.vermut.intellij.yaml.editor.YamlBreadcrumbsInfoProvider"/>
 
     </extensions>
 </idea-plugin>

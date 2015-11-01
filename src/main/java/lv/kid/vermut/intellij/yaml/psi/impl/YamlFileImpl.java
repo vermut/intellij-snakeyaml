@@ -7,7 +7,7 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry;
 import lv.kid.vermut.intellij.yaml.YamlLanguage;
-import lv.kid.vermut.intellij.yaml.editor.NeonStructureViewElement;
+import lv.kid.vermut.intellij.yaml.editor.YamlStructureViewElement;
 import lv.kid.vermut.intellij.yaml.file.YamlFileType;
 import lv.kid.vermut.intellij.yaml.psi.YamlFile;
 import org.jetbrains.annotations.NotNull;
@@ -63,6 +63,6 @@ public class YamlFileImpl extends PsiFileBase implements YamlFile {
                 }
             };
         else
-            return new NeonStructureViewElement(this);
+            return new YamlStructureViewElement(this);
     }
 }
