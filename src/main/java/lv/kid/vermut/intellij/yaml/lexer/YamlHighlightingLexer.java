@@ -28,7 +28,7 @@ public class YamlHighlightingLexer extends LookAheadLexer {
 
             if (baseLexer.getTokenType() == YamlTokenTypes.YAML_Scalar) {
                 advanceLexer(baseLexer);
-                replaceCachedType(0, YamlTokenTypes.YAML_Key);
+                replaceCachedType(1, YamlTokenTypes.YAML_Key);
             }
 
         } else if (currentToken == YamlTokenTypes.YAML_Scalar) {

@@ -20,31 +20,27 @@ public class YamlHighlightingLexerTest {
         assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType());
         l.advance();
 
-        assertEquals(YamlTokenTypes.YAML_Scalar, l.getTokenType()); // this is important
+        assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType()); // this is important
         assertEquals(0, l.getTokenStart());
 		assertEquals(3, l.getTokenEnd());
 		assertEquals("key", l.getTokenText());
 		l.advance();
 
-		assertEquals(YamlTokenTypesOld.NEON_COLON, l.getTokenType());
-		assertEquals(3, l.getTokenStart());
+        assertEquals(YamlTokenTypes.YAML_Value, l.getTokenType());
+        assertEquals(3, l.getTokenStart());
 		assertEquals(4, l.getTokenEnd());
 		assertEquals(":", l.getTokenText());
 		l.advance();
 
-		assertEquals(YamlTokenTypesOld.NEON_WHITESPACE, l.getTokenType());
-		assertEquals(4, l.getTokenStart());
-		assertEquals(5, l.getTokenEnd());
-		assertEquals(" ", l.getTokenText());
-		l.advance();
-
-		assertEquals(YamlTokenTypesOld.NEON_LITERAL, l.getTokenType());
-		assertEquals(5, l.getTokenStart());
+        assertEquals(YamlTokenTypes.YAML_Scalar, l.getTokenType());
+        assertEquals(4, l.getTokenStart());
 		assertEquals(8, l.getTokenEnd());
-		assertEquals("val", l.getTokenText());
-		l.advance();
+        assertEquals(" val", l.getTokenText());
+        l.advance();
 
-		assertEquals(null, l.getTokenType());
+        assertEquals(YamlTokenTypes.YAML_BlockEnd, l.getTokenType());
+        l.advance();
+        assertEquals(null, l.getTokenType());
 	}
 
 	@Test

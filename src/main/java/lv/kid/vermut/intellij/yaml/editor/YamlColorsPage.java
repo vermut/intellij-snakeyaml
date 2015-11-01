@@ -17,14 +17,14 @@ import java.util.Map;
  */
 public class YamlColorsPage implements ColorSettingsPage {
     public static final AttributesDescriptor[] ATTRS = {
-            new AttributesDescriptor("Bad character", YamlSyntaxHighlighter.UNKNOWN),
-            new AttributesDescriptor("Comment", YamlSyntaxHighlighter.COMMENT),
+//            new AttributesDescriptor("Bad character", YamlSyntaxHighlighter.UNKNOWN),
+            new AttributesDescriptor("Comment", YamlSyntaxHighlighter.DOC_SEPARATORS),
             new AttributesDescriptor("Identifier", YamlSyntaxHighlighter.IDENTIFIER),
             new AttributesDescriptor("Sign: brace, comma, etc", YamlSyntaxHighlighter.INTERPUNCTION),
             new AttributesDescriptor("Number", YamlSyntaxHighlighter.NUMBER),
             new AttributesDescriptor("Keyword", YamlSyntaxHighlighter.KEYWORD),
             new AttributesDescriptor("String", YamlSyntaxHighlighter.STRING),
-            new AttributesDescriptor("Tag", YamlSyntaxHighlighter.SPECIALS),
+            new AttributesDescriptor("Specials", YamlSyntaxHighlighter.SPECIALS),
     };
 
     @NotNull
