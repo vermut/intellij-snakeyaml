@@ -63,6 +63,7 @@ public class YamlColorsPage implements ColorSettingsPage {
                 "---\n" +
                 "receipt:     Oz-Ware Purchase Invoice\n" +
                 "date:        2012-08-06\n" +
+                "shipped:     False\n" +
                 "customer:\n" +
                 "    given:   Dorothy\n" +
                 "    family:  Gale\n" +

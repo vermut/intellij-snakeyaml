@@ -1,6 +1,5 @@
 package lv.kid.vermut.intellij.yaml.parser;
 
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
@@ -13,10 +12,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
-import lv.kid.vermut.intellij.yaml.psi.impl.YamlFileImpl;
-import lv.kid.vermut.intellij.yaml.psi.impl.YamlMappingImpl;
-import lv.kid.vermut.intellij.yaml.psi.impl.YamlScalarImpl;
-import lv.kid.vermut.intellij.yaml.psi.impl.YamlSequenceImpl;
+import lv.kid.vermut.intellij.yaml.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -65,9 +61,12 @@ public class YamlParserDefinition implements ParserDefinition {
         if (type == YamlNodes.YAML_ScalarNode) return new YamlScalarImpl(node);
         else if (type == YamlNodes.YAML_SequenceNode) return new YamlSequenceImpl(node);
         else if (type == YamlNodes.YAML_MappingNode) return new YamlMappingImpl(node);
+        else if (type == YamlNodes.YAML_NodeTuple) return new YamlTupleImpl(node);
+        else if (type == YamlNodes.YAML_KeyNode) return new YamlTupleKeyImpl(node);
+        else if (type == YamlNodes.YAML_ValueNode) return new YamlTupleValueImpl(node);
 
-        return new ASTWrapperPsiElement(node);
-        // else throw new RuntimeException();
+        // return new ASTWrapperPsiElement(node);
+        throw new RuntimeException("Non existent YAML type");
     }
 
     @Override
