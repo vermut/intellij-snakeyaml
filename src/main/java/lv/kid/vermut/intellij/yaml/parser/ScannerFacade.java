@@ -21,12 +21,14 @@ public class ScannerFacade extends Lexer {
 
     private int myEnd;
     private int myState;
+    private StreamReader streamReader;
 
     @Override
     public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
         myText = buffer;
         myEnd = endOffset;
-        myScanner = new ScannerImpl(new StreamReader(new CharSequenceReader(buffer.subSequence(0, endOffset))));
+        streamReader = new StreamReader(new CharSequenceReader(buffer.subSequence(0, endOffset)));
+        myScanner = new ScannerImpl(streamReader);
         myToken = myScanner.peekToken();
         myState = initialState;
 
@@ -72,7 +74,11 @@ public class ScannerFacade extends Lexer {
             else
                 myToken = myScanner.peekToken();
         } catch (ScannerException e) {
-            myToken = null;
+
+            // Skip while problems
+            streamReader.forward();
+            advance();
+            // myToken = null;
         }
     }
 

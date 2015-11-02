@@ -13,17 +13,28 @@ import org.yaml.snakeyaml.tokens.Token;
 public class PsiBuilderToScannerAdapter implements Scanner {
     private final PsiBuilder builder;
     private final Scanner scanner;
+    private final StreamReader streamReader;
     private boolean peekMode;
     private int builderTokensBehind = 0;
 
     public PsiBuilderToScannerAdapter(PsiBuilder builder) {
         this.builder = builder;
-        scanner = new ScannerImpl(new StreamReader(new CharSequenceReader(builder.getOriginalText())));
+        streamReader = new StreamReader(new CharSequenceReader(builder.getOriginalText()));
+        scanner = new ScannerImpl(streamReader);
     }
 
     @Override
     public boolean checkToken(Token.ID... choices) {
         return scanner.checkToken(choices);
+
+/*
+        try {
+            return scanner.checkToken(choices);
+       } catch (ScannerException e) {
+            builder.error(e.getMessage());
+            return false;
+        }
+*/
     }
 
     @Override
@@ -58,5 +69,9 @@ public class PsiBuilderToScannerAdapter implements Scanner {
 
     public PsiBuilder.Marker getMarker() {
         return builder.mark();
+    }
+
+    public void markError(String error) {
+        builder.error(error);
     }
 }

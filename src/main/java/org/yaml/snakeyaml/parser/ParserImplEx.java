@@ -22,6 +22,7 @@ import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.tokens.*;
 import org.yaml.snakeyaml.util.ArrayStack;
 
@@ -88,7 +89,7 @@ import java.util.Map;
  * flow_sequence_entry: { ALIAS ANCHOR TAG SCALAR FLOW-SEQUENCE-START FLOW-MAPPING-START KEY }
  * flow_mapping_entry: { ALIAS ANCHOR TAG SCALAR FLOW-SEQUENCE-START FLOW-MAPPING-START KEY }
  * </pre>
- *
+ * <p/>
  * Since writing a recursive-descendant parser is a straightforward task, we do
  * not give many comments here.
  */
@@ -139,9 +140,18 @@ public final class ParserImplEx implements Parser {
     public Event peekEvent() {
         if (currentEvent == null) {
             if (state != null) {
-                scanner.setPeekMode(true);
-                currentEvent = state.produce();
-                scanner.setPeekMode(false);
+                try {
+                    scanner.setPeekMode(true);
+                    currentEvent = state.produce();
+                } catch (ParserException e) {
+                    scanner.markError(e.getMessage());
+                    return null;
+                } catch (ScannerException e) {
+                    scanner.markError(e.getMessage());
+                    return null;
+                } finally {
+                    scanner.setPeekMode(false);
+                }
 
             }
         }
