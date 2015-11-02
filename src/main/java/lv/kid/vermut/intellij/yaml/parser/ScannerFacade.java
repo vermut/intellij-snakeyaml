@@ -7,6 +7,7 @@ import com.intellij.util.text.CharSequenceReader;
 import lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.reader.StreamReader;
+import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.Token;
 
@@ -56,15 +57,23 @@ public class ScannerFacade extends Lexer {
 
     @Override
     public int getTokenEnd() {
+        if (myToken == null)
+            return myEnd;
+
         return myToken.getEndMark().getIndex();
     }
 
     @Override
     public void advance() {
-        if (myScanner.getToken().getTokenId().equals(Token.ID.StreamEnd))
+        try {
+            Token token = myScanner.getToken();
+            if (token == null || token.getTokenId().equals(Token.ID.StreamEnd))
+                myToken = null;
+            else
+                myToken = myScanner.peekToken();
+        } catch (ScannerException e) {
             myToken = null;
-        else
-            myToken = myScanner.peekToken();
+        }
     }
 
     @NotNull
