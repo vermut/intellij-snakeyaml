@@ -105,8 +105,6 @@ public class ComposerEx {
     }
 
     public Node composeDocument() {
-//        PsiBuilder.Marker mark = getMarker();
-
         // Drop the DOCUMENT-START event.
         parser.getEvent();
         // Compose the root node.
@@ -116,7 +114,6 @@ public class ComposerEx {
         this.anchors.clear();
         recursiveNodes.clear();
 
-//      mark.done(NeonElementTypes.ENTITY);
         return node;
     }
 

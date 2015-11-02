@@ -32,7 +32,7 @@ public class YamlParserDefinition implements ParserDefinition {
 
     @Override
     public IFileElementType getFileNodeType() {
-        return NeonElementTypes.FILE;
+        return YamlNodes.FILE;
     }
 
     @NotNull

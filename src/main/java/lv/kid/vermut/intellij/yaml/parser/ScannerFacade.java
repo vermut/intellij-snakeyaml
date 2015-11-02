@@ -23,14 +23,18 @@ public class ScannerFacade extends Lexer {
 
     @Override
     public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
-        if (startOffset > 0 || endOffset < buffer.length())
-            throw new RuntimeException("Incremental lexing not supported");
-
         myText = buffer;
         myEnd = endOffset;
-        myScanner = new ScannerImpl(new StreamReader(new CharSequenceReader(buffer)));
+        myScanner = new ScannerImpl(new StreamReader(new CharSequenceReader(buffer.subSequence(0, endOffset))));
         myToken = myScanner.peekToken();
         myState = initialState;
+
+        if (startOffset > 0) {
+            // Here comes ugly. Emulate incremental lexer by re-lexing from start
+            while (myScanner.peekToken().getStartMark().getIndex() < startOffset) {
+                advance();
+            }
+        }
     }
 
     @Override

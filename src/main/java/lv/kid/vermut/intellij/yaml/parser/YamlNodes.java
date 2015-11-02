@@ -1,6 +1,8 @@
 package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.IFileElementType;
+import lv.kid.vermut.intellij.yaml.YamlLanguage;
 
 enum YamlNodeTypes {
     scalar, sequence, mapping, anchor,
@@ -11,6 +13,8 @@ enum YamlNodeTypes {
  * Created by VermutMac on 10/31/2015.
  */
 public class YamlNodes {
+    public static final IFileElementType FILE = new IFileElementType(YamlLanguage.INSTANCE);
+
     public static IElementType YAML_AnchorNode = new YamlNodeFacade(YamlNodeTypes.anchor);
     public static IElementType YAML_ScalarNode = new YamlNodeFacade(YamlNodeTypes.scalar);
     public static IElementType YAML_SequenceNode = new YamlNodeFacade(YamlNodeTypes.sequence);

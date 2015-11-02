@@ -29,8 +29,10 @@ public class LexerTest extends UsefulTestCase {
             public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
                 super.start(buffer, startOffset, endOffset, initialState);
 
-                assertEquals(YamlTokenTypes.YAML_StreamStart, getTokenType());
-                advance();
+                if (startOffset == 0) {
+                    assertEquals(YamlTokenTypes.YAML_StreamStart, getTokenType());
+                    advance();
+                }
             }
         };
     }
@@ -44,7 +46,7 @@ public class LexerTest extends UsefulTestCase {
      * @param expectedTokens List of tokens expected from lexer
      */
     protected static void doTest(@NonNls String text, @NonNls Pair<IElementType, String>[] expectedTokens) {
-         Lexer lexer = createLexer();
+        Lexer lexer = createLexer();
         // doTest(text, expectedTokens, lexer);
 
         lexer.start(text);

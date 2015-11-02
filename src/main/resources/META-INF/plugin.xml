@@ -15,9 +15,9 @@
     <!-- IDEA extensions -->
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="lv.kid.vermut.intellij.yaml.file.YamlFileTypeFactory"/>
-                <colorSettingsPage implementation="lv.kid.vermut.intellij.yaml.editor.YamlColorsPage"/>
-                <lang.syntaxHighlighterFactory key="snakeyaml"
-                                               implementationClass="lv.kid.vermut.intellij.yaml.editor.YamlSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="lv.kid.vermut.intellij.yaml.editor.YamlColorsPage"/>
+        <lang.syntaxHighlighterFactory key="snakeyaml"
+                                       implementationClass="lv.kid.vermut.intellij.yaml.editor.YamlSyntaxHighlighterFactory"/>
 
         <lang.commenter language="snakeyaml" implementationClass="lv.kid.vermut.intellij.yaml.YamlCommenter"/>
         <lang.psiStructureViewFactory language="snakeyaml"

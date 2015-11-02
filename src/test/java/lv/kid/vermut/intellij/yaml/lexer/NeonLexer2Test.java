@@ -2,7 +2,6 @@ package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.testFramework.UsefulTestCase;
-import com.intellij.testFramework.exceptionCases.AbstractExceptionCase;
 import org.junit.Test;
 
 /**
@@ -51,29 +50,18 @@ public class NeonLexer2Test extends UsefulTestCase {
     @Test
     public void test02() {
         final Lexer l = LexerTest.createLexer();
-        try {
-            assertException(new AbstractExceptionCase() {
-                @Override
-                public Class getExpectedExceptionClass() {
-                    return RuntimeException.class;
-                }
 
-                @Override
-                public void tryClosure() throws Throwable {
-                    l.start("key: 'val'", 4, 5);
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        /*
-        assertEquals(YamlTokenTypesOld.NEON_WHITESPACE, l.getTokenType());
-        assertEquals(4, l.getTokenStart());
-        assertEquals(5, l.getTokenEnd());
-        assertEquals(" ", l.getTokenText());
+        l.start("key: 'val'\na:b", 5, 10);
+        assertEquals(YamlTokenTypes.YAML_Scalar, l.getTokenType());
+        assertEquals(5, l.getTokenStart());
+        assertEquals(10, l.getTokenEnd());
+        assertEquals("'val'", l.getTokenText());
         l.advance();
 
-        assertEquals(null, l.getTokenType());*/
+        assertEquals(YamlTokenTypes.YAML_BlockEnd, l.getTokenType());
+        l.advance();
+
+        assertEquals(null, l.getTokenType());
     }
 
 }
