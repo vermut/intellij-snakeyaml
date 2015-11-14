@@ -4,11 +4,6 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import lv.kid.vermut.intellij.yaml.YamlLanguage;
 
-enum YamlNodeTypes {
-    scalar, sequence, mapping, anchor,
-    tuple, key, value
-}
-
 /**
  * Created by VermutMac on 10/31/2015.
  */

@@ -74,10 +74,10 @@ public class ScannerFacade extends Lexer {
             else
                 myToken = myScanner.peekToken();
         } catch (ScannerException e) {
-
+            throw e;
             // Skip while problems
-            streamReader.forward();
-            advance();
+           /* streamReader.forward();
+            advance(); */
             // myToken = null;
         }
     }
