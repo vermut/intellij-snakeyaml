@@ -6,6 +6,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.text.CharSequenceReader;
 import lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
@@ -47,9 +48,16 @@ public class ScannerFacade extends Lexer {
 
     @Override
     public IElementType getTokenType() {
+        if (currentTokenIsError())
+            return YamlTokenTypes.YAML_Error;
+
         if (myToken == null || myToken.getTokenId().equals(Token.ID.StreamEnd))
             return null;
         return YamlTokenTypes.getIElementType(myToken.getTokenId());
+    }
+
+    private boolean currentTokenIsError() {
+        return myToken != null && myToken.getTokenId() == null;
     }
 
     @Override
@@ -68,13 +76,35 @@ public class ScannerFacade extends Lexer {
     @Override
     public void advance() {
         try {
-            Token token = myScanner.getToken();
-            if (token == null || token.getTokenId().equals(Token.ID.StreamEnd))
-                myToken = null;
-            else
+            if (currentTokenIsError())
                 myToken = myScanner.peekToken();
+            else {
+                Token token = myScanner.getToken();
+                if (token == null || token.getTokenId().equals(Token.ID.StreamEnd))
+                    myToken = null;
+                else
+                    myToken = myScanner.peekToken();
+            }
         } catch (ScannerException e) {
-            throw e;
+            Mark start = streamReader.getMark();
+
+            do {
+                streamReader.forward();
+            } while (!((
+                    streamReader.peek() == ' '
+                            || streamReader.peek() == '\n'
+                            || streamReader.peek() == '\t'
+            )));
+            streamReader.forward();
+
+            myToken = new Token(start, streamReader.getMark()) {
+                @Override
+                public ID getTokenId() {
+                    return null;
+                }
+            };
+
+            // throw e;
             // Skip while problems
            /* streamReader.forward();
             advance(); */

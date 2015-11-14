@@ -154,6 +154,30 @@ public class YamlHighlightingLexerTest {
         assertEquals(" val", l.getTokenText());
         l.advance();
 
+        assertEquals(YamlTokenTypes.YAML_Error, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType()); // this is important
+        assertEquals(15 + 0, l.getTokenStart());
+        assertEquals(15 + 4, l.getTokenEnd());
+        assertEquals("key2", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Value, l.getTokenType());
+        assertEquals(15 + 4, l.getTokenStart());
+        assertEquals(15 + 5, l.getTokenEnd());
+        assertEquals(":", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Scalar, l.getTokenType());
+        assertEquals(15 + 5, l.getTokenStart());
+        assertEquals(15 + 10, l.getTokenEnd());
+        assertEquals(" val2", l.getTokenText());
+        l.advance();
+
         assertEquals(YamlTokenTypes.YAML_BlockEnd, l.getTokenType());
         l.advance();
         assertEquals(null, l.getTokenType());

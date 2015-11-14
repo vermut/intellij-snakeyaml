@@ -40,6 +40,8 @@ public class YamlTokenTypes {
     public static IElementType YAML_Tag_NULL = addTag(Tag.NULL);
     public static IElementType YAML_Tag_TIMESTAMP = addTag(Tag.TIMESTAMP);
 
+    public static IElementType YAML_Error = new IElementType("[YAML Token] Error", YamlLanguage.INSTANCE);
+
     private static YamlTokenFacade addToken(Token.ID token) {
         YamlTokenFacade tokenFacade = new YamlTokenFacade(token);
         tokens.put(token, tokenFacade);
