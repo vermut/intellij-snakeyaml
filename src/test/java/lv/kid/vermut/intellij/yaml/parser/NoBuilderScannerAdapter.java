@@ -14,7 +14,6 @@ import java.io.Reader;
  */
 public class NoBuilderScannerAdapter implements ScannerEx {
     private final Scanner scanner;
-    private boolean peekMode;
 
     public NoBuilderScannerAdapter(Reader reader) {
         scanner = new ScannerImpl(new StreamReader(reader));
@@ -39,13 +38,8 @@ public class NoBuilderScannerAdapter implements ScannerEx {
     public void catchUpWithScanner() {
     }
 
-    public boolean isPeekMode() {
-        return peekMode;
-    }
-
     @Override
     public void setPeekMode(boolean peekMode) {
-        this.peekMode = peekMode;
     }
 
     @Override
