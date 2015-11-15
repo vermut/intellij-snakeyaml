@@ -3,7 +3,6 @@ package lv.kid.vermut.intellij.yaml.parser;
 import com.intellij.testFramework.ParsingTestCase;
 import lv.kid.vermut.intellij.yaml.lexer.ErrorReportingScanner;
 import org.junit.Assert;
-import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.parser.ComposerEx;
@@ -49,87 +48,70 @@ public class ParserTest extends ParsingTestCase {
         }
     }
 
-    @Test
     public void test01() {
         doTest(true, false);
     }
 
-    @Test
     public void test02() {
         doTest(true, false);
     }
 
-    @Test
     public void test03() {
         doTest(true, false);
     }
 
-    @Test
     public void test04() {
         doTest(true, false);
     }
 
-    @Test
     public void test05() {
         doTest(true, false);
     }
 
-    @Test
     public void test06() {
         doTest(true, false);
     }
 
-    @Test
     public void test07() {
         doTest(true, false);
     }
 
-    @Test
     public void test08() {
         doTest(true, false);
     }
 
-    @Test
     public void test09() {
         doTest(true, false);
     }
 
-    @Test
     public void test10() {
         doTest(true, false);
     }
 
-    @Test
     public void test11() {
         doTest(true, false);
     }
 
-    @Test
     public void test12() {
         doTest(true, true);
     }
 
-    @Test
     public void test13() {
         doTest(true, true);
     }
 
-    @Test
     public void test14() {
         doTest(true, true);
     }
 
-    @Test
     public void test15() {
         doTest(true, true);
     }
 
-    @Test
     public void test16() {
         doTest(true, false);
     }
 
-    @Test
     public void test17() {
         doTest(true, false);
     }
