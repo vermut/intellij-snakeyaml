@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
+import lv.kid.vermut.intellij.yaml.lexer.PsiBuilderScannerParallelizator;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.parser.ComposerEx;
 import org.yaml.snakeyaml.parser.ParserImplEx;

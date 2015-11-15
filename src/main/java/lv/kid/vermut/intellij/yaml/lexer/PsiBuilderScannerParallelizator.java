@@ -1,9 +1,8 @@
-package lv.kid.vermut.intellij.yaml.parser;
+package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.util.text.CharSequenceReader;
 import org.yaml.snakeyaml.scanner.Scanner;
-import org.yaml.snakeyaml.scanner.ScannerEx;
 import org.yaml.snakeyaml.tokens.Token;
 
 /**

@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml.scanner;
+package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lang.PsiBuilder;
+import org.yaml.snakeyaml.scanner.Scanner;
+import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.tokens.Token;
 
 /**

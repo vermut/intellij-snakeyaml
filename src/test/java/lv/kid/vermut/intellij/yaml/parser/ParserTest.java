@@ -1,6 +1,7 @@
 package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.testFramework.ParsingTestCase;
+import lv.kid.vermut.intellij.yaml.lexer.ErrorReportingScanner;
 import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;

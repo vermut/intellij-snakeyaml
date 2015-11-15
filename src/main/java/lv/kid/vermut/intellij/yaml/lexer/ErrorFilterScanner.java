@@ -1,4 +1,4 @@
-package lv.kid.vermut.intellij.yaml.parser;
+package lv.kid.vermut.intellij.yaml.lexer;
 
 import org.yaml.snakeyaml.tokens.Token;
 

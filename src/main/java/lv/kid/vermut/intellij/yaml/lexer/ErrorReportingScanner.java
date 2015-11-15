@@ -1,4 +1,4 @@
-package lv.kid.vermut.intellij.yaml.parser;
+package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.WhitespacesAndCommentsBinder;
@@ -8,9 +8,9 @@ import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
-import org.yaml.snakeyaml.scanner.ScannerEx;
 import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
+import org.yaml.snakeyaml.tokens.ErrorToken;
 import org.yaml.snakeyaml.tokens.Token;
 
 import java.io.Reader;
@@ -71,7 +71,6 @@ public class ErrorReportingScanner implements ScannerEx {
 
         }
     };
-    private static final Token.ID ERROR_TOKEN_ID = null;
     private final Scanner scanner;
     private final StreamReader streamReader;
     protected Token myToken;
@@ -79,10 +78,6 @@ public class ErrorReportingScanner implements ScannerEx {
     public ErrorReportingScanner(Reader reader) {
         streamReader = new StreamReader(reader);
         scanner = new ScannerImpl(streamReader);
-    }
-
-    public static boolean currentTokenIsError(Token token) {
-        return token != null && token.getTokenId() == ERROR_TOKEN_ID;
     }
 
     @Override
@@ -102,12 +97,7 @@ public class ErrorReportingScanner implements ScannerEx {
             } while (!readerOnWhitespace());
             streamReader.forward();
 
-            myToken = new Token(start, streamReader.getMark()) {
-                @Override
-                public ID getTokenId() {
-                    return ERROR_TOKEN_ID;
-                }
-            };
+            myToken = new ErrorToken(start, streamReader.getMark());
             return myToken;
         }
     }

@@ -16,12 +16,12 @@
 package org.yaml.snakeyaml.parser;
 
 import com.intellij.lang.PsiBuilder;
+import lv.kid.vermut.intellij.yaml.lexer.ScannerEx;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.scanner.ScannerEx;
 import org.yaml.snakeyaml.tokens.*;
 import org.yaml.snakeyaml.util.ArrayStack;
 

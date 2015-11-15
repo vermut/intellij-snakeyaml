@@ -33,6 +33,7 @@ public class YamlTokenTypes {
     public static IElementType YAML_StreamStart = addToken(Token.ID.StreamStart);
     public static IElementType YAML_Tag = addToken(Token.ID.Tag);
     public static IElementType YAML_Value = addToken(Token.ID.Value);
+    public static IElementType YAML_Error = addToken(Token.ID.Error);
 
     public static IElementType YAML_Tag_BOOL = addTag(Tag.BOOL);
     public static IElementType YAML_Tag_INT = addTag(Tag.INT);
@@ -40,7 +41,6 @@ public class YamlTokenTypes {
     public static IElementType YAML_Tag_NULL = addTag(Tag.NULL);
     public static IElementType YAML_Tag_TIMESTAMP = addTag(Tag.TIMESTAMP);
 
-    public static IElementType YAML_Error = new IElementType("[YAML Token] Error", YamlLanguage.INSTANCE);
 
     private static YamlTokenFacade addToken(Token.ID token) {
         YamlTokenFacade tokenFacade = new YamlTokenFacade(token);
