@@ -7,6 +7,25 @@ import org.junit.Test;
 @SuppressWarnings("JUnit4AnnotatedMethodInJUnit3TestCase")
 public class YamlHighlightingLexerTest extends LexerTestCase {
 
+    @Override
+    protected Lexer createLexer() {
+        return new YamlLexer(false);
+    }
+
+    @Override
+    protected String getDirPath() {
+        return LexerTest.SRC_TEST_DATA_LEXER;
+    }
+
+    private void startSkippingHeaders(Lexer l, String buf) {
+        l.start(buf);
+
+        assertEquals(YamlTokenTypes.YAML_StreamStart, l.getTokenType());
+        l.advance();
+        assertEquals(YamlTokenTypes.YAML_BlockMappingStart, l.getTokenType());
+        l.advance();
+    }
+
     @Test
     public void testKeys() {
         Lexer l = new YamlHighlightingLexer(createLexer());
@@ -247,24 +266,5 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
         System.out.println(printTokens(text, 8));
 
         checkCorrectRestart(text);
-    }
-
-    @Override
-    protected Lexer createLexer() {
-        return new YamlLexer(false);
-    }
-
-    @Override
-    protected String getDirPath() {
-        return LexerTest.SRC_TEST_DATA_LEXER;
-    }
-
-    private void startSkippingHeaders(Lexer l, String buf) {
-        l.start(buf);
-
-        assertEquals(YamlTokenTypes.YAML_StreamStart, l.getTokenType());
-        l.advance();
-        assertEquals(YamlTokenTypes.YAML_BlockMappingStart, l.getTokenType());
-        l.advance();
     }
 }

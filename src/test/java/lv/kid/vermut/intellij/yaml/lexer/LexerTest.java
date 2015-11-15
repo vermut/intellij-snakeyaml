@@ -22,6 +22,13 @@ public class LexerTest extends LexerTestCase {
         return SRC_TEST_DATA_LEXER;
     }
 
+    public void test70() throws Exception {
+        String text = "a: b\n" +
+                "@bad\n" +
+                "d: r1";
+        doTest(text);
+    }
+
     @Test
     public void test01() throws Exception {
         doFileTest("yml");
