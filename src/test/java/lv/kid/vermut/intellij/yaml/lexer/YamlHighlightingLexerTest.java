@@ -182,4 +182,24 @@ public class YamlHighlightingLexerTest {
         l.advance();
         assertEquals(null, l.getTokenType());
     }
+
+    @Test
+    public void printer() {
+        Lexer l1 = new HideErrorLexer();
+        // Lexer l2 = new ErrorTokenLexer();
+
+        String buf = "key: val\n" +
+                "@bad!\n" +
+                "key2: val2";
+        l1.start(buf);
+        // l2.start(buf);
+
+        while (l1.getTokenType() != null) {
+            System.out.println("l.getTokenType() = " + l1.getTokenType());
+            // assertEquals(l1.getTokenType(), l2.getTokenType());
+
+            l1.advance();
+            // l2.advance();
+        }
+    }
 }

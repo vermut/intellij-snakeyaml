@@ -15,10 +15,10 @@ import org.yaml.snakeyaml.resolver.Resolver;
 public class YamlParser implements PsiParser {
     @NotNull
     @Override
-    public ASTNode parse(IElementType root, final PsiBuilder builder) {
+    public ASTNode parse(@NotNull IElementType root, @NotNull final PsiBuilder builder) {
         ParserImplEx parser = new ParserImplEx(new PsiBuilderToScannerAdapter(builder));
 
-        ComposerEx composer = new ComposerEx(parser, new Resolver(), builder);
+        ComposerEx composer = new ComposerEx(parser, new Resolver());
         PsiBuilder.Marker mark = builder.mark();
 //        try {
         while (composer.checkNode()) {

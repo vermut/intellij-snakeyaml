@@ -35,14 +35,12 @@ import java.util.*;
 public class ComposerEx {
     private final ParserImplEx parser;
     private final Resolver resolver;
-    // private final PsiBuilder builder;
     private final Map<String, Node> anchors;
     private final Set<Node> recursiveNodes;
 
-    public ComposerEx(ParserImplEx parser, Resolver resolver, PsiBuilder builder) {
+    public ComposerEx(ParserImplEx parser, Resolver resolver) {
         this.parser = parser;
         this.resolver = resolver;
-        // this.builder = builder;
         this.anchors = new HashMap<String, Node>();
         this.recursiveNodes = new HashSet<Node>();
     }

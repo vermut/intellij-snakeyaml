@@ -60,7 +60,6 @@ public interface ScannerEx extends Scanner {
      */
     Token getToken();
 
-
     void catchUpWithScanner();
 
     void setPeekMode(boolean peekMode);

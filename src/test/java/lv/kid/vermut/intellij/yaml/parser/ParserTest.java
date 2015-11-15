@@ -1,11 +1,12 @@
 package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.testFramework.ParsingTestCase;
+import lv.kid.vermut.intellij.yaml.lexer.HideErrorLexer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.composer.Composer;
 import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.parser.ComposerEx;
 import org.yaml.snakeyaml.parser.ParserImplEx;
 
 import java.io.IOException;
@@ -17,8 +18,8 @@ public class ParserTest extends ParsingTestCase {
     private final Yaml yaml = new Yaml() {
         @Override
         public Node compose(Reader yaml) {
-            Composer composer = new Composer(new ParserImplEx(new NoBuilderScannerAdapter(yaml)), this.resolver);
-            this.constructor.setComposer(composer);
+            ComposerEx composer = new ComposerEx(new ParserImplEx(new HideErrorLexer(yaml)), this.resolver);
+            this.constructor.setComposer(null);
             return composer.getSingleNode();
         }
     };

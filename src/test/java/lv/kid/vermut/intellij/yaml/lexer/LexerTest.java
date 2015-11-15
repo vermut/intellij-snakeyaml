@@ -24,7 +24,7 @@ public class LexerTest extends UsefulTestCase {
 
     // which lexer to test
     static Lexer createLexer() {
-        return new YamlLexer() {
+        return new ErrorTokenLexer() {
             @Override
             public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
                 super.start(buffer, startOffset, endOffset, initialState);

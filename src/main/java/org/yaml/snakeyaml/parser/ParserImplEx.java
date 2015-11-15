@@ -22,7 +22,6 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.scanner.ScannerEx;
-import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.tokens.*;
 import org.yaml.snakeyaml.util.ArrayStack;
 
@@ -143,12 +142,14 @@ public final class ParserImplEx implements Parser {
                 try {
                     scanner.setPeekMode(true);
                     currentEvent = state.produce();
+/*
                 } catch (ParserException e) {
                     scanner.markError(e.getMessage());
                     return null;
                 } catch (ScannerException e) {
                     scanner.markError(e.getMessage());
                     return null;
+*/
                 } finally {
                     scanner.setPeekMode(false);
                 }
