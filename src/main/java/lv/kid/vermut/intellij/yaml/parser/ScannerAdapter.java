@@ -74,11 +74,15 @@ public class ScannerAdapter implements ScannerEx {
     private static final Token.ID ERROR_TOKEN_ID = null;
     private final Scanner scanner;
     private final StreamReader streamReader;
-    private Token myToken;
+    protected Token myToken;
 
     public ScannerAdapter(Reader reader) {
         streamReader = new StreamReader(reader);
         scanner = new ScannerImpl(streamReader);
+    }
+
+    public static boolean currentTokenIsError(Token token) {
+        return token != null && token.getTokenId() == ERROR_TOKEN_ID;
     }
 
     @Override
@@ -89,6 +93,7 @@ public class ScannerAdapter implements ScannerEx {
     @Override
     public Token peekToken() {
         try {
+            myToken = null;
             return scanner.peekToken();
         } catch (ScannerException e) {
             Mark start = streamReader.getMark();
@@ -104,11 +109,15 @@ public class ScannerAdapter implements ScannerEx {
                     return ERROR_TOKEN_ID;
                 }
             };
+            return myToken;
         }
     }
 
     @Override
     public Token getToken() {
+        if (myToken != null) {
+            return myToken;
+        }
         return scanner.getToken();
     }
 
@@ -127,10 +136,6 @@ public class ScannerAdapter implements ScannerEx {
 
     @Override
     public void markError(String error) {
-    }
-
-    protected boolean currentTokenIsError() {
-        return myToken != null && myToken.getTokenId() == ERROR_TOKEN_ID;
     }
 
     private boolean readerOnWhitespace() {
