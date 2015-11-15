@@ -9,6 +9,9 @@ import org.junit.Test;
  */
 @SuppressWarnings({"unchecked", "JUnit4AnnotatedMethodInJUnit3TestCase"})
 public class LexerTest extends LexerTestCase {
+
+    public static final String SRC_TEST_DATA_LEXER = "src/test/data/lexer";
+
     @Override
     protected Lexer createLexer() {
         return new YamlLexer(true);
@@ -16,7 +19,7 @@ public class LexerTest extends LexerTestCase {
 
     @Override
     protected String getDirPath() {
-        return "src/test/data/lexer";
+        return SRC_TEST_DATA_LEXER;
     }
 
     @Test
