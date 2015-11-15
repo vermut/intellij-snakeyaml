@@ -12,11 +12,11 @@ import org.yaml.snakeyaml.resolver.Resolver;
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
-public class YamlParser implements PsiParser {
+public class YamlPsiParser implements PsiParser {
     @NotNull
     @Override
     public ASTNode parse(@NotNull IElementType root, @NotNull final PsiBuilder builder) {
-        ParserImplEx parser = new ParserImplEx(new PsiBuilderToScannerAdapter(builder));
+        ParserImplEx parser = new ParserImplEx(new PsiBuilderScannerParallelizator(builder));
 
         ComposerEx composer = new ComposerEx(parser, new Resolver());
         PsiBuilder.Marker mark = builder.mark();

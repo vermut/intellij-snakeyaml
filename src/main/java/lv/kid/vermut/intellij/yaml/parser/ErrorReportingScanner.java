@@ -18,7 +18,7 @@ import java.io.Reader;
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
-public class ScannerAdapter implements ScannerEx {
+public class ErrorReportingScanner implements ScannerEx {
     protected final static PsiBuilder.Marker EMPTY_MARKER = new PsiBuilder.Marker() {
         @NotNull
         @Override
@@ -76,7 +76,7 @@ public class ScannerAdapter implements ScannerEx {
     private final StreamReader streamReader;
     protected Token myToken;
 
-    public ScannerAdapter(Reader reader) {
+    public ErrorReportingScanner(Reader reader) {
         streamReader = new StreamReader(reader);
         scanner = new ScannerImpl(streamReader);
     }
@@ -93,7 +93,6 @@ public class ScannerAdapter implements ScannerEx {
     @Override
     public Token peekToken() {
         try {
-            myToken = null;
             return scanner.peekToken();
         } catch (ScannerException e) {
             Mark start = streamReader.getMark();
@@ -116,7 +115,9 @@ public class ScannerAdapter implements ScannerEx {
     @Override
     public Token getToken() {
         if (myToken != null) {
-            return myToken;
+            Token result = myToken;
+            myToken = null;
+            return result;
         }
         return scanner.getToken();
     }

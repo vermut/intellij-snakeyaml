@@ -2,40 +2,27 @@ package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.util.text.CharSequenceReader;
-import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerEx;
-import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.Token;
 
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
-public class PsiBuilderToScannerAdapter implements ScannerEx {
+public class PsiBuilderScannerParallelizator implements ScannerEx {
     private final PsiBuilder builder;
     private final Scanner scanner;
-    private final StreamReader streamReader;
     private boolean peekMode;
     private int builderTokensBehind = 0;
 
-    public PsiBuilderToScannerAdapter(PsiBuilder builder) {
+    public PsiBuilderScannerParallelizator(PsiBuilder builder) {
         this.builder = builder;
-        streamReader = new StreamReader(new CharSequenceReader(builder.getOriginalText()));
-        scanner = new ScannerImpl(streamReader);
+        scanner = new ErrorFilterScanner(new CharSequenceReader(builder.getOriginalText()));
     }
 
     @Override
     public boolean checkToken(Token.ID... choices) {
         return scanner.checkToken(choices);
-
-/*
-        try {
-            return scanner.checkToken(choices);
-       } catch (ScannerException e) {
-            builder.error(e.getMessage());
-            return false;
-        }
-*/
     }
 
     @Override

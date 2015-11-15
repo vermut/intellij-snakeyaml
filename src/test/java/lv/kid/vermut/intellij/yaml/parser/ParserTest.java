@@ -17,7 +17,7 @@ public class ParserTest extends ParsingTestCase {
     private final Yaml yaml = new Yaml() {
         @Override
         public Node compose(Reader yaml) {
-            ComposerEx composer = new ComposerEx(new ParserImplEx(new ScannerAdapter(yaml)), this.resolver);
+            ComposerEx composer = new ComposerEx(new ParserImplEx(new ErrorReportingScanner(yaml)), this.resolver);
             this.constructor.setComposer(null);
             return composer.getSingleNode();
         }

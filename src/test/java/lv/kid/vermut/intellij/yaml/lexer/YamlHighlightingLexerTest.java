@@ -185,10 +185,11 @@ public class YamlHighlightingLexerTest {
 
     @Test
     public void printer() {
-        Lexer l1 = new HideErrorLexer();
-        // Lexer l2 = new ErrorTokenLexer();
+        Lexer l1 = new YamlLexer();
 
         String buf = "key: val\n" +
+                "@bad!\n" +
+                "key2: val2" +
                 "@bad!\n" +
                 "key2: val2";
         l1.start(buf);

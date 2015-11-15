@@ -27,7 +27,7 @@ public class YamlParserDefinition implements ParserDefinition {
 
     @Override
     public PsiParser createParser(Project project) {
-        return new YamlParser();
+        return new YamlPsiParser();
     }
 
     @Override

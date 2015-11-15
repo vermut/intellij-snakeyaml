@@ -4,7 +4,7 @@ import com.intellij.lexer.Lexer;
 import com.intellij.lexer.LexerPosition;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.text.CharSequenceReader;
-import lv.kid.vermut.intellij.yaml.parser.ScannerAdapter;
+import lv.kid.vermut.intellij.yaml.parser.ErrorReportingScanner;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.scanner.ScannerEx;
 import org.yaml.snakeyaml.tokens.Token;
@@ -12,7 +12,6 @@ import org.yaml.snakeyaml.tokens.Token;
 public class YamlLexer extends Lexer {
     protected ScannerEx myScanner;
     protected Token myToken = null;
-    // protected StreamReader streamReader;
     private CharSequence myText;
     private int myEnd;
     private int myState;
@@ -21,8 +20,7 @@ public class YamlLexer extends Lexer {
     public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
         myText = buffer;
         myEnd = endOffset;
-        // streamReader = new StreamReader(new CharSequenceReader(buffer.subSequence(0, endOffset)));
-        myScanner = new ScannerAdapter(new CharSequenceReader(buffer.subSequence(0, endOffset)));
+        myScanner = new ErrorReportingScanner(new CharSequenceReader(buffer.subSequence(0, endOffset)));
         myToken = myScanner.peekToken();
         myState = initialState;
 
@@ -41,6 +39,9 @@ public class YamlLexer extends Lexer {
 
     @Override
     public IElementType getTokenType() {
+        if (ErrorReportingScanner.currentTokenIsError(myToken))
+            return YamlTokenTypes.YAML_Error;
+
         if (myToken == null || myToken.getTokenId().equals(Token.ID.StreamEnd))
             return null;
         return YamlTokenTypes.getIElementType(myToken.getTokenId());
@@ -63,7 +64,9 @@ public class YamlLexer extends Lexer {
     @Override
     public void advance() {
         Token token = myScanner.getToken();
-        if (token == null || token.getTokenId().equals(Token.ID.StreamEnd))
+        if (ErrorReportingScanner.currentTokenIsError(myToken))
+            myToken = myScanner.peekToken();
+        else if (token == null || token.getTokenId().equals(Token.ID.StreamEnd))
             myToken = null;
         else
             myToken = myScanner.peekToken();
