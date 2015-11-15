@@ -3,13 +3,12 @@ package lv.kid.vermut.intellij.yaml.lexer;
 import com.intellij.lexer.Lexer;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-public class YamlHighlightingLexerTest {
+@SuppressWarnings("JUnit4AnnotatedMethodInJUnit3TestCase")
+public class YamlHighlightingLexerTest extends LexerTest {
 
 	@Test
     public void testKeys() {
-        Lexer l = new YamlHighlightingLexer(LexerTest.createLexer());
+        Lexer l = new YamlHighlightingLexer(createLexer());
 
 		l.start("key: val");
 
@@ -43,7 +42,7 @@ public class YamlHighlightingLexerTest {
 
 	@Test
 	public void testKeywords() {
-        Lexer l = new YamlHighlightingLexer(LexerTest.createLexer());
+        Lexer l = new YamlHighlightingLexer(createLexer());
 
         l.start("[true,off,TruE,\"true\",12,12.3,null]");
 
@@ -125,7 +124,67 @@ public class YamlHighlightingLexerTest {
 
     @Test
     public void testError1() {
-        Lexer l = new YamlHighlightingLexer(LexerTest.createLexer());
+        Lexer l = new YamlHighlightingLexer(createLexer());
+
+        l.start("key: val\n" +
+                "@bad!\n" +
+                "key2: val2");
+
+        assertEquals(YamlTokenTypes.YAML_BlockMappingStart, l.getTokenType());
+        l.advance();
+        assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType()); // this is important
+        assertEquals(0, l.getTokenStart());
+        assertEquals(3, l.getTokenEnd());
+        assertEquals("key", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Value, l.getTokenType());
+        assertEquals(3, l.getTokenStart());
+        assertEquals(4, l.getTokenEnd());
+        assertEquals(":", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Scalar, l.getTokenType());
+        assertEquals(4, l.getTokenStart());
+        assertEquals(8, l.getTokenEnd());
+        assertEquals(" val", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Error, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Key, l.getTokenType()); // this is important
+        assertEquals(15 + 0, l.getTokenStart());
+        assertEquals(15 + 4, l.getTokenEnd());
+        assertEquals("key2", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Value, l.getTokenType());
+        assertEquals(15 + 4, l.getTokenStart());
+        assertEquals(15 + 5, l.getTokenEnd());
+        assertEquals(":", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_Scalar, l.getTokenType());
+        assertEquals(15 + 5, l.getTokenStart());
+        assertEquals(15 + 10, l.getTokenEnd());
+        assertEquals(" val2", l.getTokenText());
+        l.advance();
+
+        assertEquals(YamlTokenTypes.YAML_BlockEnd, l.getTokenType());
+        l.advance();
+        assertEquals(null, l.getTokenType());
+    }
+
+    @Test
+    public void testErrorSkipping() {
+        Lexer l = new YamlHighlightingLexer(createLexer());
 
         l.start("key: val\n" +
                 "@bad!\n" +
@@ -185,7 +244,7 @@ public class YamlHighlightingLexerTest {
 
     @Test
     public void printer() {
-        Lexer l1 = new YamlLexer();
+        Lexer l1 = new YamlLexer(true);
 
         String buf = "key: val\n" +
                 "@bad!\n" +

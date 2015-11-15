@@ -14,6 +14,9 @@ public class ErrorFilterScanner extends ErrorReportingScanner {
 
     @Override
     public Token peekToken() {
+        while (super.peekToken().getTokenId() == Token.ID.Error)
+            getToken();
+
         return super.peekToken();
     }
 }

@@ -1,0 +1,7 @@
+[YAML Token] StreamStart ('')
+[YAML Token] BlockMappingStart ('')
+[YAML Token] Key ('')
+[YAML Token] Scalar ('parameters')
+[YAML Token] Value (':')
+[YAML Token] Scalar ('Column(pepa, type="integer", defaultValue = 1)')
+[YAML Token] BlockEnd ('')

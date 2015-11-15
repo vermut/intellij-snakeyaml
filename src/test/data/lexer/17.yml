@@ -1,0 +1,9 @@
+--- Issue #4
+name: Create conf
+copy:
+  dest: /etc/myfine.conf
+  content: |
+    foo={{ var1 }}
+    bar={{ var2 }}
+  tags:
+    - working

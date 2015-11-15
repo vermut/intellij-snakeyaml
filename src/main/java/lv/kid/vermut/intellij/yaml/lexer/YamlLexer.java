@@ -8,17 +8,27 @@ import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.tokens.Token;
 
 public class YamlLexer extends Lexer {
-    protected ScannerEx myScanner;
-    protected Token myToken = null;
+    private final boolean hideErrors;
+    private ScannerEx myScanner;
+    private Token myToken = null;
     private CharSequence myText;
     private int myEnd;
     private int myState;
+
+    public YamlLexer(boolean hideErrors) {
+        this.hideErrors = hideErrors;
+    }
 
     @Override
     public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
         myText = buffer;
         myEnd = endOffset;
-        myScanner = new ErrorReportingScanner(new CharSequenceReader(buffer.subSequence(0, endOffset)));
+
+        if (hideErrors)
+            myScanner = new ErrorFilterScanner(new CharSequenceReader(buffer.subSequence(0, endOffset)));
+        else
+            myScanner = new ErrorReportingScanner(new CharSequenceReader(buffer.subSequence(0, endOffset)));
+
         myToken = myScanner.peekToken();
         myState = initialState;
 

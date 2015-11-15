@@ -1,0 +1,8 @@
+[YAML Token] StreamStart ('')
+[YAML Token] BlockMappingStart ('')
+[YAML Token] Key ('')
+[YAML Token] Scalar ('foo')
+[YAML Token] Value (':')
+[YAML Token] Scalar ('1\n    b')
+[YAML Token] Scalar ('2')
+[YAML Token] BlockEnd ('')

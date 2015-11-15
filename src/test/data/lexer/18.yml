@@ -1,0 +1,35 @@
+---
+- name: add ppa for nodejs
+  action: apt_repository repo='ppa:chris-lea/node.js' update_cache=yes
+
+- name: ensure packages are installed
+  action: apt pkg={{ item }}
+  with_items:
+      - nodejs
+      - ruby
+      - rubygems
+
+- name: install gems for asset compilation
+  gem: name={{ item }} state=present user_install=no
+  with_items:
+      - sass
+      - compass
+
+- name: install grunt for asset compilation
+  npm: name=grunt-cli version=0.1.13 global=yes state=present
+
+- name: install bower for asset dependencies
+  npm: name=bower version=1.3.9 global=yes state=present
+
+- name: Write JolokiaCollector.conf file
+  copy:
+    dest: /etc/diamond/collectors/JolokiaCollector.conf
+    content: |
+      host = 'localhost'
+      enabled = True
+      port = {{mamido_basepkg_metrics_diamond_jolokia_port}}
+      {% if mamido_basepkg_metrics_diamond_jolokia_mbeans|length > 0 %}
+      mbeans = '{{ mamido_basepkg_metrics_diamond_jolokia_mbeans|join("|") }}'
+      {% endif %}\n
+  notify: Restart diamond
+  when: mamido_basepkg_metrics_diamond_jolokia_port

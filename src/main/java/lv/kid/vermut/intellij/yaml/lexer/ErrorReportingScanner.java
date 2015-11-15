@@ -73,7 +73,7 @@ public class ErrorReportingScanner implements ScannerEx {
     };
     private final Scanner scanner;
     private final StreamReader streamReader;
-    protected Token myToken;
+    protected Token hangingVirtualToken;
 
     public ErrorReportingScanner(Reader reader) {
         streamReader = new StreamReader(reader);
@@ -97,16 +97,16 @@ public class ErrorReportingScanner implements ScannerEx {
             } while (!readerOnWhitespace());
             streamReader.forward();
 
-            myToken = new ErrorToken(start, streamReader.getMark());
-            return myToken;
+            hangingVirtualToken = new ErrorToken(start, streamReader.getMark());
+            return hangingVirtualToken;
         }
     }
 
     @Override
     public Token getToken() {
-        if (myToken != null) {
-            Token result = myToken;
-            myToken = null;
+        if (hangingVirtualToken != null) {
+            Token result = hangingVirtualToken;
+            hangingVirtualToken = null;
             return result;
         }
         return scanner.getToken();

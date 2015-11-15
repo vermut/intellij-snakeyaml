@@ -1,0 +1,12 @@
+# mixing array/hash
+services:
+  - Mailer
+  - SuperMailer
+services2:
+  - Mailer
+  - SuperMailer
+services3:
+  - just
+  - services4:
+    - Mailer
+    - SuperMailer
