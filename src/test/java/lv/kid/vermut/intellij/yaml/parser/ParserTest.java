@@ -1,19 +1,30 @@
 package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.testFramework.ParsingTestCase;
-import com.intellij.testFramework.PlatformTestCase;
 import org.junit.Assert;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.composer.Composer;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.parser.ParserImplEx;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 
 public class ParserTest extends ParsingTestCase {
 
+    private final Yaml yaml = new Yaml() {
+        @Override
+        public Node compose(Reader yaml) {
+            Composer composer = new Composer(new ParserImplEx(new NoBuilderScannerAdapter(yaml)), this.resolver);
+            this.constructor.setComposer(composer);
+            return composer.getSingleNode();
+        }
+    };
+
     public ParserTest() {
         super("", "yml", new YamlParserDefinition());
-        PlatformTestCase.initPlatformLangPrefix();
     }
 
     @Override
@@ -22,7 +33,6 @@ public class ParserTest extends ParsingTestCase {
     }
 
     protected void doTest(boolean checkResult, boolean suppressErrors) {
-        Yaml yaml = new Yaml();
         try {
             yaml.compose(new StringReader(loadFile(getTestName(true) + "." + myFileExt)));
         } catch (IOException ignored) {
@@ -124,6 +134,10 @@ public class ParserTest extends ParsingTestCase {
     }
 
     public void test18() {
+        doTest(true, false);
+    }
+
+    public void test19() {
         doTest(true, false);
     }
 

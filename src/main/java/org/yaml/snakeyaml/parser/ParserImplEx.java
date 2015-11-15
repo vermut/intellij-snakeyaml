@@ -16,12 +16,12 @@
 package org.yaml.snakeyaml.parser;
 
 import com.intellij.lang.PsiBuilder;
-import lv.kid.vermut.intellij.yaml.parser.PsiBuilderToScannerAdapter;
 import org.yaml.snakeyaml.DumperOptions.Version;
 import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.events.*;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.scanner.ScannerEx;
 import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.tokens.*;
 import org.yaml.snakeyaml.util.ArrayStack;
@@ -101,14 +101,14 @@ public final class ParserImplEx implements Parser {
         DEFAULT_TAGS.put("!!", Tag.PREFIX);
     }
 
-    private final PsiBuilderToScannerAdapter scanner;
+    private final ScannerEx scanner;
     private final ArrayStack<Production> states;
     private final ArrayStack<Mark> marks;
     private Event currentEvent;
     private Production state;
     private VersionTagsTuple directives;
 
-    public ParserImplEx(PsiBuilderToScannerAdapter scanner) {
+    public ParserImplEx(ScannerEx scanner) {
         this.scanner = scanner;
         currentEvent = null;
         directives = new VersionTagsTuple(null, new HashMap<String, String>(DEFAULT_TAGS));

@@ -1,41 +1,28 @@
 package lv.kid.vermut.intellij.yaml.parser;
 
 import com.intellij.lang.PsiBuilder;
-import com.intellij.util.text.CharSequenceReader;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerEx;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.Token;
 
+import java.io.Reader;
+
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
-public class PsiBuilderToScannerAdapter implements ScannerEx {
-    private final PsiBuilder builder;
+public class NoBuilderScannerAdapter implements ScannerEx {
     private final Scanner scanner;
-    private final StreamReader streamReader;
     private boolean peekMode;
-    private int builderTokensBehind = 0;
 
-    public PsiBuilderToScannerAdapter(PsiBuilder builder) {
-        this.builder = builder;
-        streamReader = new StreamReader(new CharSequenceReader(builder.getOriginalText()));
-        scanner = new ScannerImpl(streamReader);
+    public NoBuilderScannerAdapter(Reader reader) {
+        scanner = new ScannerImpl(new StreamReader(reader));
     }
 
     @Override
     public boolean checkToken(Token.ID... choices) {
         return scanner.checkToken(choices);
-
-/*
-        try {
-            return scanner.checkToken(choices);
-       } catch (ScannerException e) {
-            builder.error(e.getMessage());
-            return false;
-        }
-*/
     }
 
     @Override
@@ -45,20 +32,11 @@ public class PsiBuilderToScannerAdapter implements ScannerEx {
 
     @Override
     public Token getToken() {
-        builderTokensBehind++;
-
-        if (!isPeekMode()) {
-            catchUpWithScanner();
-        }
         return scanner.getToken();
     }
 
     @Override
     public void catchUpWithScanner() {
-        while (builderTokensBehind > 0) {
-            builder.advanceLexer();
-            builderTokensBehind--;
-        }
     }
 
     public boolean isPeekMode() {
@@ -72,11 +50,10 @@ public class PsiBuilderToScannerAdapter implements ScannerEx {
 
     @Override
     public PsiBuilder.Marker getMarker() {
-        return builder.mark();
+        return null;
     }
 
     @Override
     public void markError(String error) {
-        builder.error(error);
     }
 }

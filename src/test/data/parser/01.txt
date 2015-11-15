@@ -1,14 +1,18 @@
-NeonFile:01.yml
-  Yaml entity
-    Yaml key-val pair
-      Yaml key
-        PsiElement([YAML Token] Scalar)('name')
-      NeonPsiElementImpl([Yaml] Compound value)
-        PsiElement([YAML Token] Value)(': ')
-        PsiElement([YAML Token] Scalar)('Jan\n')
-    Yaml key-val pair
-      Yaml key
-        PsiElement([YAML Token] Scalar)('surname')
-      NeonPsiElementImpl([Yaml] Compound value)
-        PsiElement([YAML Token] Value)(': ')
-        PsiElement([YAML Token] Scalar)('"Dolecek"')
+YamlFile:01.yml
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('name')
+      YamlTupleValueImpl(value)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Value)(': ')
+          PsiElement([YAML Token] Scalar)('Jan\n')
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('surname')
+      YamlTupleValueImpl(value)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Value)(': ')
+          PsiElement([YAML Token] Scalar)('"Dolecek"')
