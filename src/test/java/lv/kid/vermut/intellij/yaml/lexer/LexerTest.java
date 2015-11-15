@@ -18,10 +18,9 @@ public class LexerTest extends LexerTestCase {
     }
 
     public void test70() throws Exception {
-        String text = "a: b\n" +
+        doTest("a: b\n" +
                 "@bad\n" +
-                "d: r1";
-        doTest(text);
+                "d: r1");
     }
 
     public void test01() throws Exception {
