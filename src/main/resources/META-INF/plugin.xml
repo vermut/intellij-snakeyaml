@@ -24,7 +24,7 @@
                                       implementationClass="lv.kid.vermut.intellij.yaml.editor.YamlStructureViewFactory"/>
 
         <!-- code settings (indent, tabs?) -->
-        <codeStyleSettingsProvider implementation="lv.kid.vermut.intellij.yaml.editor.NeonCodeStyleSettingsProvider"/>
+        <codeStyleSettingsProvider implementation="lv.kid.vermut.intellij.yaml.editor.YamlCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider
                 implementation="lv.kid.vermut.intellij.yaml.editor.YamlLanguageCodeStyleSettingsProvider"/>
 

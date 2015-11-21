@@ -14,10 +14,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  *
  */
-public class NeonCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
+public class YamlCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
     @Override
-    public AnsibleCodeStyleSettings createCustomSettings(CodeStyleSettings settings) {
-        return new AnsibleCodeStyleSettings(settings);
+    public YamlCodeStyleSettings createCustomSettings(CodeStyleSettings settings) {
+        return new YamlCodeStyleSettings(settings);
     }
 
     @NotNull
@@ -37,21 +37,21 @@ public class NeonCodeStyleSettingsProvider extends CodeStyleSettingsProvider {
         };
     }
 
+    @Override
+    public String getConfigurableDisplayName() {
+        return YamlLanguage.INSTANCE.getDisplayName();
+    }
+
     private static class SimpleCodeStyleMainPanel extends TabbedLanguageCodeStylePanel {
         public SimpleCodeStyleMainPanel(CodeStyleSettings currentSettings, CodeStyleSettings settings) {
             super(YamlLanguage.INSTANCE, currentSettings, settings);
         }
     }
 
-    private class AnsibleCodeStyleSettings extends CustomCodeStyleSettings {
-        public AnsibleCodeStyleSettings(CodeStyleSettings settings) {
-            super("AnsibleCodeStyleSettings", settings);
+    private class YamlCodeStyleSettings extends CustomCodeStyleSettings {
+        public YamlCodeStyleSettings(CodeStyleSettings settings) {
+            super("YamlCodeStyleSettings", settings);
         }
-    }
-
-    @Override
-    public String getConfigurableDisplayName() {
-        return YamlLanguage.INSTANCE.getDisplayName();
     }
 }
 
