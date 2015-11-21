@@ -1,12 +1,12 @@
 /**
  * Copyright (c) 2008, http://www.snakeyaml.org
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import java.util.*;
  * Corresponds to the 'Compose' step as described in chapter 3.1 of the <a
  * href="http://yaml.org/spec/1.1/">YAML Specification</a>.
  * </p>
- *
+ * <p/>
  * <p>This the same composer from SnakeYaml, but with protected methods</p>
  */
 public class ComposerEx {
@@ -47,7 +47,7 @@ public class ComposerEx {
 
     /**
      * Checks if further documents are available.
-     * 
+     *
      * @return <code>true</code> if there is at least one more document.
      */
     public boolean checkNode() {
@@ -61,9 +61,9 @@ public class ComposerEx {
 
     /**
      * Reads and composes the next document.
-     * 
+     *
      * @return The root node of the document or <code>null</code> if no more
-     *         documents are available.
+     * documents are available.
      */
     public Node getNode() {
         // Get the root node of the next document.
@@ -79,9 +79,9 @@ public class ComposerEx {
      * <p>
      * If the stream contains more than one document an exception is thrown.
      * </p>
-     * 
+     *
      * @return The root node of the document or <code>null</code> if no document
-     *         is available.
+     * is available.
      */
     public Node getSingleNode() {
         // Drop the STREAM-START event.
@@ -148,98 +148,114 @@ public class ComposerEx {
 
     protected Node composeScalarNode(String anchor) {
         PsiBuilder.Marker mark = parser.getMarker();
+        try {
+            ScalarEvent ev = (ScalarEvent) parser.getEvent();
+            String tag = ev.getTag();
+            boolean resolved = false;
+            Tag nodeTag;
+            if (tag == null || tag.equals("!")) {
+                nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit()
+                        .canOmitTagInPlainScalar());
+                resolved = true;
+            } else {
+                nodeTag = new Tag(tag);
+            }
+            Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(),
+                    ev.getEndMark(), ev.getStyle());
+            if (anchor != null) {
+                anchors.put(anchor, node);
+            }
 
-        ScalarEvent ev = (ScalarEvent) parser.getEvent();
-        String tag = ev.getTag();
-        boolean resolved = false;
-        Tag nodeTag;
-        if (tag == null || tag.equals("!")) {
-            nodeTag = resolver.resolve(NodeId.scalar, ev.getValue(), ev.getImplicit()
-                    .canOmitTagInPlainScalar());
-            resolved = true;
-        } else {
-            nodeTag = new Tag(tag);
+            return node;
+        } finally {
+            mark.done(YamlNodes.YAML_ScalarNode);
         }
-        Node node = new ScalarNode(nodeTag, resolved, ev.getValue(), ev.getStartMark(),
-                ev.getEndMark(), ev.getStyle());
-        if (anchor != null) {
-            anchors.put(anchor, node);
-        }
-
-        mark.done(YamlNodes.YAML_ScalarNode);
-        return node;
     }
 
     protected Node composeSequenceNode(String anchor) {
         PsiBuilder.Marker mark = parser.getMarker();
+        try {
+            SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
+            String tag = startEvent.getTag();
+            Tag nodeTag;
+            boolean resolved = false;
+            if (tag == null || tag.equals("!")) {
+                nodeTag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
+                resolved = true;
+            } else {
+                nodeTag = new Tag(tag);
+            }
+            final ArrayList<Node> children = new ArrayList<Node>();
+            SequenceNode node = new SequenceNode(nodeTag, resolved, children,
+                    startEvent.getStartMark(), null, startEvent.getFlowStyle());
+            if (anchor != null) {
+                anchors.put(anchor, node);
+            }
+            while (!parser.checkEvent(Event.ID.SequenceEnd)) {
+                children.add(composeNode(node));
+            }
+            Event endEvent = parser.getEvent();
+            node.setEndMark(endEvent.getEndMark());
 
-        SequenceStartEvent startEvent = (SequenceStartEvent) parser.getEvent();
-        String tag = startEvent.getTag();
-        Tag nodeTag;
-        boolean resolved = false;
-        if (tag == null || tag.equals("!")) {
-            nodeTag = resolver.resolve(NodeId.sequence, null, startEvent.getImplicit());
-            resolved = true;
-        } else {
-            nodeTag = new Tag(tag);
+            return node;
+        } finally {
+            mark.done(YamlNodes.YAML_SequenceNode);
         }
-        final ArrayList<Node> children = new ArrayList<Node>();
-        SequenceNode node = new SequenceNode(nodeTag, resolved, children,
-                startEvent.getStartMark(), null, startEvent.getFlowStyle());
-        if (anchor != null) {
-            anchors.put(anchor, node);
-        }
-        while (!parser.checkEvent(Event.ID.SequenceEnd)) {
-            children.add(composeNode(node));
-        }
-        Event endEvent = parser.getEvent();
-        node.setEndMark(endEvent.getEndMark());
-
-        mark.done(YamlNodes.YAML_SequenceNode);
-        return node;
     }
 
     protected Node composeMappingNode(String anchor) {
         PsiBuilder.Marker mark = parser.getMarker();
-
-        MappingStartEvent startEvent = (MappingStartEvent) parser.getEvent();
-        String tag = startEvent.getTag();
-        Tag nodeTag;
-        boolean resolved = false;
-        if (tag == null || tag.equals("!")) {
-            nodeTag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
-            resolved = true;
-        } else {
-            nodeTag = new Tag(tag);
-        }
-
-        final List<NodeTuple> children = new ArrayList<NodeTuple>();
-        MappingNode node = new MappingNode(nodeTag, resolved, children, startEvent.getStartMark(),
-                null, startEvent.getFlowStyle());
-        if (anchor != null) {
-            anchors.put(anchor, node);
-        }
-        while (!parser.checkEvent(Event.ID.MappingEnd)) {
-            PsiBuilder.Marker keyPair = parser.getMarker();
-
-            PsiBuilder.Marker key = parser.getMarker();
-            Node itemKey = composeNode(node);
-            if (itemKey.getTag().equals(Tag.MERGE)) {
-                node.setMerged(true);
+        try {
+            MappingStartEvent startEvent = (MappingStartEvent) parser.getEvent();
+            String tag = startEvent.getTag();
+            Tag nodeTag;
+            boolean resolved = false;
+            if (tag == null || tag.equals("!")) {
+                nodeTag = resolver.resolve(NodeId.mapping, null, startEvent.getImplicit());
+                resolved = true;
+            } else {
+                nodeTag = new Tag(tag);
             }
-            key.done(YamlNodes.YAML_KeyNode);
 
-            PsiBuilder.Marker value = parser.getMarker();
-            Node itemValue = composeNode(node);
-            value.done(YamlNodes.YAML_ValueNode);
+            final List<NodeTuple> children = new ArrayList<NodeTuple>();
+            MappingNode node = new MappingNode(nodeTag, resolved, children, startEvent.getStartMark(),
+                    null, startEvent.getFlowStyle());
+            if (anchor != null) {
+                anchors.put(anchor, node);
+            }
+            while (!parser.checkEvent(Event.ID.MappingEnd)) {
+                PsiBuilder.Marker keyPair = parser.getMarker();
+                try {
+                    PsiBuilder.Marker key = parser.getMarker();
+                    Node itemKey;
+                    try {
+                        itemKey = composeNode(node);
+                        if (itemKey.getTag().equals(Tag.MERGE)) {
+                            node.setMerged(true);
+                        }
+                    } finally {
+                        key.done(YamlNodes.YAML_KeyNode);
+                    }
 
-            children.add(new NodeTuple(itemKey, itemValue));
-            keyPair.done(YamlNodes.YAML_NodeTuple);
+                    PsiBuilder.Marker value = parser.getMarker();
+                    Node itemValue;
+                    try {
+                        itemValue = composeNode(node);
+                    } finally {
+                        value.done(YamlNodes.YAML_ValueNode);
+                    }
+
+                    children.add(new NodeTuple(itemKey, itemValue));
+                } finally {
+                    keyPair.done(YamlNodes.YAML_NodeTuple);
+                }
+            }
+            Event endEvent = parser.getEvent();
+            node.setEndMark(endEvent.getEndMark());
+            return node;
+
+        } finally {
+            mark.done(YamlNodes.YAML_MappingNode);
         }
-        Event endEvent = parser.getEvent();
-        node.setEndMark(endEvent.getEndMark());
-
-        mark.done(YamlNodes.YAML_MappingNode);
-        return node;
     }
 }
