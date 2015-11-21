@@ -110,19 +110,19 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     public void testError2() {
         Lexer l = new YamlHighlightingLexer(createLexer());
 
-        startSkippingHeaders(l, "a: v\n" +
-                "c: e\n" +
+        startSkippingHeaders(l, "a: x\n" +
+                "b: y\n" +
                 "ab");
 
         assertAndAdvance(l, YamlTokenTypes.YAML_Key);
         assertAndAdvance(l, YamlTokenTypes.YAML_Key);
         assertAndAdvance(l, YamlTokenTypes.YAML_Value);
-        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 2, 4, " v");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 2, 4, " x");
 
         assertAndAdvance(l, YamlTokenTypes.YAML_Key);
         assertAndAdvance(l, YamlTokenTypes.YAML_Key);
         assertAndAdvance(l, YamlTokenTypes.YAML_Value);
-        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 7, 9, " e");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 7, 9, " y");
 
         assertAndAdvance(l, YamlTokenTypes.YAML_Error);
 
@@ -145,9 +145,9 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
         assertAndAdvance(l, YamlTokenTypes.YAML_Error);
 
         assertAndAdvance(l, YamlTokenTypes.YAML_Key);
-        assertAndAdvance(l, YamlTokenTypes.YAML_Key, 15 + 0, 15 + 4, "key2");
-        assertAndAdvance(l, YamlTokenTypes.YAML_Value, 15 + 4, 15 + 5, ":");
-        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 15 + 5, 15 + 10, " val2");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Key, 15, 19, "key2");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Value, 19, 20, ":");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 20, 25, " val2");
 
         assertAndAdvance(l, YamlTokenTypes.YAML_BlockEnd);
         assertEquals(null, l.getTokenType());

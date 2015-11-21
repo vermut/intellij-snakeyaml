@@ -18,7 +18,7 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
 
 public class YamlSyntaxHighlighter extends SyntaxHighlighterBase {
 
-    // public static final TextAttributesKey UNKNOWN = TextAttributesKey.createTextAttributesKey("Bad character", HighlighterColors.BAD_CHARACTER);
+    public static final TextAttributesKey UNKNOWN = TextAttributesKey.createTextAttributesKey("Bad character", HighlighterColors.BAD_CHARACTER);
     public static final TextAttributesKey DOC_SEPARATORS = TextAttributesKey.createTextAttributesKey("DOC_SEPARATORS", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey IDENTIFIER = TextAttributesKey.createTextAttributesKey("Identifier", DefaultLanguageHighlighterColors.INSTANCE_FIELD);
     public static final TextAttributesKey INTERPUNCTION = TextAttributesKey.createTextAttributesKey("Interpunction", DefaultLanguageHighlighterColors.DOT);
@@ -40,6 +40,7 @@ public class YamlSyntaxHighlighter extends SyntaxHighlighterBase {
         fillMap(ATTRIBUTES, STRING, YAML_Scalar);
         fillMap(ATTRIBUTES, DOC_SEPARATORS, YAML_DocumentStart, YAML_DocumentEnd);
         fillMap(ATTRIBUTES, SPECIALS, YAML_Anchor, YAML_Directive, YAML_Alias, YAML_StreamEnd, YAML_Tag);
+        fillMap(ATTRIBUTES, UNKNOWN, YAML_Error);
     }
 
 
