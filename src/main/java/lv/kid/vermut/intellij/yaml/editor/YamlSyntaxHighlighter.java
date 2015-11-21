@@ -46,7 +46,7 @@ public class YamlSyntaxHighlighter extends SyntaxHighlighterBase {
 	@NotNull
 	@Override
 	public Lexer getHighlightingLexer() {
-        return new YamlHighlightingLexer(new YamlLexer(true));
+        return new YamlHighlightingLexer(new YamlLexer(false));
     }
 
 	@NotNull
