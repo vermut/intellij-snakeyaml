@@ -61,7 +61,7 @@ public class YamlFoldingBuilder implements FoldingBuilder {
     @Nullable
     @Override
     public String getPlaceholderText(@NotNull ASTNode node) {
-        return "...";
+        return ": ...";
     }
 
     public boolean isCollapsedByDefault(@NotNull ASTNode node) {

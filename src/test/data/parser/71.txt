@@ -1,0 +1,22 @@
+YamlFile:a.yml
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('a')
+      YamlTupleValueImpl(value)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Value)(': ')
+          PsiElement([YAML Token] Scalar)('b\n')
+  PsiErrorElement:while scanning a simple key
+ in 'reader', line 2, column 1:
+    a
+    ^
+could not find expected ':'
+ in 'reader', line 2, column 2:
+    a
+     ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Scalar)('a')

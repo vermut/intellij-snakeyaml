@@ -95,7 +95,17 @@ public class ParserTest extends ParsingTestCase {
                         "  - c\n" +
                         "  - d\n" +
                         "a2: b2\n" +
-                "@bad\n" +
-                "d: r1");
+                        "@bad\n" +
+                        "d: r1");
+    }
+
+    public void test71() throws Exception {
+        doCodeTest("a: b\n" +
+                "a");
+    }
+
+    public void test72() throws Exception {
+        doCodeTest("a: b\n" +
+                "a:a\n");
     }
 }

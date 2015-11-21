@@ -23,6 +23,11 @@ public class LexerTest extends LexerTestCase {
                 "d: r1");
     }
 
+    public void test71() throws Exception {
+        doTest("a: b\n" +
+                "a");
+    }
+
     public void test01() throws Exception {
         doFileTest("yml");
     }

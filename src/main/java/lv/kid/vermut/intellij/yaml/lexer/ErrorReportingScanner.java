@@ -11,6 +11,7 @@ import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.ErrorToken;
+import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.Token;
 
 import java.io.Reader;
@@ -91,14 +92,18 @@ public class ErrorReportingScanner implements ScannerEx {
             return scanner.peekToken();
         } catch (ScannerException e) {
             Mark start = streamReader.getMark();
-
-            do {
+            try {
+                do {
+                    streamReader.forward();
+                } while (!readerOnWhitespace());
                 streamReader.forward();
-            } while (!readerOnWhitespace());
-            streamReader.forward();
-
+            } catch (StringIndexOutOfBoundsException ignored) {
+                return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
+            }
             hangingVirtualToken = new ErrorToken(start, streamReader.getMark());
             return hangingVirtualToken;
+        } catch (StringIndexOutOfBoundsException ignored) {
+            return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
         }
     }
 
