@@ -12,7 +12,7 @@ YamlFile:a.yml
       YamlTupleKeyImpl(key)
         YamlScalarImpl(scalar)
           PsiElement([YAML Token] Scalar)('d')
+          PsiElement([YAML Token] Scalar)('r1')
       YamlTupleValueImpl(value)
         YamlScalarImpl(scalar)
           PsiElement([YAML Token] Value)(': ')
-          PsiElement([YAML Token] Scalar)('r1')

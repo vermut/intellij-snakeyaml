@@ -7,8 +7,6 @@ import com.intellij.util.text.CharSequenceReader;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.tokens.Token;
 
-// TODO sobrat' v odno Parallizator i ErrorScanner
-// ostavit' Lexer+PustojParallelizator i ParserEx
 public class YamlLexer extends Lexer {
     private final boolean hideErrors;
     private ScannerEx myScanner;

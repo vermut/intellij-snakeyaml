@@ -2,31 +2,19 @@ package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.util.text.CharSequenceReader;
-import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.tokens.Token;
 
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
-public class PsiBuilderScannerParallelizator implements ScannerEx {
+public class PsiBuilderScannerParallelizator extends ErrorFilterScanner implements ScannerEx {
     private final PsiBuilder builder;
-    private final Scanner scanner;
     private boolean peekMode;
     private int builderTokensBehind = 0;
 
     public PsiBuilderScannerParallelizator(PsiBuilder builder) {
+        super(new CharSequenceReader(builder.getOriginalText()));
         this.builder = builder;
-        scanner = new ErrorFilterScanner(new CharSequenceReader(builder.getOriginalText()));
-    }
-
-    @Override
-    public boolean checkToken(Token.ID... choices) {
-        return scanner.checkToken(choices);
-    }
-
-    @Override
-    public Token peekToken() {
-        return scanner.peekToken();
     }
 
     @Override
@@ -36,7 +24,7 @@ public class PsiBuilderScannerParallelizator implements ScannerEx {
         if (!isPeekMode()) {
             catchUpWithScanner();
         }
-        return scanner.getToken();
+        return super.getToken();
     }
 
     @Override
