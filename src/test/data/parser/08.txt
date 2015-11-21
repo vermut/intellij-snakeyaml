@@ -1,0 +1,31 @@
+YamlFile:08.yml
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('common')
+      YamlTupleValueImpl(value)
+        <empty list>
+  PsiErrorElement:while scanning for the next token
+found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for indentation)
+ in 'reader', line 2, column 1:
+    	days: [ Mon, Tue, Wed ]
+    ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':\n\tdays: ')
+    PsiElement([YAML Token] FlowSequenceStart)('[ ')
+    PsiElement([YAML Token] Scalar)('Mon')
+    PsiElement([YAML Token] FlowEntry)(', ')
+    PsiElement([YAML Token] Scalar)('Tue')
+    PsiElement([YAML Token] FlowEntry)(', ')
+    PsiElement([YAML Token] Scalar)('Wed ')
+    PsiElement([YAML Token] FlowSequenceEnd)(']\n\n')
+    PsiElement([YAML Token] Scalar)('production')
+    PsiElement([YAML Token] Value)(':\n\tdays: ')
+    PsiElement([YAML Token] FlowSequenceStart)('[ ')
+    PsiElement([YAML Token] Scalar)('Sat')
+    PsiElement([YAML Token] FlowEntry)(', ')
+    PsiElement([YAML Token] Scalar)('Sun ')
+    PsiElement([YAML Token] FlowSequenceEnd)(']')

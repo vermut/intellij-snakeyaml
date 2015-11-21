@@ -1,0 +1,26 @@
+YamlFile:17.yml
+  PsiElement([YAML Token] DocumentStart)('--- ')
+  YamlScalarImpl(scalar)
+    PsiElement([YAML Token] Scalar)('error #here\n')
+  PsiErrorElement:expected '<document start>', but found BlockMappingStart
+ in 'reader', line 2, column 1:
+    name: Create conf
+    ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Scalar)('name')
+    PsiElement([YAML Token] Value)(': ')
+    PsiElement([YAML Token] Scalar)('Create conf\n')
+    PsiElement([YAML Token] Scalar)('copy')
+    PsiElement([YAML Token] Value)(':\n  ')
+    PsiElement([YAML Token] Scalar)('dest')
+    PsiElement([YAML Token] Value)(': ')
+    PsiElement([YAML Token] Scalar)('/etc/myfine.conf\n  ')
+    PsiElement([YAML Token] Scalar)('content')
+    PsiElement([YAML Token] Value)(': ')
+    PsiElement([YAML Token] Scalar)('|\n    foo={{ var1 }}\n    bar={{ var2 }}\n  ')
+    PsiElement([YAML Token] Scalar)('tags')
+    PsiElement([YAML Token] Value)(':\n    ')
+    PsiElement([YAML Token] BlockEntry)('- ')
+    PsiElement([YAML Token] Scalar)('working')

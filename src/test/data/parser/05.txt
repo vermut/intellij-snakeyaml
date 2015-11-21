@@ -1,0 +1,35 @@
+YamlFile:05.yml
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('nette')
+      YamlTupleValueImpl(value)
+        YamlMappingImpl(mapping)
+          PsiElement([YAML Token] Value)(':\n ')
+          YamlTupleImpl(tuple)
+            YamlTupleKeyImpl(key)
+              YamlScalarImpl(scalar)
+                PsiElement([YAML Token] Scalar)('application')
+            YamlTupleValueImpl(value)
+              YamlMappingImpl(mapping)
+                PsiElement([YAML Token] Value)(':\n    ')
+                YamlTupleImpl(tuple)
+                  YamlTupleKeyImpl(key)
+                    YamlScalarImpl(scalar)
+                      PsiElement([YAML Token] Scalar)('mapping')
+                  YamlTupleValueImpl(value)
+                    <empty list>
+  PsiErrorElement:while scanning an alias
+ in 'reader', line 4, column 13:
+                *: At\*Module\*Presenter
+                ^
+expected alphabetic or numeric character, but found but found :
+ in 'reader', line 4, column 14:
+                *: At\*Module\*Presenter
+                 ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':\n            *: ')
+    PsiElement([YAML Token] Scalar)('At\*Module\*Presenter')

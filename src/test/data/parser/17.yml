@@ -1,4 +1,4 @@
---- Issue #4
+--- error #here
 name: Create conf
 copy:
   dest: /etc/myfine.conf

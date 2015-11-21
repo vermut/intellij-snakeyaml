@@ -8,6 +8,7 @@ import com.intellij.psi.tree.IElementType;
 import lv.kid.vermut.intellij.yaml.lexer.PsiBuilderScannerParallelizator;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.parser.ComposerEx;
+import org.yaml.snakeyaml.parser.ParserException;
 import org.yaml.snakeyaml.parser.ParserImplEx;
 import org.yaml.snakeyaml.resolver.Resolver;
 import org.yaml.snakeyaml.scanner.ScannerException;
@@ -32,22 +33,25 @@ public class YamlPsiParser implements PsiParser {
             // Drop the STREAM-END event.
             parser.getEvent();
 
-
         } catch (ScannerException e) {
-            // e.printStackTrace();
-            scannerEx.setPeekMode(false);
-            // Eat up all as error
-            scannerEx.markError(e.getMessage());
-            PsiBuilder.Marker errorMarker = scannerEx.getMarker();
-            while (builder.getTokenType() != null) {
-                builder.advanceLexer();
-            }
-            ;
-            // errorMarker.error(e.getMessage());
-            errorMarker.done(TokenType.ERROR_ELEMENT);
+            failAsError(builder, scannerEx, e);
+        } catch (ParserException e) {
+            failAsError(builder, scannerEx, e);
         }
 
         mark.done(root);
         return builder.getTreeBuilt();
+    }
+
+    private void failAsError(@NotNull PsiBuilder builder, PsiBuilderScannerParallelizator scannerEx, Exception e) {
+        scannerEx.setPeekMode(false);
+
+        // Eat up everything as error
+        scannerEx.markError(e.getMessage());
+        PsiBuilder.Marker errorMarker = scannerEx.getMarker();
+        while (builder.getTokenType() != null) {
+            builder.advanceLexer();
+        }
+        errorMarker.done(TokenType.ERROR_ELEMENT);
     }
 }

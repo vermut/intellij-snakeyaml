@@ -1,0 +1,18 @@
+YamlFile:09.yml
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('parameters')
+      YamlTupleValueImpl(value)
+        <empty list>
+  PsiErrorElement:while scanning for the next token
+found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for indentation)
+ in 'reader', line 2, column 1:
+    	entity: Column(pepa, type="inte ... 
+    ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':\n\tentity: ')
+    PsiElement([YAML Token] Scalar)('Column(pepa, type="integer", defaultValue = 1)')

@@ -1,0 +1,36 @@
+YamlFile:11.yml
+  PsiElement([YAML Token] StreamStart)('# parsing errors\n')
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('a')
+      YamlTupleValueImpl(value)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Value)(': ')
+          PsiElement([YAML Token] Scalar)('1\n')
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('b')
+      YamlTupleValueImpl(value)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Value)(':\n\n')
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('parameters')
+      YamlTupleValueImpl(value)
+        <empty list>
+  PsiErrorElement:while scanning for the next token
+found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for indentation)
+ in 'reader', line 6, column 1:
+    	c: x
+    ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':\n\tc: ')
+    PsiElement([YAML Token] Scalar)('x\n\td:\n\n')
+    PsiElement([YAML Token] Scalar)('nette')
+    PsiElement([YAML Token] Value)(':')

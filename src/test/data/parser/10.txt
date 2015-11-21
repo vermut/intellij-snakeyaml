@@ -1,0 +1,28 @@
+YamlFile:10.yml
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('common')
+      YamlTupleValueImpl(value)
+        <empty list>
+  PsiErrorElement:while scanning for the next token
+found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for indentation)
+ in 'reader', line 2, column 1:
+    	parameters:
+    ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':\n\tparameters:\n\t\t')
+    PsiElement([YAML Token] Scalar)('foo')
+    PsiElement([YAML Token] Value)(': ')
+    PsiElement([YAML Token] Scalar)('2\n\n')
+    PsiElement([YAML Token] BlockEnd)('\t\t')
+    PsiElement([YAML Token] Scalar)('x')
+    PsiElement([YAML Token] Value)(': ')
+    PsiElement([YAML Token] Scalar)('dummy\n\n')
+    PsiElement([YAML Token] BlockEnd)('\tbar: ')
+    PsiElement([YAML Token] Scalar)('2\n# comment with lower indent must not return the parser\n\tbaz: ')
+    PsiElement([YAML Token] Scalar)('3\n\n# comment with lower indent must not return the parser\n\n\tbaq: ')
+    PsiElement([YAML Token] Scalar)('4')

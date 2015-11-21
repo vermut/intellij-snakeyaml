@@ -1,0 +1,20 @@
+YamlFile:15.yml
+  PsiElement([YAML Token] StreamStart)('# tab/space mixing\n')
+  YamlMappingImpl(mapping)
+    YamlTupleImpl(tuple)
+      YamlTupleKeyImpl(key)
+        YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Scalar)('foo')
+      YamlTupleValueImpl(value)
+        <empty list>
+  PsiErrorElement:while scanning for the next token
+found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for indentation)
+ in 'reader', line 3, column 1:
+    	a: 1
+    ^
+
+    <empty list>
+  PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':\n\ta: ')
+    PsiElement([YAML Token] Scalar)('1\n    b: ')
+    PsiElement([YAML Token] Scalar)('2')
