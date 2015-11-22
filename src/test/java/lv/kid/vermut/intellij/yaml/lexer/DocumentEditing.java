@@ -19,19 +19,28 @@ public class DocumentEditing extends LightPlatformCodeInsightTestCase implements
         return "src/test/data/docEdit/";
     }
 
-
-    public void testAction() {
+    public void testJustTyping() {
         new WriteCommandAction<Void>(null) {
             @Override
             protected void run(@NotNull Result<Void> result) throws Throwable {
                 configureByFile("01.yml");
                 type("a");
-                type("b");
-                type("c");
-                type(":");
-                // backspace();
-                //checkResultByFile(myFileSuffix.replace(".", "-after."));
+                type("a");
+                type("a");
+                checkResultByText(null, "aaa", true);
+            }
+        }.execute();
+    }
 
+
+    public void testTypingWithColon() {
+        new WriteCommandAction<Void>(null) {
+            @Override
+            protected void run(@NotNull Result<Void> result) throws Throwable {
+                configureByFile("01.yml");
+                type("a");
+                type(":");
+                checkResultByText(null, "a:", true);
             }
         }.execute();
     }
