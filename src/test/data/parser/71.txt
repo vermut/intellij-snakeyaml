@@ -7,7 +7,7 @@ YamlFile:a.yml
       YamlTupleValueImpl(value)
         YamlScalarImpl(scalar)
           PsiElement([YAML Token] Value)(': ')
-          PsiElement([YAML Token] Scalar)('b\n')
+          PsiElement([YAML Token] Scalar)('b\na')
   PsiErrorElement:while scanning a simple key
  in 'reader', line 2, column 1:
     a
@@ -19,4 +19,4 @@ could not find expected ':'
 
     <empty list>
   PsiErrorElement:null
-    PsiElement([YAML Token] Scalar)('a')
+    <empty list>

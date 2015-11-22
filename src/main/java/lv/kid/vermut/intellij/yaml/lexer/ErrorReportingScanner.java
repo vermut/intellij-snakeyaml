@@ -98,7 +98,16 @@ public class ErrorReportingScanner implements ScannerEx {
                 } while (!readerOnWhitespace());
                 streamReader.forward();
             } catch (StringIndexOutOfBoundsException ignored) {
-                return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
+                // No more data, make sure we have nothing in scanner cache
+                try {
+                    while (scanner.getToken() != null) {
+                    }
+                } catch (ScannerException also_ignored) {
+                }
+
+                // Got nothing while forwarding the stream, this is the end
+                if (streamReader.getMark().getIndex() == start.getIndex())
+                    return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
             }
             hangingVirtualToken = new ErrorToken(start, streamReader.getMark());
             return hangingVirtualToken;
