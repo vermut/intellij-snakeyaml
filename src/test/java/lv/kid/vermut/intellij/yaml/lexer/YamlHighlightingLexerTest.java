@@ -193,6 +193,20 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
         assertEquals(null, l.getTokenType());
     }
 
+    public void test73() throws Exception {
+        Lexer l = new YamlHighlightingLexer(createLexer());
+
+        l.start("a ");
+
+        assertAndAdvance(l, YamlTokenTypes.YAML_StreamStart);
+        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 0, 5, "a:c\nx");
+    }
+
+    @Test
+    public void testQuickPrinter() {
+        System.out.println(printTokens(" a", 0));
+    }
+
 
     @Test
     public void testPrinter() {

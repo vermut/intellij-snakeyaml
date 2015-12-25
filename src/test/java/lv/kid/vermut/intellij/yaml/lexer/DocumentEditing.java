@@ -45,6 +45,17 @@ public class DocumentEditing extends LightPlatformCodeInsightTestCase implements
         }.execute();
     }
 
+    // TODO feels like we need WHITESPACE!
+    public void test73() {
+        new WriteCommandAction<Void>(null) {
+            @Override
+            protected void run(@NotNull Result<Void> result) throws Throwable {
+                configureByFile("01.yml");
+                type(" c");
+            }
+        }.execute();
+    }
+
     @Nullable
     @Override
     public String getFileSuffix(String fileName) {

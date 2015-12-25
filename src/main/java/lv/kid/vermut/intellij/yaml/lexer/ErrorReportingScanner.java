@@ -86,6 +86,7 @@ public class ErrorReportingScanner implements ScannerEx {
         return scanner.checkToken(choices);
     }
 
+    @SuppressWarnings({"StatementWithEmptyBody", "EmptyCatchBlock"})
     @Override
     public Token peekToken() {
         try {
