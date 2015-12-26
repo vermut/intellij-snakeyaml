@@ -33,7 +33,10 @@ public class YamlTokenTypes {
     public static IElementType YAML_StreamStart = addToken(Token.ID.StreamStart);
     public static IElementType YAML_Tag = addToken(Token.ID.Tag);
     public static IElementType YAML_Value = addToken(Token.ID.Value);
+
     public static IElementType YAML_Error = addToken(Token.ID.Error);
+    public static IElementType YAML_Comment = addToken(Token.ID.Comment);
+    public static IElementType YAML_Whitespace = addToken(Token.ID.Whitespace);
 
     public static IElementType YAML_Tag_BOOL = addTag(Tag.BOOL);
     public static IElementType YAML_Tag_INT = addTag(Tag.INT);

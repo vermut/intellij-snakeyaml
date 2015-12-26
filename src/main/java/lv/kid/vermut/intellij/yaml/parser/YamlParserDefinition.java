@@ -12,6 +12,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
+import lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes;
 import lv.kid.vermut.intellij.yaml.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,19 +39,19 @@ public class YamlParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getWhitespaceTokens() {
-        return TokenSet.EMPTY;
+        return TokenSet.create(YamlTokenTypes.YAML_Whitespace);
     }
 
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return TokenSet.EMPTY;
+        return TokenSet.create(YamlTokenTypes.YAML_Comment);
     }
 
     @NotNull
     @Override
     public TokenSet getStringLiteralElements() {
-        return TokenSet.EMPTY;
+        return TokenSet.create(YamlTokenTypes.YAML_Scalar);
     }
 
     @NotNull
@@ -76,6 +77,6 @@ public class YamlParserDefinition implements ParserDefinition {
 
     @Override
     public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
-        return SpaceRequirements.MAY;
+        return SpaceRequirements.MUST;
     }
 }

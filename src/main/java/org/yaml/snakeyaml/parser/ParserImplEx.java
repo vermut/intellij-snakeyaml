@@ -92,7 +92,7 @@ import java.util.Map;
  * Since writing a recursive-descendant parser is a straightforward task, we do
  * not give many comments here.
  */
-public final class ParserImplEx implements Parser {
+public class ParserImplEx implements Parser {
     private static final Map<String, String> DEFAULT_TAGS = new HashMap<String, String>();
 
     static {

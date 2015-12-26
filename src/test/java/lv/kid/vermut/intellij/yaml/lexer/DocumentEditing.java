@@ -51,7 +51,7 @@ public class DocumentEditing extends LightPlatformCodeInsightTestCase implements
             @Override
             protected void run(@NotNull Result<Void> result) throws Throwable {
                 configureByFile("01.yml");
-                type(" c");
+                type(" c c");
             }
         }.execute();
     }
