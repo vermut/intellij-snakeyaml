@@ -1,14 +1,15 @@
 package lv.kid.vermut.intellij.yaml.editor;
 
 
+import com.intellij.lexer.FlexAdapter;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
+import lv.kid.vermut.intellij.yaml.lexer.YamlFlexLexer;
 import lv.kid.vermut.intellij.yaml.lexer.YamlHighlightingLexer;
-import lv.kid.vermut.intellij.yaml.lexer.YamlLexer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -47,7 +48,8 @@ public class YamlSyntaxHighlighter extends SyntaxHighlighterBase {
 	@NotNull
 	@Override
 	public Lexer getHighlightingLexer() {
-        return new YamlHighlightingLexer(new YamlLexer(false));
+        return new YamlHighlightingLexer(new FlexAdapter(new YamlFlexLexer(null)));
+        // return new YamlHighlightingLexer(new YamlLexer(false));
     }
 
 	@NotNull

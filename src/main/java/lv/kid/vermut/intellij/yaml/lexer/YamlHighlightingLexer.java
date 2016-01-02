@@ -18,6 +18,7 @@ public class YamlHighlightingLexer extends MergingLexerAdapter {
     private final static TokenSet TOKENS_TO_MERGE = TokenSet.create(YamlTokenTypes.YAML_Key);
 
     public YamlHighlightingLexer(Lexer baseLexer) {
+        // super(new DummyLexer(YamlTokenTypes.YAML_Scalar), TOKENS_TO_MERGE);
         super(new YamlHighlightingLexerMultiKeys(baseLexer), TOKENS_TO_MERGE);
     }
 

@@ -9,7 +9,7 @@ import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerException;
-import org.yaml.snakeyaml.scanner.ScannerWhitespaceImpl;
+import org.yaml.snakeyaml.scanner.ScannerImpl;
 import org.yaml.snakeyaml.tokens.ErrorToken;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.Token;
@@ -78,7 +78,7 @@ public class ErrorReportingScanner implements ScannerEx {
 
     public ErrorReportingScanner(Reader reader) {
         streamReader = new StreamReader(reader);
-        scanner = new ScannerWhitespaceImpl(streamReader);
+        scanner = new ScannerImpl(streamReader);
     }
 
     @Override

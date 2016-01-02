@@ -59,18 +59,18 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * A mapping from an escaped character in the input stream to the character
      * that they should be replaced with.
-     *
+     * <p/>
      * YAML defines several common and a few uncommon escape sequences.
      *
      * @see <a href="http://www.yaml.org/spec/current.html#id2517668">4.1.6.
-     *      Escape Sequences</a>
+     * Escape Sequences</a>
      */
     public final static Map<Character, String> ESCAPE_REPLACEMENTS = new HashMap<Character, String>();
     /**
      * A mapping from a character to a number of bytes to read-ahead for that
      * escape sequence. These escape sequences are used to handle unicode
      * escaping in the following formats, where H is a hexadecimal character:
-     *
+     * <p/>
      * <pre>
      * &#92;xHH         : escaped 8-bit Unicode character
      * &#92;uHHHH       : escaped 16-bit Unicode character
@@ -78,7 +78,7 @@ public class ScannerWhitespaceImpl implements Scanner {
      * </pre>
      *
      * @see <a href="http://yaml.org/spec/1.1/current.html#id872840">5.6. Escape
-     *      Sequences</a>
+     * Sequences</a>
      */
     public final static Map<Character, Integer> ESCAPE_CODES = new HashMap<Character, Integer>();
     /**
@@ -371,10 +371,12 @@ public class ScannerWhitespaceImpl implements Scanner {
                 // Is it a double quoted scalar?
                 fetchDouble();
                 return;
+/*
             case ' ':
                 // Is it a whitespace?
                 fetchWhitespace();
                 return;
+*/
         }
         // It must be a plain scalar then.
         if (checkPlain()) {
@@ -502,7 +504,7 @@ public class ScannerWhitespaceImpl implements Scanner {
      * * Handle implicitly ending multiple levels of block nodes by decreased
      * indentation. This function becomes important on lines 4 and 7 of this
      * example:
-     *
+     * <p/>
      * <pre>
      * 1) book one:
      * 2)   part one:
@@ -512,7 +514,7 @@ public class ScannerWhitespaceImpl implements Scanner {
      * 6)     chapter two
      * 7) book two:
      * </pre>
-     *
+     * <p/>
      * In flow context, tokens should respect indentation. Actually the
      * condition should be `self.indent &gt;= column` according to the spec. But
      * this condition will prohibit intuitively correct constructions such as
@@ -600,10 +602,23 @@ public class ScannerWhitespaceImpl implements Scanner {
         this.tokens.add(tok);
     }
 
-    private void fetchWhitespace() {
+    private boolean fetchWhitespace() {
         // Scan and add WHITESPACE.
-        Token tok = scanWhitespace();
-        this.tokens.add(tok);
+        Token tok = scanWhitespace(false);
+        return tok != null && this.tokens.add(tok);
+    }
+
+    private boolean fetchWhitespaceOrTabs() {
+        // Scan and add WHITESPACE.
+        Token tok = scanWhitespace(true);
+        return tok != null && this.tokens.add(tok);
+    }
+
+    private void fetchComment() {
+        // Scan and add COMMENT.
+        Token tok = scanComment();
+        if (tok != null)
+            this.tokens.add(tok);
     }
 
     /**
@@ -657,14 +672,13 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * Fetch a flow-style collection start, which is either a sequence or a
      * mapping. The type is determined by the given boolean.
-     *
+     * <p/>
      * A flow-style collection is in a format similar to JSON. Sequences are
      * started by '[' and ended by ']'; mappings are started by '{' and ended by
      * '}'.
      *
-     * @see http://www.yaml.org/spec/1.1/#id863975
-     *
      * @param isMappingStart
+     * @see http://www.yaml.org/spec/1.1/#id863975
      */
     private void fetchFlowCollectionStart(boolean isMappingStart) {
         // '[' and '{' may start a simple key.
@@ -700,7 +714,7 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * Fetch a flow-style collection end, which is either a sequence or a
      * mapping. The type is determined by the given boolean.
-     *
+     * <p/>
      * A flow-style collection is in a format similar to JSON. Sequences are
      * started by '[' and ended by ']'; mappings are started by '{' and ended by
      * '}'.
@@ -886,7 +900,7 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * Fetch an alias, which is a reference to an anchor. Aliases take the
      * format:
-     *
+     * <p/>
      * <pre>
      * *(anchor name)
      * </pre>
@@ -907,7 +921,7 @@ public class ScannerWhitespaceImpl implements Scanner {
 
     /**
      * Fetch an anchor. Anchors take the form:
-     *
+     * <p/>
      * <pre>
      * &(anchor name)
      * </pre>
@@ -967,9 +981,8 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * Fetch a block scalar (literal or folded).
      *
-     * @see http://www.yaml.org/spec/1.1/#id863975
-     *
      * @param style
+     * @see http://www.yaml.org/spec/1.1/#id863975
      */
     private void fetchBlockScalar(char style) {
         // A simple key may follow a block scalar.
@@ -1000,9 +1013,8 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * Fetch a flow scalar (single- or double-quoted).
      *
-     * @see http://www.yaml.org/spec/1.1/#id863975
-     *
      * @param style
+     * @see http://www.yaml.org/spec/1.1/#id863975
      */
     private void fetchFlowScalar(char style) {
         // A flow scalar could be a simple key.
@@ -1168,26 +1180,21 @@ public class ScannerWhitespaceImpl implements Scanner {
         }
         boolean found = false;
         while (!found) {
-            // If the character we have skipped forward to is a comment (#),
-            // then peek ahead until we find the next end of line. YAML
-            // comments are from a # to the next new-line. We then forward
-            // past the comment.
-            if (reader.peek() == '#') {
-                int ff = 0;
-                while (Constant.NULL_OR_LINEBR.hasNo(reader.peek(ff))) {
-                    ff++;
-                }
-                if (ff > 0) {
-                    reader.forward(ff);
-                }
-            }
+            if (reader.peek() == ' ')
+                fetchWhitespace();
+
+            if (reader.peek() == '#')
+                fetchComment();
+
             // If we scanned a line break, then (depending on flow level),
             // simple keys may be allowed.
+            Mark startMark = reader.getMark();
             if (scanLineBreak().length() != 0) {// found a line-break
                 if (this.flowLevel == 0) {
                     // Simple keys are allowed at flow-level 0 after a line
                     // break
                     this.allowSimpleKey = true;
+                    this.tokens.add(new WhitespaceToken(startMark, reader.getMark()));
                 }
             } else {
                 found = true;
@@ -1223,24 +1230,41 @@ public class ScannerWhitespaceImpl implements Scanner {
         return new DirectiveToken(name, value, startMark, endMark);
     }
 
-    private Token scanWhitespace() {
+    private Token scanWhitespace(boolean allowTabs) {
         // See the specification for details.
         Mark startMark = reader.getMark();
-        reader.forward();
-
         int ff = 0;
         // Peek ahead until we find the first non-space character, then
         // move forward directly to that character.
-        while (reader.peek(ff) == ' ') {
+        while (reader.peek(ff) == ' ' || (allowTabs && reader.peek(ff) == '\t')) {
+            ff++;
+        }
+        if (ff > 0) {
+            reader.forward(ff);
+        } else {
+            return null;
+        }
+
+        return new WhitespaceToken(startMark, reader.getMark());
+    }
+
+    private Token scanComment() {
+        // If the character we have skipped forward to is a comment (#),
+        // then peek ahead until we find the next end of line. YAML
+        // comments are from a # to the next new-line. We then forward
+        // past the comment.
+        Mark startMark = reader.getMark();
+
+        int ff = 0;
+        while (Constant.NULL_OR_LINEBR.hasNo(reader.peek(ff))) {
             ff++;
         }
         if (ff > 0) {
             reader.forward(ff);
         }
-
         Mark endMark = reader.getMark();
 
-        return new WhitespaceToken(startMark, endMark);
+        return new CommentToken(startMark, endMark);
     }
 
     /**
@@ -1325,11 +1349,11 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * <p>
      * Read a %TAG directive value:
-     *
+     * <p/>
      * <pre>
      * s-ignored-space+ c-tag-handle s-ignored-space+ ns-tag-prefix s-l-comments
      * </pre>
-     *
+     * <p/>
      * </p>
      *
      * @see http://www.yaml.org/spec/1.1/#id896044
@@ -1353,9 +1377,9 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * Scan a %TAG directive's handle. This is YAML's c-tag-handle.
      *
-     * @see http://www.yaml.org/spec/1.1/#id896876
      * @param startMark
      * @return
+     * @see http://www.yaml.org/spec/1.1/#id896876
      */
     private String scanTagDirectiveHandle(Mark startMark) {
         // See the specification for details.
@@ -1460,13 +1484,13 @@ public class ScannerWhitespaceImpl implements Scanner {
      * Scan a Tag property. A Tag property may be specified in one of three
      * ways: c-verbatim-tag, c-ns-shorthand-tag, or c-ns-non-specific-tag
      * </p>
-     *
+     * <p/>
      * <p>
      * c-verbatim-tag takes the form !&lt;ns-uri-char+&gt; and must be delivered
      * verbatim (as-is) to the application. In particular, verbatim tags are not
      * subject to tag resolution.
      * </p>
-     *
+     * <p/>
      * <p>
      * c-ns-shorthand-tag is a valid tag handle followed by a non-empty suffix.
      * If the tag handle is a c-primary-tag-handle ('!') then the suffix must
@@ -1474,19 +1498,19 @@ public class ScannerWhitespaceImpl implements Scanner {
      * string will look like a named tag handle: !foo!bar would be interpreted
      * as (handle="!foo!", suffix="bar").
      * </p>
-     *
+     * <p/>
      * <p>
      * c-ns-non-specific-tag is always a lone '!'; this is only useful for plain
      * scalars, where its specification means that the scalar MUST be resolved
      * to have type tag:yaml.org,2002:str.
      * </p>
-     *
+     * <p/>
      * TODO SnakeYaml incorrectly ignores c-ns-non-specific-tag right now.
      *
      * @see http://www.yaml.org/spec/1.1/#id900262
-     *
-     *      TODO Note that this method does not enforce rules about local versus
-     *      global tags!
+     * <p/>
+     * TODO Note that this method does not enforce rules about local versus
+     * global tags!
      */
     private Token scanTag() {
         // See the specification for details.
@@ -1641,11 +1665,11 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * Scan a block scalar indicator. The block scalar indicator includes two
      * optional components, which may appear in either order.
-     *
+     * <p/>
      * A block indentation indicator is a non-zero digit describing the
      * indentation level of the block scalar to follow. This indentation is an
      * additional number of spaces relative to the current indentation level.
-     *
+     * <p/>
      * A block chomping indicator is a + or -, selecting the chomping mode away
      * from the default (clip) to either -(strip) or +(keep).
      *
@@ -1815,8 +1839,8 @@ public class ScannerWhitespaceImpl implements Scanner {
      * may be a single-quoted string.
      *
      * @see http://www.yaml.org/spec/1.1/#flow style/syntax
-     *
-     *      <pre>
+     * <p/>
+     * <pre>
      * See the specification for details.
      * Note that we loose indentation rules for quoted scalars. Quoted
      * scalars don't need to adhere indentation because &quot; and ' clearly
@@ -1972,7 +1996,7 @@ public class ScannerWhitespaceImpl implements Scanner {
 
     /**
      * Scan a plain scalar.
-     *
+     * <p/>
      * <pre>
      * See the specification for details.
      * We add an additional restriction for the flow context:
@@ -1986,7 +2010,6 @@ public class ScannerWhitespaceImpl implements Scanner {
         Mark startMark = reader.getMark();
         Mark endMark = startMark;
         int indent = this.indent + 1;
-        String spaces = "";
         while (true) {
             char ch;
             int length = 0;
@@ -2016,12 +2039,10 @@ public class ScannerWhitespaceImpl implements Scanner {
                 break;
             }
             this.allowSimpleKey = false;
-            chunks.append(spaces);
             chunks.append(reader.prefixForward(length));
             endMark = reader.getMark();
-            spaces = scanPlainSpaces();
-            // System.out.printf("spaces[%s]\n", spaces);
-            if (spaces.length() == 0 || reader.peek() == '#'
+            int numSpaces = scanPlainSpaces();
+            if (numSpaces == 0 || reader.peek() == '#'
                     || (this.flowLevel == 0 && this.reader.getColumn() < indent)) {
                 break;
             }
@@ -2033,24 +2054,20 @@ public class ScannerWhitespaceImpl implements Scanner {
      * See the specification for details. SnakeYAML and libyaml allow tabs
      * inside plain scalar
      */
-    private String scanPlainSpaces() {
-        int length = 0;
-        while (reader.peek(length) == ' ' || reader.peek(length) == '\t') {
-            length++;
-        }
-        String whitespaces = reader.prefixForward(length);
+    private int scanPlainSpaces() {
+        int whitespaces = fetchWhitespaceOrTabs() ? 1 : 0;
         String lineBreak = scanLineBreak();
         if (lineBreak.length() != 0) {
             this.allowSimpleKey = true;
             String prefix = reader.prefix(3);
             if ("---".equals(prefix) || "...".equals(prefix)
                     && Constant.NULL_BL_T_LINEBR.has(reader.peek(3))) {
-                return "";
+                return 0;
             }
             StringBuilder breaks = new StringBuilder();
             while (true) {
-                if (reader.peek() == ' ') {
-                    reader.forward();
+                if (fetchWhitespace()) {
+                    // got whitespace
                 } else {
                     String lb = scanLineBreak();
                     if (lb.length() != 0) {
@@ -2058,7 +2075,7 @@ public class ScannerWhitespaceImpl implements Scanner {
                         prefix = reader.prefix(3);
                         if ("---".equals(prefix) || "...".equals(prefix)
                                 && Constant.NULL_BL_T_LINEBR.has(reader.peek(3))) {
-                            return "";
+                            return 0;
                         }
                     } else {
                         break;
@@ -2066,11 +2083,11 @@ public class ScannerWhitespaceImpl implements Scanner {
                 }
             }
             if (!"\n".equals(lineBreak)) {
-                return lineBreak + breaks;
+                return (lineBreak + breaks).length();
             } else if (breaks.length() == 0) {
-                return " ";
+                return 1;
             }
-            return breaks.toString();
+            return breaks.length();
         }
         return whitespaces;
     }
@@ -2078,20 +2095,20 @@ public class ScannerWhitespaceImpl implements Scanner {
     /**
      * <p>
      * Scan a Tag handle. A Tag handle takes one of three forms:
-     *
+     * <p/>
      * <pre>
      * "!" (c-primary-tag-handle)
      * "!!" (ns-secondary-tag-handle)
      * "!(name)!" (c-named-tag-handle)
      * </pre>
-     *
+     * <p/>
      * Where (name) must be formatted as an ns-word-char.
      * </p>
      *
      * @see http://www.yaml.org/spec/1.1/#c-tag-handle
      * @see http://www.yaml.org/spec/1.1/#ns-word-char
-     *
-     *      <pre>
+     * <p/>
+     * <pre>
      * See the specification for details.
      * For some strange reasons, the specification does not allow '_' in
      * tag handles. I have allowed it anyway.
@@ -2138,7 +2155,7 @@ public class ScannerWhitespaceImpl implements Scanner {
      * concerned. The difference may be distinguished later, in parsing. This
      * method will scan for ns-uri-char*, which covers both cases.
      * </p>
-     *
+     * <p/>
      * <p>
      * This method performs no verification that the scanned URI conforms to any
      * particular kind of URI specification.
@@ -2184,7 +2201,7 @@ public class ScannerWhitespaceImpl implements Scanner {
      * Scan a sequence of %-escaped URI escape codes and convert them into a
      * String representing the unescaped values.
      * </p>
-     *
+     * <p/>
      * FIXME This method fails for more than 256 bytes' worth of URI-encoded
      * characters in a row. Is this possible? Is this a use-case?
      *
@@ -2228,7 +2245,7 @@ public class ScannerWhitespaceImpl implements Scanner {
 
     /**
      * Scan a line break, transforming:
-     *
+     * <p/>
      * <pre>
      * '\r\n' : '\n'
      * '\r' : '\n'

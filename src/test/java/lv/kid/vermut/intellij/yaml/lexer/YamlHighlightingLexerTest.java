@@ -3,6 +3,7 @@ package lv.kid.vermut.intellij.yaml.lexer;
 import com.intellij.lexer.Lexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.testFramework.LexerTestCase;
+import lv.kid.vermut.intellij.yaml.editor.YamlSyntaxHighlighter;
 import org.junit.Test;
 
 @SuppressWarnings("JUnit4AnnotatedMethodInJUnit3TestCase")
@@ -10,7 +11,8 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
 
     @Override
     protected Lexer createLexer() {
-        return new YamlLexer(false);
+        return new YamlSyntaxHighlighter().getHighlightingLexer();
+//        return new YamlLexer(false);
     }
 
     @Override
@@ -21,8 +23,8 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     private void startSkippingHeaders(Lexer l, String buf) {
         l.start(buf);
 
-        assertAndAdvance(l, YamlTokenTypes.YAML_StreamStart);
-        assertAndAdvance(l, YamlTokenTypes.YAML_BlockMappingStart);
+//        assertAndAdvance(l, YamlTokenTypes.YAML_StreamStart);
+//        assertAndAdvance(l, YamlTokenTypes.YAML_BlockMappingStart);
     }
 
     @Test
@@ -196,10 +198,12 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     public void test73() throws Exception {
         Lexer l = new YamlHighlightingLexer(createLexer());
 
-        l.start("a ");
+        l.start(" c ");
 
         assertAndAdvance(l, YamlTokenTypes.YAML_StreamStart);
-        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 0, 5, "a:c\nx");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Whitespace, 0, 1, " ");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 1, 2, "c");
+        assertAndAdvance(l, YamlTokenTypes.YAML_Whitespace, 2, 3, " ");
     }
 
     @Test
@@ -210,15 +214,13 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
 
     @Test
     public void testPrinter() {
-        String text = "key: val\n" +
-                "@bad!\n" +
-                "key2: val2" +
-                "@bad!\n" +
-                "key2: val2";
+        String text = "a: x\n" +
+                "b: y\n" +
+                "ab";
         System.out.println(printTokens(text, 0));
-        System.out.println(printTokens(text, 8));
+        // System.out.println(printTokens(text, 8));
 
-        checkCorrectRestart(text);
+        // checkCorrectRestart(text);
     }
 
     private void assertAndAdvance(Lexer l, IElementType expectedType) {
