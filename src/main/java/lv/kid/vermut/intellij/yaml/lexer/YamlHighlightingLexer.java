@@ -19,8 +19,7 @@ public class YamlHighlightingLexer extends MergingLexerAdapter {
 
     public YamlHighlightingLexer(Lexer baseLexer) {
         // super(new DummyLexer(YamlTokenTypes.YAML_Scalar), TOKENS_TO_MERGE);
-        // super(new YamlHighlightingLexerMultiKeys(baseLexer), TOKENS_TO_MERGE);
-        super(baseLexer, TOKENS_TO_MERGE);
+        super(new YamlHighlightingLexerMultiKeys(baseLexer), TOKENS_TO_MERGE);
     }
 
     static class YamlHighlightingLexerMultiKeys extends LookAheadLexer {
@@ -49,7 +48,7 @@ public class YamlHighlightingLexer extends MergingLexerAdapter {
                 if (tag.equals(Tag.BOOL)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_BOOL);
                 else if (tag.equals(Tag.INT)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_INT);
                 else if (tag.equals(Tag.FLOAT)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_FLOAT);
-                else if (tag.equals(Tag.NULL)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_NULL);
+                    // TODO else if (tag.equals(Tag.NULL)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_NULL);
                 else if (tag.equals(Tag.TIMESTAMP)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_TIMESTAMP);
             } else {
                 super.lookAhead(baseLexer);

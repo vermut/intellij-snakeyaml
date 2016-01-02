@@ -218,8 +218,6 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
                 "- yaml: \n" +
                 "  - [here, and]\n" +
                 "  - {it: updates, in: real-time}\n";
-        text = "- just";
-        text = "just: ab";
 
         System.out.println(printTokens(text, 0));
         // System.out.println(printTokens(text, 8));
