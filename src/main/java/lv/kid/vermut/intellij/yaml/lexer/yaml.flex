@@ -205,6 +205,8 @@ NULL_BL_T_S = [\0 \t]
             }
         }
 
+    ^{WHITESPACE}* {NEWLINE}   { a=301; }
+
     ^{WHITESPACE}*
         { a=302;
             if (yylength() < this.indent || yylength() == 0)
@@ -212,6 +214,7 @@ NULL_BL_T_S = [\0 \t]
                 yypopBackState(); return YAML_Scalar;
             }
         }
+
     <<EOF>>                    { a=307; yypopBackState(); return YAML_Scalar; }
     . | {NEWLINE}
         { a=303;
