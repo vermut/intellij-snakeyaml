@@ -2,7 +2,7 @@ package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import org.yaml.snakeyaml.util.ArrayStack;
+// import org.yaml.snakeyaml.util.ArrayStack;
 import java.util.Stack;
 
 import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
@@ -159,7 +159,7 @@ NULL_BL_T_S = [\0 \t]
         { if (this.flowLevel == 0)
           {
             // Hacky hold the current indent to compare inside IN_BLOCK
-            this.indents.push(yycolumn);
+            this.indents.push(yycolumn - yylength());
             yypushState(IN_BLOCK_SCALAR);
             return YAML_Scalar;
           }
@@ -170,7 +170,7 @@ NULL_BL_T_S = [\0 \t]
         { if (this.flowLevel == 0)
           {
             // Hacky hold the current indent to compare inside IN_BLOCK
-            this.indents.push(yycolumn);
+            this.indents.push(yycolumn - yylength());
             yypushState(IN_BLOCK_SCALAR);
             return YAML_Scalar;
           }
@@ -199,11 +199,11 @@ NULL_BL_T_S = [\0 \t]
     ^{WHITESPACE}* {NEWLINE}    { a=401; }
     ^{WHITESPACE}*
         { a=402;
-            if (yylength() <= this.indents.peek() || yylength() == 0)
+            if (yylength() < this.indents.peek() || yylength() == 0)
             { // End of block scalar
                 a=403; yypopBackState(); this.indents.pop(); return YAML_Scalar;
             }
         }
     <<EOF>>                    { a=407; yypopBackState(); this.indents.pop(); return YAML_Scalar; }
-    .* {NEWLINE}               { }
+    . | {NEWLINE}             { }
 }
