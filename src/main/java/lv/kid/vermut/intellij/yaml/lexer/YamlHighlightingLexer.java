@@ -19,7 +19,8 @@ public class YamlHighlightingLexer extends MergingLexerAdapter {
 
     public YamlHighlightingLexer(Lexer baseLexer) {
         // super(new DummyLexer(YamlTokenTypes.YAML_Scalar), TOKENS_TO_MERGE);
-        super(new YamlHighlightingLexerMultiKeys(baseLexer), TOKENS_TO_MERGE);
+        // super(new YamlHighlightingLexerMultiKeys(baseLexer), TOKENS_TO_MERGE);
+        super(baseLexer, TOKENS_TO_MERGE);
     }
 
     static class YamlHighlightingLexerMultiKeys extends LookAheadLexer {

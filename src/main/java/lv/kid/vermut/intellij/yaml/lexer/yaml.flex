@@ -2,6 +2,7 @@ package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
+import org.yaml.snakeyaml.util.ArrayStack;
 import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
 %%
 %class YamlFlexLexer
@@ -9,25 +10,46 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
 %public
 %debug
 %unicode
+%column
 %function advance
 %type IElementType
 %{
     private int yycolumn = 0;
     private int a = 0;
-    private Stack<Integer> stack = new Stack<Integer>();
+    private ArrayStack<Integer> stack = new ArrayStack<Integer>(10);
 
 	private void retryInState(int newState) {
         yybegin(newState);
         yypushback(yylength());
 	}
 
-    public void yypushState(int newState) {
+    private void yypushState(int newState) {
       stack.push(yystate());
       yybegin(newState);
     }
 
-    public void yypopState() {
+    private void yypopState() {
       yybegin(stack.pop());
+    }
+
+    private void yypopBackState() {
+      yybegin(stack.pop());
+      yypushback(yylength());
+    }
+
+    // The current indentation level.
+    private int indent = -1;
+
+    // Past indentation levels.
+    private ArrayStack<Integer> indents = new ArrayStack<Integer>(10);
+
+    private boolean addIndent(int column) {
+        if (this.indent < column) {
+            this.indents.push(this.indent);
+            this.indent = column;
+            return true;
+        }
+        return false;
     }
 %}
 
@@ -40,7 +62,6 @@ WHITESPACE = [\t ]+
 NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
 
 %xstate IN_PLAIN
-%xstate IN_PLAIN_FLOW
 %%
 
 <YYINITIAL> {
@@ -58,7 +79,7 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
     {YAML_DOCUMENT} {         return YAML_DocumentStart;    }
 
     // Is it the block entry indicator?
-    "-" {WHITESPACE}*            { return YAML_BlockEntry;               }
+    "-" {WHITESPACE}+            { addIndent(yycolumn); return YAML_BlockEntry;  }
 
     // Is it the flow sequence start indicator?
     "[" {WHITESPACE}*            { return YAML_FlowSequenceStart; }
@@ -90,22 +111,15 @@ NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
     // Is it a double quoted scalar?
     "\""                           { return YAML_Scalar; }
 
-    {LITERAL_START} {
-        yybegin(IN_PLAIN_FLOW);
-    }
+    {LITERAL_START}               { yypushState(IN_PLAIN);    }
 
 
-    . {         return YAML_Error;     }
+    .                               {         return YAML_Error;     }
 }
 
 <IN_PLAIN> {
-    {NEWLINE}                  { a=307; retryInState(YYINITIAL); return YAML_Scalar; }
-    <<EOF>>                    { a=307; yybegin(YYINITIAL); return YAML_Scalar; }
-    .                         {}
-}
-<IN_PLAIN_FLOW> {
-    ":"                        { a=308; retryInState(YYINITIAL); return YAML_Scalar; }
-    {NEWLINE}                  { a=307; retryInState(YYINITIAL); return YAML_Scalar; }
-    <<EOF>>                    { a=307; yybegin(YYINITIAL); return YAML_Scalar; }
-    .                         {}
+    ":"                        { a=308; yypopBackState(); return YAML_Scalar; }
+    {NEWLINE}                  { a=307; yypopBackState(); return YAML_Scalar; }
+    <<EOF>>                    { a=307; yypopBackState(); return YAML_Scalar; }
+    .                          { }
 }
