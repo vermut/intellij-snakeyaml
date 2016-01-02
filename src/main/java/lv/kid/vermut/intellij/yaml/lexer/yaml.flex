@@ -2,7 +2,6 @@ package lv.kid.vermut.intellij.yaml.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-// import org.yaml.snakeyaml.util.ArrayStack;
 import java.util.Stack;
 
 import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
@@ -10,7 +9,7 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
 %class YamlFlexLexer
 %implements FlexLexer
 %public
-%debug
+// %debug
 %unicode
 %column
 %function advance
@@ -25,6 +24,7 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
         yypushback(yylength());
 	}
 
+    // TODO stack is not needed
     private void yypushState(int newState) {
       stack.push(yystate());
       yybegin(newState);
@@ -75,7 +75,7 @@ COMMENT = \#.* {NEWLINE}
 YAML_DOCUMENT = --- | \.\.\.
 DIRECTIVE = %.*{NEWLINE}
 INDENT = \n? [\t ]*
-LITERAL_START = [^-?:,\[\]{}#&*!|>\'\"%@`]
+PLAIN_FIRST = [^-?:,\[\]{}#&*!|>\'\"%@`]
 WHITESPACE = [\t ]+
 NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
 
@@ -88,7 +88,9 @@ NULL_BL_LINEBR_S = [ ] | {NULL_OR_LINEBR_S}
 NULL_BL_T_LINEBR_S = \t | {NULL_BL_LINEBR_S}
 NULL_BL_T_S = [\0 \t]
 
-%xstate IN_PLAIN
+%xstate IN_SINGLE_QUOTE_SCALAR
+%xstate IN_DOUBLE_QUOTE_SCALAR
+%xstate IN_PLAIN_SCALAR
 %xstate IN_BLOCK_SCALAR
 %%
 
@@ -135,7 +137,7 @@ NULL_BL_T_S = [\0 \t]
 
     // Is it the value indicator?
     ":" {NULL_BL_T_LINEBR_S}*     {
-                                    // VALUE(flow context): '?'
+                                    // VALUE(flow context): ':'
                                     if (this.flowLevel != 0) {
                                         return YAML_Value;
                                     } else {
@@ -177,26 +179,62 @@ NULL_BL_T_S = [\0 \t]
         }
 
     // Is it a single quoted scalar?
-    "'"                            { return YAML_Scalar; }
+    "'"                            { yypushState(IN_SINGLE_QUOTE_SCALAR); }
 
     // Is it a double quoted scalar?
-    "\""                           { return YAML_Scalar; }
+    "\""                           { yypushState(IN_DOUBLE_QUOTE_SCALAR); }
 
-    {LITERAL_START}               { yypushState(IN_PLAIN);    }
+    {PLAIN_FIRST}                  { a=101; yypushState(IN_PLAIN_SCALAR);    }
 
+    // However, the “:”, “?” and “-” indicators may be used as the first character if followed by a non-space “safe” character, as this causes no ambiguity.
+    [?:-] [^ ]                     { a=102; yypushState(IN_PLAIN_SCALAR);    }
 
-    .                               {         return YAML_Error;     }
+    .                              {         return YAML_Error;     }
 }
 
-<IN_PLAIN> {
-    ":"                        { a=308; yypopBackState(); return YAML_Scalar; }
-    {NEWLINE}                  { a=307; yypopBackState(); return YAML_Scalar; }
+// http://www.yaml.org/spec/1.2/spec.html#id2788859
+<IN_PLAIN_SCALAR> {
+    ":" {WHITESPACE}           { a=306; yypopBackState(); return YAML_Scalar; }
+    {WHITESPACE} "#"           { a=308; yypopBackState(); return YAML_Scalar; }
+
+    [\[\]{},]
+        {
+            if (this.flowLevel > 0) {
+              yypopBackState();
+              return YAML_Scalar;
+            }
+        }
+
+    ^{WHITESPACE}*
+        { a=302;
+            if (yylength() < this.indent || yylength() == 0)
+            { // End of multiline scalar
+                yypopBackState(); return YAML_Scalar;
+            }
+        }
     <<EOF>>                    { a=307; yypopBackState(); return YAML_Scalar; }
-    .                          { }
+    . | {NEWLINE}
+        { a=303;
+            if (yycolumn == 0)
+            { // End of multiline scalar
+                yypopBackState(); return YAML_Scalar;
+            }
+        }
+}
+
+<IN_SINGLE_QUOTE_SCALAR> {
+    "''"                         {}
+    "'"                          { yypopState(); return YAML_Scalar; }
+    . | {NEWLINE}                {}
+}
+<IN_DOUBLE_QUOTE_SCALAR> {
+    \\\"                         {}
+    \"                           { yypopState(); return YAML_Scalar; }
+    . | {NEWLINE}                {}
 }
 
 <IN_BLOCK_SCALAR> {
-    ^{WHITESPACE}* {NEWLINE}    { a=401; }
+    ^{WHITESPACE}* {NEWLINE}   { a=401; }
     ^{WHITESPACE}*
         { a=402;
             if (yylength() < this.indents.peek() || yylength() == 0)
@@ -205,5 +243,5 @@ NULL_BL_T_S = [\0 \t]
             }
         }
     <<EOF>>                    { a=407; yypopBackState(); this.indents.pop(); return YAML_Scalar; }
-    . | {NEWLINE}             { }
+    . | {NEWLINE}              { }
 }

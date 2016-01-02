@@ -217,14 +217,8 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
         String text = "- just: write some\n" +
                 "- yaml: \n" +
                 "  - [here, and]\n" +
-                "  - {it: updates, in: real-time}\n";
-
-        text = "a:\n" +
-                "  just: |2- \n" +
-                "   sdfsdfsd\n" +
-                "   sdfsdd\n" +
-                "   sdfsdfs\n" +
-                " test2\n";
+                "  - {it: updates, in: real-time, true: \"to the ," +
+                " bone\"}\n";
 
         System.out.println(printTokens(text, 0));
         // System.out.println(printTokens(text, 8));
