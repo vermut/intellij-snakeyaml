@@ -13,6 +13,16 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     protected Lexer createLexer() {
         return new YamlSyntaxHighlighter().getHighlightingLexer();
 //        return new YamlLexer(false);
+/*
+        return new LookAheadLexer(new FlexAdapter(new YamlFlexLexer(null))) {
+            @Override
+            protected void lookAhead(Lexer baseLexer) {
+                super.lookAhead(baseLexer);
+                String a = getTokenText();
+
+            }
+        };
+*/
     }
 
     @Override
@@ -29,7 +39,7 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
 
     @Test
     public void testKeys() {
-        Lexer l = new YamlHighlightingLexer(createLexer());
+        Lexer l = createLexer();
 
         startSkippingHeaders(l, "key: val");
         assertAndAdvance(l, YamlTokenTypes.YAML_Key, 0, 3, "key");
@@ -42,7 +52,7 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
 
     @Test
     public void testKeywords() {
-        Lexer l = new YamlHighlightingLexer(createLexer());
+        Lexer l = createLexer();
 
         l.start("[true,off,TruE,\"true\",12,12.3,null]");
 
@@ -132,7 +142,7 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
 
     @Test
     public void testErrorSkipping() {
-        Lexer l = new YamlHighlightingLexer(createLexer());
+        Lexer l = createLexer();
 
         startSkippingHeaders(l, "key: val\n" +
                 "@bad!\n" +
@@ -155,7 +165,7 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     }
 
     public void test73() throws Exception {
-        Lexer l = new YamlHighlightingLexer(createLexer());
+        Lexer l = createLexer();
 
         l.start(" c ");
 
@@ -171,11 +181,12 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
 
     @Test
     public void testPrinter() {
-        String text = "- just: write some\n" +
-                "- yaml: \n" +
-                "  - [here, and]\n" +
-                "  - {it: updates, in: real-time, true: \"to the ," +
-                " bone\"}\n";
+        String text = "customer:\n" +
+                "    given:   Dorothy\n" +
+                "    family:  Gale\n" +
+                "    dob:     {      mon: 3,      day: 2,   year: 1900}";
+
+        text = "[true,off,TruE,\"true\",12,12.3,null]";
 
         System.out.println(printTokens(text, 0));
         // System.out.println(printTokens(text, 8));

@@ -18,7 +18,8 @@ import java.util.Map;
 public class YamlColorsPage implements ColorSettingsPage {
     public static final AttributesDescriptor[] ATTRS = {
             new AttributesDescriptor("Bad character", YamlSyntaxHighlighter.UNKNOWN),
-            new AttributesDescriptor("Comment", YamlSyntaxHighlighter.DOC_SEPARATORS),
+            new AttributesDescriptor("Comment", YamlSyntaxHighlighter.COMMENTS),
+            new AttributesDescriptor("Document Separators", YamlSyntaxHighlighter.DOC_SEPARATORS),
             new AttributesDescriptor("Identifier", YamlSyntaxHighlighter.IDENTIFIER),
             new AttributesDescriptor("Sign: brace, comma, etc", YamlSyntaxHighlighter.INTERPUNCTION),
             new AttributesDescriptor("Number", YamlSyntaxHighlighter.NUMBER),

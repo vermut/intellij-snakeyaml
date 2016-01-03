@@ -199,8 +199,8 @@ NULL_BL_T_S = [\0 \t]
 
 // http://www.yaml.org/spec/1.2/spec.html#id2788859
 <IN_PLAIN_SCALAR> {
-    ":" {WHITESPACE}           { a=306; yypopBackState(); return YAML_Scalar; }
-    {WHITESPACE} "#"           { a=308; yypopBackState(); return YAML_Scalar; }
+    ":" {NULL_BL_T_LINEBR_S}           { a=306; yypopBackState(); return YAML_Scalar; }
+    {NULL_BL_T_LINEBR_S} "#"           { a=308; yypopBackState(); return YAML_Scalar; }
 
     [\[\]{},]
         {
