@@ -17,27 +17,15 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
 %{
     private int yycolumn = 0;
     private int a = 0;
-    private Stack<Integer> stack = new Stack<Integer>();
 
 	private void retryInState(int newState) {
         yybegin(newState);
         yypushback(yylength());
 	}
 
-    // TODO stack is not needed
-    private void yypushState(int newState) {
-      stack.push(yystate());
-      yybegin(newState);
-    }
-
-    private void yypopState() {
-      yybegin(stack.pop());
-    }
-
-    private void yypopBackState() {
-      yybegin(stack.pop());
-      yypushback(yylength());
-    }
+	private void retryInInitial() {
+        retryInState(YYINITIAL);
+	}
 
     // The current indentation level.
     private int indent = -1;
@@ -167,7 +155,7 @@ NULL_BL_T_S = [\0 \t]
           {
             // Hacky hold the current indent to compare inside IN_BLOCK
             this.indents.push(yycolumn - yylength());
-            yypushState(IN_BLOCK_SCALAR);
+            yybegin(IN_BLOCK_SCALAR);
             return YAML_Scalar;
           }
         }
@@ -178,34 +166,34 @@ NULL_BL_T_S = [\0 \t]
           {
             // Hacky hold the current indent to compare inside IN_BLOCK
             this.indents.push(yycolumn - yylength());
-            yypushState(IN_BLOCK_SCALAR);
+            yybegin(IN_BLOCK_SCALAR);
             return YAML_Scalar;
           }
         }
 
     // Is it a single quoted scalar?
-    "'"                            { yypushState(IN_SINGLE_QUOTE_SCALAR); }
+    "'"                            { yybegin(IN_SINGLE_QUOTE_SCALAR); }
 
     // Is it a double quoted scalar?
-    "\""                           { yypushState(IN_DOUBLE_QUOTE_SCALAR); }
+    "\""                           { yybegin(IN_DOUBLE_QUOTE_SCALAR); }
 
-    {PLAIN_FIRST}                  { a=101; yypushState(IN_PLAIN_SCALAR);    }
+    {PLAIN_FIRST}                  { a=101; yybegin(IN_PLAIN_SCALAR);    }
 
     // However, the “:”, “?” and “-” indicators may be used as the first character if followed by a non-space “safe” character, as this causes no ambiguity.
-    [?:-] [^ ]                     { a=102; yypushState(IN_PLAIN_SCALAR);    }
+    [?:-] [^ ]                     { a=102; yybegin(IN_PLAIN_SCALAR);    }
 
     .                              {         return YAML_Error;     }
 }
 
 // http://www.yaml.org/spec/1.2/spec.html#id2788859
 <IN_PLAIN_SCALAR> {
-    ":" {NULL_BL_T_LINEBR_S}           { a=306; yypopBackState(); return YAML_Scalar; }
-    {NULL_BL_T_LINEBR_S} "#"           { a=308; yypopBackState(); return YAML_Scalar; }
+    ":" {NULL_BL_T_LINEBR_S}           { a=306; retryInInitial(); return YAML_Scalar; }
+    {NULL_BL_T_LINEBR_S} "#"           { a=308; retryInInitial(); return YAML_Scalar; }
 
     [\[\]{},]
         {
             if (this.flowLevel > 0) {
-              yypopBackState();
+              retryInInitial();
               return YAML_Scalar;
             }
         }
@@ -216,28 +204,28 @@ NULL_BL_T_S = [\0 \t]
         { a=302;
             if (yylength() < this.indent || yylength() == 0)
             { // End of multiline scalar
-                yypopBackState(); return YAML_Scalar;
+                retryInInitial(); return YAML_Scalar;
             }
         }
 
-    <<EOF>>                    { a=307; yypopBackState(); return YAML_Scalar; }
+    <<EOF>>                    { a=307; retryInInitial(); return YAML_Scalar; }
     . | {NEWLINE}
         { a=303;
             if (yycolumn == 0)
             { // End of multiline scalar
-                yypopBackState(); return YAML_Scalar;
+                retryInInitial(); return YAML_Scalar;
             }
         }
 }
 
 <IN_SINGLE_QUOTE_SCALAR> {
     "''"                         {}
-    "'"                          { yypopState(); return YAML_Scalar; }
+    "'"                          { yybegin(YYINITIAL); return YAML_Scalar; }
     . | {NEWLINE}                {}
 }
 <IN_DOUBLE_QUOTE_SCALAR> {
     \\\"                         {}
-    \"                           { yypopState(); return YAML_Scalar; }
+    \"                           { yybegin(YYINITIAL); return YAML_Scalar; }
     . | {NEWLINE}                {}
 }
 
@@ -247,9 +235,9 @@ NULL_BL_T_S = [\0 \t]
         { a=402;
             if (yylength() < this.indents.peek() || yylength() == 0)
             { // End of block scalar
-                a=403; yypopBackState(); this.indents.pop(); return YAML_Scalar;
+                a=403; retryInInitial(); this.indents.pop(); return YAML_Scalar;
             }
         }
-    <<EOF>>                    { a=407; yypopBackState(); this.indents.pop(); return YAML_Scalar; }
+    <<EOF>>                    { a=407; retryInInitial(); this.indents.pop(); return YAML_Scalar; }
     . | {NEWLINE}              { }
 }

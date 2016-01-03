@@ -12,17 +12,6 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     @Override
     protected Lexer createLexer() {
         return new YamlSyntaxHighlighter().getHighlightingLexer();
-//        return new YamlLexer(false);
-/*
-        return new LookAheadLexer(new FlexAdapter(new YamlFlexLexer(null))) {
-            @Override
-            protected void lookAhead(Lexer baseLexer) {
-                super.lookAhead(baseLexer);
-                String a = getTokenText();
-
-            }
-        };
-*/
     }
 
     @Override
@@ -183,10 +172,7 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     public void testPrinter() {
         String text = "customer:\n" +
                 "    given:   Dorothy\n" +
-                "    family:  Gale\n" +
-                "    dob:     {      mon: 3,      day: 2,   year: 1900}";
-
-        text = "[true,off,TruE,\"true\",12,12.3,null]";
+                "    family:  Gale\n";
 
         System.out.println(printTokens(text, 0));
         // System.out.println(printTokens(text, 8));
