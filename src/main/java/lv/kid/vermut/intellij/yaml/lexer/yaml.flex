@@ -177,7 +177,7 @@ NULL_BL_T_S = [\0 \t]
     // Is it a double quoted scalar?
     "\""                           { yybegin(IN_DOUBLE_QUOTE_SCALAR); }
 
-    {PLAIN_FIRST}                  { a=101; yybegin(IN_PLAIN_SCALAR);    }
+    {PLAIN_FIRST}                  { a=101; addIndent(yycolumn-1); yybegin(IN_PLAIN_SCALAR);    }
 
     // However, the “:”, “?” and “-” indicators may be used as the first character if followed by a non-space “safe” character, as this causes no ambiguity.
     [?:-] [^ ]                     { a=102; yybegin(IN_PLAIN_SCALAR);    }
