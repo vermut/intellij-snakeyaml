@@ -146,7 +146,7 @@ NULL_BL_T_S = [\0 \t]
     "&" {NON_WHITESPACE}+           { return YAML_Anchor; }
 
     // Is it an tag?
-    "!" {NON_WHITESPACE}+          { return YAML_Tag; }
+    "!" {NON_WHITESPACE}*          { return YAML_Tag; }
 
     // TODO maybe it possible to parse out comment
     // Is it a literal scalar?

@@ -43,12 +43,12 @@ public class YamlFoldingBuilder implements FoldingBuilder {
         for (final YamlTuple tuple : PsiTreeUtil.findChildrenOfType(node.getPsi(), YamlTuple.class)) {
 
             final PsiElement value = tuple.getValue();
-            if (value.getNode().getElementType().equals(YamlNodes.YAML_MappingNode))
+            if (value != null && value.getNode().getElementType().equals(YamlNodes.YAML_MappingNode))
                 descriptors.add(new FoldingDescriptor(value.getLastChild().getNode(),
                         new TextRange(value.getTextRange().getStartOffset(),
                                 value.getTextRange().getEndOffset() - 1)));
 
-            else if (value.getNode().getElementType().equals(YamlNodes.YAML_SequenceNode))
+            else if (value != null && value.getNode().getElementType().equals(YamlNodes.YAML_SequenceNode))
                 descriptors.add(new FoldingDescriptor(value.getNode(),
                         new TextRange(value.getTextRange().getStartOffset(),
                                 value.getTextRange().getEndOffset() - 1)));
