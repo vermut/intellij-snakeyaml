@@ -23,36 +23,33 @@ public class YamlHighlightingLexer extends MergingLexerAdapter {
 
     static class YamlHighlightingLexerMultiKeys extends LookAheadLexer {
         Resolver resolver = new Resolver();
-        private IElementType lastAddedToken;
 
         public YamlHighlightingLexerMultiKeys(Lexer baseLexer) {
             super(baseLexer, 1);
         }
 
         @Override
-        protected void addToken(int endOffset, IElementType type) {
-            super.addToken(endOffset, type);
-            lastAddedToken = type;
-        }
-
-        @Override
         protected void lookAhead(Lexer baseLexer) {
-            super.lookAhead(baseLexer);
-            if (baseLexer.getTokenType() == YamlTokenTypes.YAML_Scalar) {
-                Tag tag = resolver.resolve(NodeId.scalar, baseLexer.getTokenText(), true);
-                super.lookAhead(baseLexer);
+            IElementType currentToken = baseLexer.getTokenType();
 
+            if (currentToken == YamlTokenTypes.YAML_Scalar) {
+                boolean tagIsNotEmpty = baseLexer.getTokenText().length() > 0;  // To catch all false positives
+                Tag tag = resolver.resolve(NodeId.scalar, baseLexer.getTokenText(), true);
+
+                advanceLexer(baseLexer);
                 if (tag.equals(Tag.BOOL)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_BOOL);
                 else if (tag.equals(Tag.INT)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_INT);
                 else if (tag.equals(Tag.FLOAT)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_FLOAT);
-                    // TODO else if (tag.equals(Tag.NULL)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_NULL);
+                else if (tagIsNotEmpty && tag.equals(Tag.NULL)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_NULL);
                 else if (tag.equals(Tag.TIMESTAMP)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_TIMESTAMP);
-            }
-//            while (getCacheSize() < 2)
-//                super.lookAhead(baseLexer);
 
-            if (lastAddedToken != null && lastAddedToken == YamlTokenTypes.YAML_Value) {
-                replaceCachedType(0, YamlTokenTypes.YAML_Key);
+                if (baseLexer.getTokenType() == YamlTokenTypes.YAML_Value) {
+                    replaceCachedType(0, YamlTokenTypes.YAML_Key);
+                    advanceLexer(baseLexer);
+                }
+
+            } else {
+                super.lookAhead(baseLexer);
             }
         }
     }
