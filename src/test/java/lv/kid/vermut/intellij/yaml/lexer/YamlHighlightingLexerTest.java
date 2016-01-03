@@ -125,6 +125,7 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
         assertAndAdvance(l, YamlTokenTypes.YAML_Scalar, 8, 10, "y\n");
 
         assertAndAdvance(l, YamlTokenTypes.YAML_Error);
+        assertAndAdvance(l, YamlTokenTypes.YAML_Scalar);
 
         assertEquals(null, l.getTokenType());
     }
