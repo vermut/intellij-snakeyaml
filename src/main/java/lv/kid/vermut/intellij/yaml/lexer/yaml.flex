@@ -77,6 +77,7 @@ DIRECTIVE = %.*{NEWLINE}
 INDENT = \n? [\t ]*
 PLAIN_FIRST = [^-?:,\[\]{}#&*!|>\'\"%@`]
 WHITESPACE = [\t ]+
+NON_WHITESPACE = [^\t\r\n ]+
 NEWLINE = \r\n|[\r\n\u2028\u2029\u000B\u000C\u0085]
 
 BLOCK_INDENTATION_INDICATOR = [:digit:]?[+-]?
@@ -130,8 +131,10 @@ NULL_BL_T_S = [\0 \t]
                                         return YAML_Key;
                                     } else {
                                         // KEY(block context): '?' (' '|'\n')
-                                        if (yylength()>1)
+                                        if (yylength()>1) {
+                                            yypushback(yylength() - 1); // Keep whitespace
                                             return YAML_Key;
+                                        }
                                     }
                                   }
 
@@ -142,18 +145,20 @@ NULL_BL_T_S = [\0 \t]
                                         return YAML_Value;
                                     } else {
                                         // VALUE(block context): '?' (' '|'\n')
-                                        if (yylength()>1)
+                                        if (yylength()>1) {
+                                            yypushback(yylength() - 1); // Keep whitespace
                                             return YAML_Value;
+                                        }
                                     }
                                   }
     // Is it an alias?
-    "*"                            { return YAML_Alias; }
+    "*" {NON_WHITESPACE}+           { return YAML_Alias; }
 
     // Is it an anchor?
-    "&"                            { return YAML_Anchor; }
+    "&" {NON_WHITESPACE}+           { return YAML_Anchor; }
 
     // Is it an tag?
-    "!"                            { return YAML_Tag; }
+    "!!" {NON_WHITESPACE}+          { return YAML_Tag; }
 
     // TODO maybe it possible to parse out comment
     // Is it a literal scalar?
