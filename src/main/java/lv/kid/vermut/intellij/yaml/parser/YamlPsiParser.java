@@ -8,6 +8,7 @@ import com.intellij.psi.tree.IElementType;
 import lv.kid.vermut.intellij.yaml.lexer.PsiBuilderScannerParallelizator;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.parser.ComposerEx;
+import org.yaml.snakeyaml.parser.ComposerException;
 import org.yaml.snakeyaml.parser.ParserException;
 import org.yaml.snakeyaml.parser.ParserImplEx;
 import org.yaml.snakeyaml.resolver.Resolver;
@@ -36,6 +37,8 @@ public class YamlPsiParser implements PsiParser {
         } catch (ScannerException e) {
             failAsError(builder, scannerEx, e);
         } catch (ParserException e) {
+            failAsError(builder, scannerEx, e);
+        } catch (ComposerException e) {
             failAsError(builder, scannerEx, e);
         }
 

@@ -32,7 +32,7 @@ public class YamlHighlightingLexer extends MergingLexerAdapter {
             super.lookAhead(baseLexer);
 
             if (getTokenType() == YamlTokenTypes.YAML_Scalar) {
-                Tag tag = resolver.resolve(NodeId.scalar, getTokenText(), true);
+                Tag tag = resolver.resolve(NodeId.scalar, getTokenText().trim(), true);
 
                 if (tag.equals(Tag.BOOL)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_BOOL);
                 else if (tag.equals(Tag.INT)) replaceCachedType(0, YamlTokenTypes.YAML_Tag_INT);

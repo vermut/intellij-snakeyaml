@@ -172,7 +172,9 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
     public void testPrinter() {
         String text = "customer:\n" +
                 "    given:   Dorothy\n" +
-                "    family:  Gale\n";
+                "    family:  Gale\n" +
+                "    date:        2012-08-06\n" +
+                "    shipped:     False";
 
         System.out.println(printTokens(text, 0));
         // System.out.println(printTokens(text, 8));
