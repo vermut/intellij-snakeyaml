@@ -30,39 +30,4 @@ public class YamlFileImpl extends PsiFileBase implements YamlFile {
     public String toString() {
         return "YamlFile:" + getName();
     }
-
-    @NotNull
-    @Override
-    public PsiReference[] getReferences() {
-        return ReferenceProvidersRegistry.getReferencesFromProviders(this);
-    }
-
-    @Override
-    public ItemPresentation getPresentation() {
-        if (getVirtualFile().getCanonicalPath().endsWith("tasks/main.yml"))
-            // Format role differently
-            return new ItemPresentation() {
-                @Nullable
-                @Override
-                public String getPresentableText() {
-                    return "ROLE: " + getParent().getParent().getName();
-                }
-
-                @Nullable
-                @Override
-                public String getLocationString() {
-                    return "(" + getParent().getParent().getParent().getParent().getName() + "/" +
-                            getParent().getParent().getParent().getName()
-                             + ")";
-                }
-
-                @Nullable
-                @Override
-                public Icon getIcon(boolean unused) {
-                    return null;
-                }
-            };
-        else
-            return new YamlStructureViewElement(this);
-    }
 }

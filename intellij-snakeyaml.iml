@@ -13,6 +13,6 @@
     <orderEntry type="jdk" jdkName="IntelliJ IDEA Community Edition" jdkType="IDEA JDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.yaml:snakeyaml:1.15" level="project" />
-    <orderEntry type="library" name="JetBrains JFlex" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="JetBrains JFlex" level="application" />
   </component>
 </module>
