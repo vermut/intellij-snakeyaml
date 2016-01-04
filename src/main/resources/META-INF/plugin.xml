@@ -2,13 +2,19 @@
     <!-- Plugin info -->
     <name>SnakeYAML plugin</name>
     <description><![CDATA[
-        <p>Support for YAML files</p>
-        <p>Powered by SnakeYAML</p>
-        <br/>
-        <p>Complies to YAML 1.1 specification</p>
+        <h1>YAML parser/highlighter for Intellij IDEA platform IDEs</h1>
+
+        <p>Includes complete YAML loading pipeline under the hood. Capable of validating YAML on all levels.
+
+        <p>Meant to serve a base dependency for all YAML-based languages - Ansible, Salt, Cloudify.
+
+        <h2>Note for Professional/Ultimate edition users</h2>
+        <p>Those editions already include basic YAML support. In case you want to enable this plugin, you'll need to
+            reassign file type mappings:</p>
+        <p>Go to `Preferences > Editor > File Types` and move `YAML` registered patterns to `SnakeYAML`.</p>
         ]]></description>
     <version>1.15.0</version>
-    <vendor url="https://github.com/vermut/intellij-ansible" email="vermut@kid.lv">Pavel Veretennikov</vendor>
+    <vendor url="https://github.com/vermut/intellij-snakeyaml" email="vermut@kid.lv">Pavel Veretennikov</vendor>
     <idea-version since-build="111.0"/>
     <depends>com.intellij.modules.lang</depends>
 
@@ -16,7 +22,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="lv.kid.vermut.intellij.yaml.file.YamlFileTypeFactory"/>
         <colorSettingsPage implementation="lv.kid.vermut.intellij.yaml.editor.YamlColorsPage"/>
-        <lang.syntaxHighlighterFactory key="snakeyaml"
+        <lang.syntaxHighlighterFactory key="snakeyaml" language="snakeyaml"
                                        implementationClass="lv.kid.vermut.intellij.yaml.editor.YamlSyntaxHighlighterFactory"/>
 
         <lang.commenter language="snakeyaml" implementationClass="lv.kid.vermut.intellij.yaml.YamlCommenter"/>

@@ -1,3 +1,0 @@
-[submodule "src/test/data/ansible-examples"]
-	path = src/test/data/ansible-examples
-	url = https://github.com/ansible/ansible-examples.git

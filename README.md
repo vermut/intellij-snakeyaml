@@ -1,51 +1,20 @@
-# YAML/Ansible in IntelliJ IDEA
+# SnakeYAML parser for Intellij IDEA platform IDEs
 
-**Current status: stable, basic functions**
+**YAML parser/highlighter**
 
+Includes complete YAML loading pipeline under the hood. Capable of validating YAML on all levels.
 
-<img src="src/test/data/image/Goto_Class.png" /><br>
-<img src="src/test/data/image/Goto_role.png" /><br>
-<img src="src/test/data/image/Var_resolve.PNG" /><br>
-<img src="src/test/data/image/fetch_docs.png" /><br>
+Meant to serve a base dependency for all YAML-based languages - Ansible, Salt, Cloudify.
 
-## Features
-* Goto role (Ctrl-N)
-* Goto task (Ctrl-N)
-* Goto var/property (Ctrl-Alt-Shift-N)
-* Role/Jinja var reference on Ctrl-Click
-* Module doc lookup
-* lexer, parser (internal)
-* syntax highlighting 
-* comment/uncomment
-* bracket / parenthesis matching
-* role completion
+## Note for Professional/Ultimate edition users ##
+Those editions already include basic YAML support. In case you want to enable this plugin, you'll need to reassign file type mappings:
+
+    Go to `Preferences > Editor > File Types` and move `YAML` registered patterns to `SnakeYAML`.
 
 
-## Install
-**Current version** 
-[Download](.idea/intellij-ansible.zip) and install via
- 
-1. Go to File → Settings in PhpStorm
-2. Select *Plugins* on the left
-3. Install from disk file...
+## Original SnakeYAML features ##
 
-
-**Stable version** (not-crashing alpha) is available in official plugin repository:
-
-1. Go to File → Settings in PhpStorm
-2. Select *Plugins* on the left
-3. Click *Browse Repositories* button on the bottom
-4. Find *YAML/Ansible* and install it
-
-
-
-If you prefer your own build from *master*, open this project in *IntelliJ IDEA* as a *Plugin project*, go to *Build* -> *Prepare for deployment* and install it in your Idea.
-
-
-## Development
-This plugin is in its early development phase, it's not complete at all and it will contain many bugs!
- Be careful if you decide to use it.
-
-Please tell me what **features** you'd like in *Issues tab*.
-
-If you want to contribute, please read [development.md](development.md)
+* a **complete** [YAML 1.1 parser](http://yaml.org/spec/1.1/current.html). In particular, SnakeYAML can parse all examples from the specification.
+* Unicode support including UTF-8/UTF-16 input/output.
+* support for all types from the [YAML types repository](http://yaml.org/type/index.html).
+* relatively sensible error messages.
