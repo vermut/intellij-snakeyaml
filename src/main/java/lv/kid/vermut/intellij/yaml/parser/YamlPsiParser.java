@@ -5,7 +5,7 @@ import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
-import lv.kid.vermut.intellij.yaml.lexer.PsiBuilderScannerParallelizator;
+import lv.kid.vermut.intellij.yaml.lexer.ScannerAndBuilderSynchronizer;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.parser.ComposerEx;
 import org.yaml.snakeyaml.parser.ComposerException;
@@ -21,7 +21,7 @@ public class YamlPsiParser implements PsiParser {
     @NotNull
     @Override
     public ASTNode parse(@NotNull IElementType root, @NotNull final PsiBuilder builder) {
-        PsiBuilderScannerParallelizator scannerEx = new PsiBuilderScannerParallelizator(builder);
+        ScannerAndBuilderSynchronizer scannerEx = new ScannerAndBuilderSynchronizer(builder);
         ParserImplEx parser = new ParserImplEx(scannerEx);
 
         builder.setDebugMode(true);
@@ -46,7 +46,7 @@ public class YamlPsiParser implements PsiParser {
         return builder.getTreeBuilt();
     }
 
-    private void failAsError(@NotNull PsiBuilder builder, PsiBuilderScannerParallelizator scannerEx, Exception e) {
+    private void failAsError(@NotNull PsiBuilder builder, ScannerAndBuilderSynchronizer scannerEx, Exception e) {
         scannerEx.setPeekMode(false);
 
         // Eat up everything as error

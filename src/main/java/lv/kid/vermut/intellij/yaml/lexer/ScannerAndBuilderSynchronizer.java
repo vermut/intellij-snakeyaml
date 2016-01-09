@@ -7,12 +7,12 @@ import org.yaml.snakeyaml.tokens.Token;
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
-public class PsiBuilderScannerParallelizator extends ErrorFilterScanner implements ScannerEx {
+public class ScannerAndBuilderSynchronizer extends ErrorSkippingScanner implements ScannerEx {
     private final PsiBuilder builder;
     private boolean peekMode;
     private int builderTokensBehind = 0;
 
-    public PsiBuilderScannerParallelizator(PsiBuilder builder) {
+    public ScannerAndBuilderSynchronizer(PsiBuilder builder) {
         super(new CharSequenceReader(builder.getOriginalText()));
         this.builder = builder;
     }
@@ -21,7 +21,7 @@ public class PsiBuilderScannerParallelizator extends ErrorFilterScanner implemen
     public Token getToken() {
         builderTokensBehind++;
 
-        if (!isPeekMode()) {
+        if (!peekMode) {
             catchUpWithScanner();
         }
         return super.getToken();
@@ -33,10 +33,6 @@ public class PsiBuilderScannerParallelizator extends ErrorFilterScanner implemen
             builder.advanceLexer();
             builderTokensBehind--;
         }
-    }
-
-    public boolean isPeekMode() {
-        return peekMode;
     }
 
     @Override

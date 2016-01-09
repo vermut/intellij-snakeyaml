@@ -23,7 +23,7 @@ public class YamlParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public Lexer createLexer(Project project) {
-        return new YamlLexer(true);
+        return new YamlLexer();
     }
 
     @Override

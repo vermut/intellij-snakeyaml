@@ -5,29 +5,22 @@ import com.intellij.lexer.LexerPosition;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.text.CharSequenceReader;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.tokens.Token;
 
 public class YamlLexer extends Lexer {
-    private final boolean hideErrors;
-    private ScannerEx myScanner;
+    private Scanner myScanner;
     private Token myToken = null;
     private CharSequence myText;
     private int myEnd;
     private int myState;
-
-    public YamlLexer(boolean hideErrors) {
-        this.hideErrors = hideErrors;
-    }
 
     @Override
     public void start(@NotNull CharSequence buffer, int startOffset, int endOffset, int initialState) {
         myText = buffer;
         myEnd = endOffset;
 
-        if (hideErrors)
-            myScanner = new ErrorFilterScanner(new CharSequenceReader(buffer.subSequence(0, endOffset)));
-        else
-            myScanner = new ErrorReportingScanner(new CharSequenceReader(buffer.subSequence(0, endOffset)));
+        myScanner = new ErrorSkippingScanner(new CharSequenceReader(buffer.subSequence(0, endOffset)));
 
         myToken = myScanner.peekToken();
         myState = initialState;

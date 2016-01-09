@@ -9,7 +9,7 @@ public class LexerTest extends LexerTestCase {
 
     @Override
     protected Lexer createLexer() {
-        return new YamlLexer(true);
+        return new YamlLexer();
     }
 
     @Override
