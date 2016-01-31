@@ -6,8 +6,9 @@ YamlFile:19.yml
           PsiElement([YAML Token] Scalar)('key')
       YamlTupleValueImpl(value)
         YamlScalarImpl(scalar)
-          PsiElement([YAML Token] Value)(': ')
-          PsiElement([YAML Token] Scalar)('val\n@bad!\n')
+          PsiElement([YAML Token] Value)(':')
+          PsiWhiteSpace(' ')
+          PsiElement([YAML Token] Scalar)('val')
   PsiErrorElement:while scanning for the next token
 found character @ '@' that cannot start any token. (Do not use @ for indentation)
  in 'reader', line 2, column 1:
@@ -15,7 +16,9 @@ found character @ '@' that cannot start any token. (Do not use @ for indentation
     ^
 
     <empty list>
+  PsiWhiteSpace('\n@bad!\n')
   PsiErrorElement:null
     PsiElement([YAML Token] Scalar)('key2')
-    PsiElement([YAML Token] Value)(': ')
+    PsiElement([YAML Token] Value)(':')
+    PsiWhiteSpace(' ')
     PsiElement([YAML Token] Scalar)('val2')

@@ -14,5 +14,6 @@ found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for
 
     <empty list>
   PsiErrorElement:null
-    PsiElement([YAML Token] Value)(':\n\tentity: ')
+    PsiElement([YAML Token] Value)(':')
+    PsiWhiteSpace('\n\tentity: ')
     PsiElement([YAML Token] Scalar)('Column(pepa, type="integer", defaultValue = 1)')

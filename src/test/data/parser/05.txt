@@ -6,14 +6,16 @@ YamlFile:05.yml
           PsiElement([YAML Token] Scalar)('nette')
       YamlTupleValueImpl(value)
         YamlMappingImpl(mapping)
-          PsiElement([YAML Token] Value)(':\n ')
+          PsiElement([YAML Token] Value)(':')
+          PsiWhiteSpace('\n ')
           YamlTupleImpl(tuple)
             YamlTupleKeyImpl(key)
               YamlScalarImpl(scalar)
                 PsiElement([YAML Token] Scalar)('application')
             YamlTupleValueImpl(value)
               YamlMappingImpl(mapping)
-                PsiElement([YAML Token] Value)(':\n    ')
+                PsiElement([YAML Token] Value)(':')
+                PsiWhiteSpace('\n    ')
                 YamlTupleImpl(tuple)
                   YamlTupleKeyImpl(key)
                     YamlScalarImpl(scalar)
@@ -31,5 +33,6 @@ expected alphabetic or numeric character, but found but found :
 
     <empty list>
   PsiErrorElement:null
-    PsiElement([YAML Token] Value)(':\n            *: ')
+    PsiElement([YAML Token] Value)(':')
+    PsiWhiteSpace('\n            *: ')
     PsiElement([YAML Token] Scalar)('At\*Module\*Presenter')

@@ -1,19 +1,24 @@
 YamlFile:14.yml
-  PsiElement([YAML Token] StreamStart)('# error\n')
+  PsiComment([YAML Token] Comment)('# error\n')
   YamlMappingImpl(mapping)
     YamlTupleImpl(tuple)
       YamlTupleKeyImpl(key)
         YamlScalarImpl(scalar)
           PsiElement([YAML Token] Scalar)('a')
+          PsiElement([YAML Token] Value)(':')
+      PsiWhiteSpace(' ')
       YamlTupleValueImpl(value)
         YamlSequenceImpl(sequence)
-          PsiElement([YAML Token] Value)(': ')
+          PsiElement([YAML Token] FlowSequenceStart)('[')
+          PsiWhiteSpace(' ')
           YamlScalarImpl(scalar)
-            PsiElement([YAML Token] FlowSequenceStart)('[ ')
             PsiElement([YAML Token] Scalar)('1')
+            PsiElement([YAML Token] FlowEntry)(',')
+          PsiWhiteSpace(' ')
           YamlScalarImpl(scalar)
-            PsiElement([YAML Token] FlowEntry)(', ')
-            PsiElement([YAML Token] Scalar)('2 ')
+            PsiElement([YAML Token] Scalar)('2')
+            PsiWhiteSpace(' ')
+            PsiElement([YAML Token] FlowMappingEnd)('}')
   PsiErrorElement:while parsing a flow sequence
  in 'reader', line 2, column 4:
     a: [ 1, 2 }
@@ -25,4 +30,4 @@ expected ',' or ']', but got FlowMappingEnd
 
     <empty list>
   PsiErrorElement:null
-    PsiElement([YAML Token] FlowMappingEnd)('}')
+    <empty list>

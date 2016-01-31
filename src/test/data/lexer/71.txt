@@ -3,4 +3,5 @@
 [YAML Token] Key ('')
 [YAML Token] Scalar ('a')
 [YAML Token] Value (':')
+WHITE_SPACE (' ')
 [YAML Token] Scalar ('b')

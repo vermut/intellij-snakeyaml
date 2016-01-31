@@ -8,15 +8,15 @@ YamlFile:a.yml
         YamlScalarImpl(scalar)
           PsiElement([YAML Token] Value)(':')
           PsiWhiteSpace(' ')
-          PsiElement([YAML Token] Scalar)('b\na')
+          PsiElement([YAML Token] Scalar)('b  \na  ')
   PsiErrorElement:while scanning a simple key
  in 'reader', line 2, column 1:
-    a
+    a  
     ^
 could not find expected ':'
- in 'reader', line 2, column 2:
-    a
-     ^
+ in 'reader', line 2, column 4:
+    a  
+       ^
 
     <empty list>
   PsiErrorElement:null

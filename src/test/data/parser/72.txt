@@ -6,7 +6,8 @@ YamlFile:a.yml
           PsiElement([YAML Token] Scalar)('a')
       YamlTupleValueImpl(value)
         YamlScalarImpl(scalar)
-          PsiElement([YAML Token] Value)(': ')
+          PsiElement([YAML Token] Value)(':')
+          PsiWhiteSpace(' ')
           PsiElement([YAML Token] Scalar)('b\na:a\n')
   PsiErrorElement:while scanning a simple key
  in 'reader', line 2, column 1:
