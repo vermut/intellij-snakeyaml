@@ -7,6 +7,7 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import lv.kid.vermut.intellij.yaml.lexer.ScannerAndBuilderSynchronizer;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.parser.ComposerEx;
 import org.yaml.snakeyaml.parser.ComposerException;
 import org.yaml.snakeyaml.parser.ParserException;
@@ -39,6 +40,8 @@ public class YamlPsiParser implements PsiParser {
         } catch (ParserException e) {
             failAsError(builder, scannerEx, e);
         } catch (ComposerException e) {
+            failAsError(builder, scannerEx, e);
+        } catch (YAMLException e) {
             failAsError(builder, scannerEx, e);
         }
 
