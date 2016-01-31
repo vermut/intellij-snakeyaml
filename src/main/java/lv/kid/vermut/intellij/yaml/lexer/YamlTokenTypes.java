@@ -48,7 +48,6 @@ public class YamlTokenTypes {
 
     static {
         tokens.put(Token.ID.Error, YAML_Error);
-        // tokens.put(Token.ID.Error, YAML_Comment);
         tokens.put(Token.ID.Whitespace, YAML_Whitespace);
     }
 

@@ -6,6 +6,8 @@ import org.yaml.snakeyaml.tokens.Token;
 
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
+ *
+ * Class that is used by main parsing routine. Uses ScannerEx to scan text and simultaneously moves PsiBuilder
  */
 public class ScannerAndBuilderSynchronizer extends ErrorSkippingScanner implements ScannerEx {
     private final PsiBuilder builder;

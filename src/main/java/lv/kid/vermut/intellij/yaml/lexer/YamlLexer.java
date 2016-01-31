@@ -5,10 +5,15 @@ import com.intellij.lexer.LexerPosition;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.text.CharSequenceReader;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.tokens.Token;
+import org.yaml.snakeyaml.tokens.WhitespaceToken;
 
 public class YamlLexer extends Lexer {
+    long lastTokenEndIndex = 0;
+    int i = 0;
+    int lastTokenEnd = 0;
     private Scanner myScanner;
     private Token myToken = null;
     private CharSequence myText;
@@ -61,11 +66,28 @@ public class YamlLexer extends Lexer {
 
     @Override
     public void advance() {
-        Token token = myScanner.getToken();
+        Token token;
+
+        // Forward only on non-whitespace (whitespace is virtual)
+        if (myToken.getTokenId() != Token.ID.Whitespace)
+            token = myScanner.getToken();
+        else
+            token = myScanner.peekToken();
+
+
         if (token == null || token.getTokenId().equals(Token.ID.StreamEnd))
             myToken = null;
-        else
-            myToken = myScanner.peekToken();
+        else {
+            if (token.getEndMark().getIndex()  < myScanner.peekToken().getStartMark().getIndex())
+                myToken = new WhitespaceToken(shiftMark(token.getEndMark(), 0), shiftMark(myScanner.peekToken().getStartMark(), 0));
+            else
+                myToken = myScanner.peekToken();
+        }
+
+    }
+
+    private Mark shiftMark(Mark mark, int deltaIndex) {
+        return new Mark(mark.getName(), mark.getIndex() + deltaIndex, mark.getLine(), mark.getColumn() + deltaIndex, null, 0);
     }
 
     @NotNull

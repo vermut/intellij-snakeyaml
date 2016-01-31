@@ -5,7 +5,6 @@ import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerException;
 import org.yaml.snakeyaml.scanner.ScannerImpl;
-import org.yaml.snakeyaml.tokens.ErrorToken;
 import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.Token;
 
@@ -18,7 +17,7 @@ import java.util.EnumSet;
 public class ErrorSkippingScanner implements Scanner {
     private final Scanner scanner;
     private final StreamReader streamReader;
-    protected Token hangingVirtualToken;
+    // protected Token hangingErrorToken;
     private EnumSet<Token.ID> filtered = EnumSet.of(Token.ID.Error, Token.ID.Whitespace, Token.ID.Comment);
 
     public ErrorSkippingScanner(Reader reader) {
@@ -32,7 +31,7 @@ public class ErrorSkippingScanner implements Scanner {
     }
 
     @SuppressWarnings({"StatementWithEmptyBody", "EmptyCatchBlock"})
-    public Token reportingPeekToken() {
+    public Token peekIgnoringErrors() {
         try {
             return scanner.peekToken();
         } catch (ScannerException e) {
@@ -54,8 +53,9 @@ public class ErrorSkippingScanner implements Scanner {
                 if (streamReader.getMark().getIndex() == start.getIndex())
                     return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
             }
-            hangingVirtualToken = new ErrorToken(start, streamReader.getMark());
-            return hangingVirtualToken;
+           // hangingErrorToken = new ErrorToken(start, streamReader.getMark());
+            // Try again
+            return peekIgnoringErrors();
         } catch (StringIndexOutOfBoundsException ignored) {
             return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
         }
@@ -63,11 +63,6 @@ public class ErrorSkippingScanner implements Scanner {
 
     @Override
     public Token getToken() {
-        if (hangingVirtualToken != null) {
-            Token result = hangingVirtualToken;
-            hangingVirtualToken = null;
-            return result;
-        }
         return scanner.getToken();
     }
 
@@ -79,9 +74,6 @@ public class ErrorSkippingScanner implements Scanner {
 
     @Override
     public Token peekToken() {
-        while (filtered.contains(reportingPeekToken().getTokenId()))
-            getToken();
-
-        return reportingPeekToken();
+        return peekIgnoringErrors();
     }
 }
