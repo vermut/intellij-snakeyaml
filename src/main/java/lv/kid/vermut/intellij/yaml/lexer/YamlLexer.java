@@ -5,15 +5,12 @@ import com.intellij.lexer.LexerPosition;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.text.CharSequenceReader;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.scanner.Scanner;
+import org.yaml.snakeyaml.tokens.CommentToken;
 import org.yaml.snakeyaml.tokens.Token;
 import org.yaml.snakeyaml.tokens.WhitespaceToken;
 
 public class YamlLexer extends Lexer {
-    long lastTokenEndIndex = 0;
-    int i = 0;
-    int lastTokenEnd = 0;
     private Scanner myScanner;
     private Token myToken = null;
     private CharSequence myText;
@@ -78,16 +75,21 @@ public class YamlLexer extends Lexer {
         if (token == null || token.getTokenId().equals(Token.ID.StreamEnd))
             myToken = null;
         else {
-            if (token.getEndMark().getIndex()  < myScanner.peekToken().getStartMark().getIndex())
-                myToken = new WhitespaceToken(shiftMark(token.getEndMark(), 0), shiftMark(myScanner.peekToken().getStartMark(), 0));
+            Token nextToken = myScanner.peekToken();
+            if (!nextToken.getTokenId().equals(Token.ID.StreamEnd) && token.getEndMark().getIndex() < nextToken.getStartMark().getIndex())
+                myToken = guessTokenType(token, nextToken);
             else
-                myToken = myScanner.peekToken();
+                myToken = nextToken;
         }
-
     }
 
-    private Mark shiftMark(Mark mark, int deltaIndex) {
-        return new Mark(mark.getName(), mark.getIndex() + deltaIndex, mark.getLine(), mark.getColumn() + deltaIndex, null, 0);
+    @NotNull
+    private Token guessTokenType(Token token, Token nextToken) {
+        // Maybe it's comment?
+        if (myText.subSequence(token.getEndMark().getIndex(), nextToken.getStartMark().getIndex()).toString().contains("#"))
+            return new CommentToken(token.getEndMark(), nextToken.getStartMark());
+
+        return new WhitespaceToken(token.getEndMark(), nextToken.getStartMark());
     }
 
     @NotNull

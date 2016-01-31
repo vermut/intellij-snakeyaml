@@ -1,6 +1,5 @@
 package lv.kid.vermut.intellij.yaml.lexer;
 
-import org.yaml.snakeyaml.error.Mark;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerException;
@@ -9,7 +8,6 @@ import org.yaml.snakeyaml.tokens.StreamEndToken;
 import org.yaml.snakeyaml.tokens.Token;
 
 import java.io.Reader;
-import java.util.EnumSet;
 
 /**
  * Created by Pavels.Veretennikovs on 2015.06.27..
@@ -17,8 +15,6 @@ import java.util.EnumSet;
 public class ErrorSkippingScanner implements Scanner {
     private final Scanner scanner;
     private final StreamReader streamReader;
-    // protected Token hangingErrorToken;
-    private EnumSet<Token.ID> filtered = EnumSet.of(Token.ID.Error, Token.ID.Whitespace, Token.ID.Comment);
 
     public ErrorSkippingScanner(Reader reader) {
         streamReader = new StreamReader(reader);
@@ -31,11 +27,10 @@ public class ErrorSkippingScanner implements Scanner {
     }
 
     @SuppressWarnings({"StatementWithEmptyBody", "EmptyCatchBlock"})
-    public Token peekIgnoringErrors() {
+    private Token peekIgnoringErrors() {
         try {
             return scanner.peekToken();
         } catch (ScannerException e) {
-            Mark start = streamReader.getMark();
             try {
                 do {
                     streamReader.forward();
@@ -48,12 +43,8 @@ public class ErrorSkippingScanner implements Scanner {
                     }
                 } catch (ScannerException also_ignored) {
                 }
-
-                // Got nothing while forwarding the stream, this is the end
-                if (streamReader.getMark().getIndex() == start.getIndex())
-                    return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
+                return new StreamEndToken(streamReader.getMark(), streamReader.getMark());
             }
-           // hangingErrorToken = new ErrorToken(start, streamReader.getMark());
             // Try again
             return peekIgnoringErrors();
         } catch (StringIndexOutOfBoundsException ignored) {
