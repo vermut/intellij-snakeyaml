@@ -55,6 +55,7 @@ import java.util.regex.Pattern;
  *
  * @author Vermut Added whitespace
  */
+@Deprecated // Unused
 public class ScannerWhitespaceImpl implements Scanner {
     /**
      * A mapping from an escaped character in the input stream to the character
