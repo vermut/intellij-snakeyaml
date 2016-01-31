@@ -113,4 +113,11 @@ public class ParserTest extends ParsingTestCase {
         doCodeTest("a: b\n" +
                 "a:a\n");
     }
+
+    public void testIssue5() throws Exception {
+        doCodeTest("#\n" +
+                "- 1\n" +
+                "- 2\n" +
+                "- 3");
+    }
 }
