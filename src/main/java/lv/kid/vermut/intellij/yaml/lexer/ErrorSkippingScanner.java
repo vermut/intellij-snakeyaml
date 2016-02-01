@@ -1,5 +1,6 @@
 package lv.kid.vermut.intellij.yaml.lexer;
 
+import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
 import org.yaml.snakeyaml.scanner.ScannerException;
@@ -30,7 +31,7 @@ public class ErrorSkippingScanner implements Scanner {
     private Token peekIgnoringErrors() {
         try {
             return scanner.peekToken();
-        } catch (ScannerException e) {
+        } catch (YAMLException e) {
             try {
                 do {
                     streamReader.forward();
