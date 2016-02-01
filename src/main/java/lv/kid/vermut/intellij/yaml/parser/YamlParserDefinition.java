@@ -45,7 +45,10 @@ public class YamlParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return TokenSet.create(YamlTokenTypes.YAML_Comment);
+        return TokenSet.EMPTY;
+
+        // No idea why, but this ruins fragile balance in SnakeYAML. Will have to sacrifice TODOs
+        // return TokenSet.create(YamlTokenTypes.YAML_Comment);
     }
 
     @NotNull
@@ -66,7 +69,6 @@ public class YamlParserDefinition implements ParserDefinition {
         else if (type == YamlNodes.YAML_KeyNode) return new YamlTupleKeyImpl(node);
         else if (type == YamlNodes.YAML_ValueNode) return new YamlTupleValueImpl(node);
 
-        // return new ASTWrapperPsiElement(node);
         throw new RuntimeException("Non existent YAML type");
     }
 

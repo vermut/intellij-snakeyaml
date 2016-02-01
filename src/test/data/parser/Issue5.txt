@@ -1,7 +1,7 @@
 YamlFile:a.yml
-  PsiComment([YAML Token] Comment)('#\n')
   YamlSequenceImpl(sequence)
     YamlScalarImpl(scalar)
+      PsiElement([YAML Token] Comment)('#\n')
       PsiElement([YAML Token] BlockEntry)('-')
       PsiWhiteSpace(' ')
       PsiElement([YAML Token] Scalar)('1')

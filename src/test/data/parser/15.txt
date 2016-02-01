@@ -1,12 +1,10 @@
 YamlFile:15.yml
-  PsiComment([YAML Token] Comment)('# tab/space mixing\n')
   YamlMappingImpl(mapping)
     YamlTupleImpl(tuple)
       YamlTupleKeyImpl(key)
         YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Comment)('# tab/space mixing\n')
           PsiElement([YAML Token] Scalar)('foo')
-          PsiElement([YAML Token] Value)(':')
-      PsiWhiteSpace('\n\ta: ')
       YamlTupleValueImpl(value)
         <empty list>
   PsiErrorElement:while scanning for the next token
@@ -17,6 +15,8 @@ found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for
 
     <empty list>
   PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':')
+    PsiWhiteSpace('\n\ta: ')
     PsiElement([YAML Token] Scalar)('1\n    b')
     PsiWhiteSpace(': ')
     PsiElement([YAML Token] Scalar)('2')

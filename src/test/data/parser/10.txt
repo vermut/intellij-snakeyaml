@@ -29,5 +29,5 @@ found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for
     PsiWhiteSpace('\n\n')
     PsiWhiteSpace('\tbar: ')
     PsiElement([YAML Token] Scalar)('2')
-    PsiComment([YAML Token] Comment)('\n# comment with lower indent must not return the parser\n\tbaz: 3')
-    PsiComment([YAML Token] Comment)('\n\n# comment with lower indent must not return the parser\n\n\tbaq: 4')
+    PsiElement([YAML Token] Comment)('\n# comment with lower indent must not return the parser\n\tbaz: 3')
+    PsiElement([YAML Token] Comment)('\n\n# comment with lower indent must not return the parser\n\n\tbaq: 4')

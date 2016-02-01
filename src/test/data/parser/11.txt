@@ -1,31 +1,28 @@
 YamlFile:11.yml
-  PsiComment([YAML Token] Comment)('# parsing errors\n')
   YamlMappingImpl(mapping)
     YamlTupleImpl(tuple)
       YamlTupleKeyImpl(key)
         YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Comment)('# parsing errors\n')
           PsiElement([YAML Token] Scalar)('a')
-          PsiElement([YAML Token] Value)(':')
-      PsiWhiteSpace(' ')
       YamlTupleValueImpl(value)
         YamlScalarImpl(scalar)
+          PsiElement([YAML Token] Value)(':')
+          PsiWhiteSpace(' ')
           PsiElement([YAML Token] Scalar)('1')
-          PsiWhiteSpace('\n')
+    PsiWhiteSpace('\n')
     YamlTupleImpl(tuple)
       YamlTupleKeyImpl(key)
         YamlScalarImpl(scalar)
           PsiElement([YAML Token] Scalar)('b')
-          PsiElement([YAML Token] Value)(':')
-      PsiWhiteSpace('\n\n')
       YamlTupleValueImpl(value)
         YamlScalarImpl(scalar)
-          <empty list>
+          PsiElement([YAML Token] Value)(':')
+    PsiWhiteSpace('\n\n')
     YamlTupleImpl(tuple)
       YamlTupleKeyImpl(key)
         YamlScalarImpl(scalar)
           PsiElement([YAML Token] Scalar)('parameters')
-          PsiElement([YAML Token] Value)(':')
-      PsiWhiteSpace('\n\tc: ')
       YamlTupleValueImpl(value)
         <empty list>
   PsiErrorElement:while scanning for the next token
@@ -36,6 +33,8 @@ found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for
 
     <empty list>
   PsiErrorElement:null
+    PsiElement([YAML Token] Value)(':')
+    PsiWhiteSpace('\n\tc: ')
     PsiElement([YAML Token] Scalar)('x')
     PsiWhiteSpace('\n\td:\n\n')
     PsiElement([YAML Token] Scalar)('nette')

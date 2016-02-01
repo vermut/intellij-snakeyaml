@@ -9,8 +9,8 @@ YamlFile:17.yml
     ^
 
     <empty list>
-  PsiComment([YAML Token] Comment)(' #here\n')
   PsiErrorElement:null
+    PsiElement([YAML Token] Comment)(' #here\n')
     PsiElement([YAML Token] Scalar)('name')
     PsiElement([YAML Token] Value)(':')
     PsiWhiteSpace(' ')
