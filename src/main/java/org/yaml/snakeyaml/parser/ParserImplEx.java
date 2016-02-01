@@ -125,36 +125,18 @@ public class ParserImplEx implements Parser {
      */
     public boolean checkEvent(Event.ID choices) {
         peekEvent();
-        if (currentEvent != null) {
-            if (currentEvent.is(choices)) {
-                return true;
-            }
-        }
-        return false;
+        return currentEvent != null && currentEvent.is(choices);
     }
 
     /**
      * Get the next event.
      */
     public Event peekEvent() {
-        if (currentEvent == null) {
-            if (state != null) {
-                try {
-                    scanner.setPeekMode(true);
-                    currentEvent = state.produce();
-/*
-                } catch (ParserException e) {
-                    scanner.markError(e.getMessage());
-                    return null;
-                } catch (ScannerException e) {
-                    scanner.markError(e.getMessage());
-                    return null;
-*/
-                } finally {
-                    scanner.setPeekMode(false);
-                }
-
-            }
+        if (currentEvent == null && state != null) try {
+            scanner.setPeekMode(true);
+            currentEvent = state.produce();
+        } finally {
+            scanner.setPeekMode(false);
         }
         return currentEvent;
     }
