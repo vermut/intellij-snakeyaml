@@ -19,15 +19,15 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
 
 public class YamlSyntaxHighlighter extends SyntaxHighlighterBase {
 
-    public static final TextAttributesKey UNKNOWN = TextAttributesKey.createTextAttributesKey("Bad character", HighlighterColors.BAD_CHARACTER);
-    public static final TextAttributesKey DOC_SEPARATORS = TextAttributesKey.createTextAttributesKey("DocumentStart/DocumentEnd", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    public static final TextAttributesKey COMMENTS = TextAttributesKey.createTextAttributesKey("Comments", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    public static final TextAttributesKey IDENTIFIER = TextAttributesKey.createTextAttributesKey("Identifier", DefaultLanguageHighlighterColors.INSTANCE_FIELD);
-    public static final TextAttributesKey INTERPUNCTION = TextAttributesKey.createTextAttributesKey("Interpunction", DefaultLanguageHighlighterColors.DOT);
-    public static final TextAttributesKey NUMBER = TextAttributesKey.createTextAttributesKey("Number", DefaultLanguageHighlighterColors.NUMBER);
-    public static final TextAttributesKey KEYWORD = TextAttributesKey.createTextAttributesKey("Keyword", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey STRING = TextAttributesKey.createTextAttributesKey("Scalars", HighlighterColors.TEXT);
-    public static final TextAttributesKey SPECIALS = TextAttributesKey.createTextAttributesKey("Specials", DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE);
+    public static final TextAttributesKey UNKNOWN = TextAttributesKey.createTextAttributesKey("Yaml Bad Character", HighlighterColors.BAD_CHARACTER);
+    public static final TextAttributesKey DOC_SEPARATORS = TextAttributesKey.createTextAttributesKey("Yaml DocumentStart/DocumentEnd", DefaultLanguageHighlighterColors.LINE_COMMENT);
+    public static final TextAttributesKey COMMENTS = TextAttributesKey.createTextAttributesKey("Yaml Comments", DefaultLanguageHighlighterColors.LINE_COMMENT);
+    public static final TextAttributesKey IDENTIFIER = TextAttributesKey.createTextAttributesKey("Yaml Identifier", DefaultLanguageHighlighterColors.INSTANCE_FIELD);
+    public static final TextAttributesKey INTERPUNCTION = TextAttributesKey.createTextAttributesKey("Yaml Interpunction", DefaultLanguageHighlighterColors.DOT);
+    public static final TextAttributesKey NUMBER = TextAttributesKey.createTextAttributesKey("Yaml Number", DefaultLanguageHighlighterColors.NUMBER);
+    public static final TextAttributesKey KEYWORD = TextAttributesKey.createTextAttributesKey("Yaml Keyword", DefaultLanguageHighlighterColors.KEYWORD);
+    public static final TextAttributesKey STRING = TextAttributesKey.createTextAttributesKey("Yaml Scalars", HighlighterColors.TEXT);
+    public static final TextAttributesKey SPECIALS = TextAttributesKey.createTextAttributesKey("Yaml Specials", DefaultLanguageHighlighterColors.MARKUP_ATTRIBUTE);
 
     // Static container
     private static final Map<IElementType, TextAttributesKey> ATTRIBUTES = new HashMap<IElementType, TextAttributesKey>();
