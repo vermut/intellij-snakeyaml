@@ -13,6 +13,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="JetBrains JFlex" level="application" />
-    <orderEntry type="module" module-name="snakeyaml" />
+    <orderEntry type="library" name="snakeyaml-1.17-20160202.140506-39" level="project" />
   </component>
 </module>
