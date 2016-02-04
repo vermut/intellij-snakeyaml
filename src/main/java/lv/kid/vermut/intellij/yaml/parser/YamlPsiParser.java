@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.composer.ComposerException;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.parser.ParserException;
-import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.resolver.Yaml12Resolver;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
 /**
@@ -24,11 +24,11 @@ public class YamlPsiParser implements PsiParser {
         ParserEx parser = new ParserEx(scannerEx);
 
         builder.setDebugMode(true);
-        ComposerEx composer = new ComposerEx(parser, new Resolver());
+        ComposerEx composer = new ComposerEx(parser, new Yaml12Resolver());
         PsiBuilder.Marker mark = builder.mark();
         try {
             while (composer.checkNode()) {
-                composer.getNode();
+                composer.composeNextNode();
             }
             // Drop the STREAM-END event.
             parser.getEvent();

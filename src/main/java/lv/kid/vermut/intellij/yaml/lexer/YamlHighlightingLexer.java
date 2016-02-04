@@ -7,6 +7,7 @@ import com.intellij.psi.tree.TokenSet;
 import org.yaml.snakeyaml.nodes.NodeId;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.resolver.Resolver;
+import org.yaml.snakeyaml.resolver.Yaml12Resolver;
 
 /**
  * Lexer used for syntax highlighting
@@ -21,7 +22,7 @@ public class YamlHighlightingLexer extends MergingLexerAdapter {
     }
 
     static class YamlHighlightingLexerMultiKeys extends LookAheadLexer {
-        Resolver resolver = new Resolver();
+        Resolver resolver = new Yaml12Resolver();
 
         public YamlHighlightingLexerMultiKeys(Lexer baseLexer) {
             super(baseLexer, 1);
