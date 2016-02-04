@@ -45,7 +45,6 @@ public class DocumentEditing extends LightPlatformCodeInsightTestCase implements
         }.execute();
     }
 
-    // TODO feels like we need WHITESPACE!
     public void test73() {
         new WriteCommandAction<Void>(null) {
             @Override

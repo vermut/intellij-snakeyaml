@@ -15,7 +15,7 @@
         ]]></description>
     <version>1.15.3</version>
     <vendor url="https://github.com/vermut/intellij-snakeyaml" email="vermut@kid.lv">Pavel Veretennikov</vendor>
-    <idea-version since-build="111.0"/>
+    <idea-version since-build="134.625"/>
     <depends>com.intellij.modules.lang</depends>
 
     <!-- IDEA extensions -->
