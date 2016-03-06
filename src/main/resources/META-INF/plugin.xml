@@ -13,7 +13,7 @@
             reassign file type mappings:</p>
         <p>Go to `Preferences > Editor > File Types` and move `YAML` registered patterns to `SnakeYAML`.</p>
         ]]></description>
-    <version>1.15.3</version>
+    <version>1.17.0</version>
     <vendor url="https://github.com/vermut/intellij-snakeyaml" email="vermut@kid.lv">Pavel Veretennikov</vendor>
     <idea-version since-build="134.625"/>
     <depends>com.intellij.modules.lang</depends>

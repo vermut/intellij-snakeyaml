@@ -9,21 +9,13 @@
       </profile>
       <profile default="false" name="Annotation profile for snakeyaml" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Annotation profile for yamlight" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="yamlight" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="snakeyaml" target="1.5" />
-      <module name="yamlight" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

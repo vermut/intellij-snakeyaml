@@ -28,7 +28,7 @@ YamlFile:a.yml
           PsiWhiteSpace(' ')
           PsiElement([YAML Token] Scalar)('b2')
   PsiErrorElement:while scanning for the next token
-found character @ '@' that cannot start any token. (Do not use @ for indentation)
+found character '@' that cannot start any token. (Do not use @ for indentation)
  in 'reader', line 5, column 1:
     @bad
     ^

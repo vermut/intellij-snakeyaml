@@ -7,11 +7,9 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import lv.kid.vermut.intellij.yaml.lexer.ScannerAndBuilderSynchronizer;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.composer.ComposerException;
 import org.yaml.snakeyaml.error.YAMLException;
-import org.yaml.snakeyaml.parser.ComposerEx;
-import org.yaml.snakeyaml.parser.ComposerException;
 import org.yaml.snakeyaml.parser.ParserException;
-import org.yaml.snakeyaml.parser.ParserImplEx;
 import org.yaml.snakeyaml.resolver.Resolver;
 import org.yaml.snakeyaml.scanner.ScannerException;
 
@@ -23,14 +21,14 @@ public class YamlPsiParser implements PsiParser {
     @Override
     public ASTNode parse(@NotNull IElementType root, @NotNull final PsiBuilder builder) {
         ScannerAndBuilderSynchronizer scannerEx = new ScannerAndBuilderSynchronizer(builder);
-        ParserImplEx parser = new ParserImplEx(scannerEx);
+        ParserEx parser = new ParserEx(scannerEx);
 
         builder.setDebugMode(true);
         ComposerEx composer = new ComposerEx(parser, new Resolver());
         PsiBuilder.Marker mark = builder.mark();
         try {
             while (composer.checkNode()) {
-                composer.composeDocument();
+                composer.getNode();
             }
             // Drop the STREAM-END event.
             parser.getEvent();

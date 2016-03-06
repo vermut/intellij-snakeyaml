@@ -7,7 +7,7 @@ YamlFile:08.yml
       YamlTupleValueImpl(value)
         <empty list>
   PsiErrorElement:while scanning for the next token
-found character 	 '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for indentation)
+found character '\t(TAB)' that cannot start any token. (Do not use \t(TAB) for indentation)
  in 'reader', line 2, column 1:
     	days: [ Mon, Tue, Wed ]
     ^
