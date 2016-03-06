@@ -1,5 +1,6 @@
 package lv.kid.vermut.intellij.yaml.lexer;
 
+import com.intellij.openapi.diagnostic.Logger;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.reader.StreamReader;
 import org.yaml.snakeyaml.scanner.Scanner;
@@ -16,6 +17,7 @@ import java.io.Reader;
 public class ErrorSkippingScanner implements Scanner {
     private final Scanner scanner;
     private final StreamReader streamReader;
+    private static final Logger log = Logger.getInstance(ErrorSkippingScanner.class);
 
     public ErrorSkippingScanner(Reader reader) {
         streamReader = new StreamReader(reader);
@@ -32,6 +34,7 @@ public class ErrorSkippingScanner implements Scanner {
         try {
             return scanner.peekToken();
         } catch (YAMLException e) {
+            log.debug(e);
             try {
                 do {
                     streamReader.forward();

@@ -3,6 +3,7 @@ package lv.kid.vermut.intellij.yaml.parser;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import lv.kid.vermut.intellij.yaml.lexer.ScannerAndBuilderSynchronizer;
@@ -17,6 +18,8 @@ import org.yaml.snakeyaml.scanner.ScannerException;
  * Created by Pavels.Veretennikovs on 2015.06.27..
  */
 public class YamlPsiParser implements PsiParser {
+    private static final Logger log = Logger.getInstance(YamlPsiParser.class);
+
     @NotNull
     @Override
     public ASTNode parse(@NotNull IElementType root, @NotNull final PsiBuilder builder) {
@@ -48,6 +51,7 @@ public class YamlPsiParser implements PsiParser {
     }
 
     private void failAsError(@NotNull PsiBuilder builder, ScannerAndBuilderSynchronizer scannerEx, Exception e) {
+        log.debug(e);
         scannerEx.setPeekMode(false);
 
         // Eat up everything as error
