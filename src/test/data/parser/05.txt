@@ -26,7 +26,7 @@ YamlFile:05.yml
  in 'reader', line 4, column 13:
                 *: At\*Module\*Presenter
                 ^
-expected alphabetic or numeric character, but found but found :
+expected alphabetic or numeric character, but found :
  in 'reader', line 4, column 14:
                 *: At\*Module\*Presenter
                  ^
