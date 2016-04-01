@@ -30,6 +30,9 @@ import static lv.kid.vermut.intellij.yaml.lexer.YamlTokenTypes.*;
     // The current indentation level.
     private int indent = -1;
 
+    // Workaround: last known scalar indent
+    private int lastKnownScalarIndent = -1;
+
     // The number of unclosed '{' and '['. `flow_level == 0` means block
     // context.
     private int flowLevel = 0;
@@ -153,8 +156,6 @@ NULL_BL_T_S = [\0 \t]
     "|" {BLOCK_INDENTATION_INDICATOR} {WHITESPACE}* {COMMENT}? {NEWLINE}
         { if (this.flowLevel == 0)
           {
-            // Hacky hold the current indent to compare inside IN_BLOCK
-            this.indents.push(yycolumn - yylength());
             yybegin(IN_BLOCK_SCALAR);
             return YAML_Scalar;
           }
@@ -164,20 +165,18 @@ NULL_BL_T_S = [\0 \t]
     ">" {BLOCK_INDENTATION_INDICATOR} {WHITESPACE}* {COMMENT}? {NEWLINE}
         { if (this.flowLevel == 0)
           {
-            // Hacky hold the current indent to compare inside IN_BLOCK
-            this.indents.push(yycolumn - yylength());
             yybegin(IN_BLOCK_SCALAR);
             return YAML_Scalar;
           }
         }
 
     // Is it a single quoted scalar?
-    "'"                            { yybegin(IN_SINGLE_QUOTE_SCALAR); }
+    "'"                            { lastKnownScalarIndent = yycolumn; yybegin(IN_SINGLE_QUOTE_SCALAR); }
 
     // Is it a double quoted scalar?
-    "\""                           { yybegin(IN_DOUBLE_QUOTE_SCALAR); }
+    "\""                           { lastKnownScalarIndent = yycolumn; yybegin(IN_DOUBLE_QUOTE_SCALAR); }
 
-    {PLAIN_FIRST}                  { a=101; addIndent(yycolumn-1); yybegin(IN_PLAIN_SCALAR);    }
+    {PLAIN_FIRST}                  { a=101; lastKnownScalarIndent = yycolumn; addIndent(yycolumn-1); yybegin(IN_PLAIN_SCALAR);    }
 
     // However, the “:”, “?” and “-” indicators may be used as the first character if followed by a non-space “safe” character, as this causes no ambiguity.
     [?:-] [^ ]                     { a=102; yybegin(IN_PLAIN_SCALAR);    }
@@ -233,11 +232,17 @@ NULL_BL_T_S = [\0 \t]
     ^{WHITESPACE}* {NEWLINE}   { a=401; }
     ^{WHITESPACE}*
         { a=402;
-            if (yylength() < this.indents.peek() || yylength() == 0)
+            if (lastKnownScalarIndent == -1)
+            {
+                // Assume we are in a middle of re-lexing. Figure out what we can
+                lastKnownScalarIndent = yylength() - 1;
+            }
+
+            if (yylength() < lastKnownScalarIndent+1 || yylength() == 0)
             { // End of block scalar
-                a=403; retryInInitial(); this.indents.pop(); return YAML_Scalar;
+                a=403; retryInInitial(); lastKnownScalarIndent = -1; return YAML_Scalar;
             }
         }
-    <<EOF>>                    { a=407; retryInInitial(); this.indents.pop(); return YAML_Scalar; }
+    <<EOF>>                    { a=407; retryInInitial(); lastKnownScalarIndent = -1; return YAML_Scalar; }
     . | {NEWLINE}              { }
 }

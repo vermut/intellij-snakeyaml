@@ -12,6 +12,7 @@ import lv.kid.vermut.intellij.yaml.lexer.YamlFlexLexer;
 import lv.kid.vermut.intellij.yaml.lexer.YamlHighlightingLexer;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class YamlSyntaxHighlighter extends SyntaxHighlighterBase {
 	@NotNull
 	@Override
 	public Lexer getHighlightingLexer() {
-        return new YamlHighlightingLexer(new FlexAdapter(new YamlFlexLexer(null)));
+        return new YamlHighlightingLexer(new FlexAdapter(new YamlFlexLexer((Reader) null)));
     }
 
 	@NotNull
