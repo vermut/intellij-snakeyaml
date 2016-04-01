@@ -6,7 +6,7 @@ Includes complete YAML loading pipeline under the hood. Capable of validating YA
 
 Meant to serve a base dependency for all YAML-based languages - Ansible, Salt, Cloudify.
 
-## Note for Professional/Ultimate edition users ##
+## Note for Professional/Ultimate/2016 edition users ##
 Those editions already include basic YAML support. In case you want to enable this plugin, you'll need to reassign file type mappings:
 
     Go to `Preferences > Editor > File Types` and move `YAML` registered patterns to `SnakeYAML`.
