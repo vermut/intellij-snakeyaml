@@ -196,4 +196,7 @@ public class YamlHighlightingLexerTest extends LexerTestCase {
         l.advance();
     }
 
+    public void testIssue13() {
+        doFileTest("yml");
+    }
 }

@@ -120,4 +120,9 @@ public class ParserTest extends ParsingTestCase {
                 "- 2\n" +
                 "- 3");
     }
+
+    public void testIssue13() {
+        doTest(true);
+    }
+
 }
